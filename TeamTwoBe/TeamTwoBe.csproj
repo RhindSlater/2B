@@ -23,7 +23,6 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,6 +130,10 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Controllers\DefaultController.cs" />
+>>>>>>> parent of d72732d... asasdfasdfasdf
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,6 +195,8 @@
     <Compile Include="Models\CardType.cs" />
     <Compile Include="Models\Condition.cs" />
     <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\database_firewall_rules.cs" />
+    <Compile Include="Models\DataModel.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\Sale.cs" />
     <Compile Include="Models\User.cs" />
@@ -217,8 +222,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+<<<<<<< HEAD
     <Folder Include="Controllers\" />
     <Folder Include="Views\BitchRhinds\" />
+=======
+>>>>>>> parent of d72732d... asasdfasdfasdf
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902202237361_initial.resx">
