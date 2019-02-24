@@ -131,7 +131,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\BitchRhindsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,9 +183,9 @@
     <Compile Include="Migrations\201902210301158_linkCardsAndCardtypesTables.Designer.cs">
       <DependentUpon>201902210301158_linkCardsAndCardtypesTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902210547178_DoALotOfThings.cs" />
-    <Compile Include="Migrations\201902210547178_DoALotOfThings.Designer.cs">
-      <DependentUpon>201902210547178_DoALotOfThings.cs</DependentUpon>
+    <Compile Include="Migrations\201902230922329_DoStuffPlease1.cs" />
+    <Compile Include="Migrations\201902230922329_DoStuffPlease1.Designer.cs">
+      <DependentUpon>201902230922329_DoStuffPlease1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
@@ -204,11 +204,16 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Default\Details.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\UserProfileViews\View.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -218,7 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\BitchRhinds\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902202237361_initial.resx">
@@ -257,8 +262,8 @@
     <EmbeddedResource Include="Migrations\201902210301158_linkCardsAndCardtypesTables.resx">
       <DependentUpon>201902210301158_linkCardsAndCardtypesTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902210547178_DoALotOfThings.resx">
-      <DependentUpon>201902210547178_DoALotOfThings.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902230922329_DoStuffPlease1.resx">
+      <DependentUpon>201902230922329_DoStuffPlease1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
