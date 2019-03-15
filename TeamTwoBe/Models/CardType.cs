@@ -8,6 +8,6 @@ namespace TeamTwoBe.Models
     public class CardType
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } //e.g. Yugi-oh, Pokemon, Magic: The Gathering
     }
 }
