@@ -14,7 +14,18 @@ namespace TeamTwoBe.Controllers
 {
     public class CardsController : ApiController
     {
-        private Context db = new Context();
+        private Context db;
+        private HttpClient httpClientAPI;
+
+        public CardsController()
+        {
+            db = new Context();
+
+            httpClientAPI = new HttpClient()
+            {
+                BaseAddress = new Uri("https://db.ygoprodeck.com/api/v3/cardinfo.php")
+            };
+        }
 
         // GET: api/Cards
         public IQueryable<Card> GetCards()

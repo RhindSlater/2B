@@ -193,6 +193,10 @@
     <Compile Include="Migrations\201902242141081_UpdatedPhoneDataTypeFromFloatToString.Designer.cs">
       <DependentUpon>201902242141081_UpdatedPhoneDataTypeFromFloatToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903170922375_addedFieldsToCardsModelForApiCalls.cs" />
+    <Compile Include="Migrations\201903170922375_addedFieldsToCardsModelForApiCalls.Designer.cs">
+      <DependentUpon>201903170922375_addedFieldsToCardsModelForApiCalls.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -224,6 +228,7 @@
     <Content Include="Views\Sales\Details.cshtml" />
     <Content Include="Views\Sales\Edit.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Cards\CardsView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -277,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902242141081_UpdatedPhoneDataTypeFromFloatToString.resx">
       <DependentUpon>201902242141081_UpdatedPhoneDataTypeFromFloatToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903170922375_addedFieldsToCardsModelForApiCalls.resx">
+      <DependentUpon>201903170922375_addedFieldsToCardsModelForApiCalls.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
