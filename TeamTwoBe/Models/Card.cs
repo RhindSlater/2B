@@ -13,7 +13,6 @@ namespace TeamTwoBe.Models
 
         //Below is all the info we want to be pulled from the API. Can add more later as required.
         public string name { get; set; }
-        public string fname { get; set; }
 
 
         //Info we want but the API doesn't provide.

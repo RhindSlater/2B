@@ -10,107 +10,107 @@ using TeamTwoBe.Models;
 
 namespace TeamTwoBe.Controllers
 {
-    public class SalesController : Controller
+    public class AdminsController : Controller
     {
         private Context db = new Context();
 
-        // GET: Sales
+        // GET: Admins
         public ActionResult Index()
         {
-            return View(db.Sales.ToList());
+            return View(db.Users.ToList());
         }
 
-        // GET: Sales/Details/5
+        // GET: Admins/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sale sale = db.Sales.Find(id);
-            if (sale == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(sale);
+            return View(user);
         }
 
-        // GET: Sales/Create
+        // GET: Admins/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Sales/Create
+        // POST: Admins/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] Sale sale)
+        public ActionResult Create([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Sales.Add(sale);
+                db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(sale);
+            return View(user);
         }
 
-        // GET: Sales/Edit/5
+        // GET: Admins/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sale sale = db.Sales.Find(id);
-            if (sale == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(sale);
+            return View(user);
         }
 
-        // POST: Sales/Edit/5
+        // POST: Admins/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Price,ForAuction")] Sale sale)
+        public ActionResult Edit([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sale).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(sale);
+            return View(user);
         }
 
-        // GET: Sales/Delete/5
+        // GET: Admins/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sale sale = db.Sales.Find(id);
-            if (sale == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(sale);
+            return View(user);
         }
 
-        // POST: Sales/Delete/5
+        // POST: Admins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Sale sale = db.Sales.Find(id);
-            db.Sales.Remove(sale);
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

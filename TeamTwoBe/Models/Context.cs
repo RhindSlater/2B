@@ -16,5 +16,7 @@ namespace TeamTwoBe.Models
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardType> CardTypes { get; set; }
+        public DbSet<UserReview> UserReviews { get; set; }
+
     }
 }
