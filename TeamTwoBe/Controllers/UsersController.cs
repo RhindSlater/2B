@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
+using System.Web.Helpers;
+
 
 namespace TeamTwoBe.Controllers
 {
@@ -18,6 +20,32 @@ namespace TeamTwoBe.Controllers
         public ActionResult Index()
         {
             return View(db.Users.ToList());
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.Password = Crypto.HashPassword(user.Password);
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
         }
 
         // GET: Users/Details/5
@@ -32,29 +60,6 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
-            return View(user);
-        }
-
-        // GET: Users/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
             return View(user);
         }
 
@@ -83,6 +88,7 @@ namespace TeamTwoBe.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
+                user.Password = Crypto.HashPassword(user.Password);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
