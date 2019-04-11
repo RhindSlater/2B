@@ -13,8 +13,6 @@ namespace TeamTwoBe.Models
         public string City { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; } //Joe: Either Homephone or Mobile. Must be string datatype to store all numbers properly.
-        public bool IsDeleted { get; set; }
-
         public AccountType UserLevel { get; set; }
         public List<User> Following { get; set; }
         public List<User> Follower { get; set; }
