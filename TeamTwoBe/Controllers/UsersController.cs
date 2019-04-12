@@ -33,17 +33,16 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Login(User user)
         {
-            //user = db.Users.SingleOrDefault(x => x.Username == user.Username);
             if (user.Password != null)
             {
                 User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
                 if(newUser != null)
                 {
                     bool test = Crypto.VerifyHashedPassword(newUser.Password, user.Password);
-                    if (newUser != null & test)
+                    if (test)
                     {
-
-                        Session["UserID"] = newUser;
+                        Session["UserID"] = newUser.ID;
+                        Session["UserPic"] = newUser.DisplayPicture;
 
                         if (newUser.IsLocked)
                         {
