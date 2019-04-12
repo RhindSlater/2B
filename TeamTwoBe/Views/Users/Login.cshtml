@@ -7,3 +7,22 @@
 
 <h2>Login</h2>
 
+<body>
+    <div id="login-div">
+        @using (Html.BeginForm("Login","Users"))
+        {
+            <div>
+                @Html.LabelFor(Model => Model.Username)
+                @Html.EditorFor(Model => Model.Username)
+            </div>
+            <div>
+                @Html.LabelFor(Model => Model.Password)
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { type = "Password" } })
+            </div>
+            <div>
+                <input type="submit" value="Login" />
+            </div>
+        }
+    </div>
+
+</body>

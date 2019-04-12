@@ -17,14 +17,44 @@ namespace TeamTwoBe.Controllers
         private Context db = new Context();
 
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(User user)
         {
-            return View(db.Users.ToList());
+            if(user.ID != 0)
+            {
+                user = db.Users.Find(user.ID);
+                AccountType ACL = db.AccountTypes.Find(1);
+                if (user.UserLevel == ACL)
+                {
+                    return View(db.Users.ToList());
+                }
+            }
+            return RedirectToAction("Index", "Sales");
         }
 
-        public ActionResult Login()
+        public ActionResult Login(User user)
         {
+            //user = db.Users.SingleOrDefault(x => x.Username == user.Username);
+            if (user.Password != null)
+            {
+                User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
+                if(newUser != null)
+                {
+                    bool test = Crypto.VerifyHashedPassword(newUser.Password, user.Password);
+                    if (newUser != null & test)
+                    {
+
+                        Session["UserID"] = newUser;
+
+                        if (newUser.IsLocked)
+                        {
+                            RedirectToAction("Locked");
+                        }
+                        return RedirectToAction($"Profile/{newUser.ID}"); //change to home page once we have created one
+                    }
+                }
+            }
             return View();
+
         }
 
         public ActionResult Register()
@@ -35,14 +65,24 @@ namespace TeamTwoBe.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
+        public ActionResult Register([Bind(Include = "ID,FirstName,LastName,Username,Password,City,Email,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
-                user.Password = Crypto.HashPassword(user.Password);
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(db.Users.Where(x => x.Username == user.Username).Count() > 0)
+                {
+                    throw new Exception("This username is taken. Please select another one");
+                }
+                else
+                {
+                    user.Password = Crypto.HashPassword(user.Password);
+                    AccountType ACL = db.AccountTypes.Find(2);
+                    user.UserLevel = ACL;
+                    user.DisplayPicture = "Default.png";
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Login");
+                }
             }
 
             return View(user);
@@ -83,17 +123,48 @@ namespace TeamTwoBe.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Password,City,Email,Phone")] User user)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Username,Password,City,Email,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                user.Password = Crypto.HashPassword(user.Password);
+                User user2 = db.Users.Where(x => x.ID == user.ID).AsNoTracking().FirstOrDefault();
+                if(user.Password != user2.Password)
+                {
+                    user2.Password = Crypto.HashPassword(user.Password);
+                }
+                db.Entry(user2).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction($"Details/{user2.ID}");
             }
             return View(user);
         }
+
+
+        //public ActionResult Profile(User LoggedInUser) // any profile
+        //{
+        //    if (Session["UserID"] == LoggedInUser)
+        //    {
+        //        return View(); //my profile
+        //    }
+        //    return View(); //someone elses profile
+        //}
+        public ActionResult Profile(int? id) // Logged in and looking at your home page
+        {
+            User LoggedInUser = db.Users.Find(id);
+            if (Session["UserID"] == LoggedInUser)
+            {
+                return View(LoggedInUser); //my home page
+            }
+            return View(LoggedInUser); //home page
+        }
+
+        public ActionResult LogOut() // logged out
+        {
+            Session["UserID"] = null;
+            return RedirectToAction("Index","Home");
+        }
+
+
 
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
@@ -116,9 +187,9 @@ namespace TeamTwoBe.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            user.IsDeleted = true;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
 
         protected override void Dispose(bool disposing)
