@@ -19,7 +19,7 @@ namespace TeamTwoBe.Controllers
         // GET: Users
         public ActionResult Index(User user)
         {
-            if (user.ID != 0)
+            if(user.ID != 0)
             {
                 user = db.Users.Find(user.ID);
                 AccountType ACL = db.AccountTypes.Find(1);
@@ -33,7 +33,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Login(User user)
         {
-            if (Session["UserID"] != null)
+            if(Session["UserID"] != null)
             {
                 return RedirectToAction("Index");
             }
@@ -41,7 +41,7 @@ namespace TeamTwoBe.Controllers
             if (user.Password != null)
             {
                 User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
-                if (newUser != null)
+                if(newUser != null)
                 {
                     bool test = Crypto.VerifyHashedPassword(newUser.Password, user.Password);
                     if (test)
@@ -74,7 +74,7 @@ namespace TeamTwoBe.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Where(x => x.Username == user.Username).Count() > 0)
+                if(db.Users.Where(x => x.Username == user.Username).Count() > 0)
                 {
                     throw new Exception("This username is taken. Please select another one");
                 }
@@ -159,7 +159,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult LogOut() // logged out
         {
             Session["UserID"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index","Home");
         }
 
 

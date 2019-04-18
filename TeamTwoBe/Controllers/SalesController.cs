@@ -38,6 +38,11 @@ namespace TeamTwoBe.Controllers
         // GET: Sales/Create
         public ActionResult Create()
         {
+            //Stops anyone from creating a new sale if they are not logged in as a valid user. ~Joe
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
             return View();
         }
 
