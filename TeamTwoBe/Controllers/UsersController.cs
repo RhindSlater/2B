@@ -191,6 +191,12 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Login");
         }
 
+        public ActionResult UserReview()
+        {
+
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

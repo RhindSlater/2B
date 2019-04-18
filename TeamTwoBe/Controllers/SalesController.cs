@@ -46,10 +46,12 @@ namespace TeamTwoBe.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] Sale sale)
+        public ActionResult Create([Bind(Include = "ID,Price,ForAuction,CardCondition,CardGrade")] Sale sale, int id)
         {
             if (ModelState.IsValid)
             {
+                User user = db.Users.Find(id);
+                sale.Seller = user;
                 db.Sales.Add(sale);
                 db.SaveChanges();
                 return RedirectToAction("Index");
