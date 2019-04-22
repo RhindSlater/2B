@@ -33,6 +33,11 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Login(User user)
         {
+            if(Session["UserID"] != null)
+            {
+                return RedirectToAction("Index");
+            }
+
             if (user.Password != null)
             {
                 User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
@@ -42,11 +47,12 @@ namespace TeamTwoBe.Controllers
                     if (test)
                     {
                         Session["UserID"] = newUser.ID;
+                        Session["Username"] = newUser.Username;
                         Session["UserPic"] = newUser.DisplayPicture;
 
                         if (newUser.IsLocked)
                         {
-                            RedirectToAction("Locked");
+                            return RedirectToAction("Locked");
                         }
                         return RedirectToAction($"Profile/{newUser.ID}"); //change to home page once we have created one
                     }
@@ -78,6 +84,10 @@ namespace TeamTwoBe.Controllers
                     AccountType ACL = db.AccountTypes.Find(2);
                     user.UserLevel = ACL;
                     user.DisplayPicture = "Default.png";
+                    user.Follower = new List<User>();
+                    user.Following = new List<User>();
+                    user.Wishlist = new List<Card>();
+                    user.ShoppingCart = new List<Sale>();
                     db.Users.Add(user);
                     db.SaveChanges();
                     return RedirectToAction("Login");
@@ -126,8 +136,9 @@ namespace TeamTwoBe.Controllers
         {
             if (ModelState.IsValid)
             {
+                AccountType ACL = db.AccountTypes.Find(1);
                 User user2 = db.Users.Where(x => x.ID == user.ID).AsNoTracking().FirstOrDefault();
-                if(user.Password != user2.Password)
+                if (user.Password != user2.Password)
                 {
                     user2.Password = Crypto.HashPassword(user.Password);
                 }
@@ -139,22 +150,10 @@ namespace TeamTwoBe.Controllers
         }
 
 
-        //public ActionResult Profile(User LoggedInUser) // any profile
-        //{
-        //    if (Session["UserID"] == LoggedInUser)
-        //    {
-        //        return View(); //my profile
-        //    }
-        //    return View(); //someone elses profile
-        //}
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
             User LoggedInUser = db.Users.Find(id);
-            if (Session["UserID"] == LoggedInUser)
-            {
-                return View(LoggedInUser); //my home page
-            }
-            return View(LoggedInUser); //home page
+            return View(LoggedInUser);
         }
 
         public ActionResult LogOut() // logged out
