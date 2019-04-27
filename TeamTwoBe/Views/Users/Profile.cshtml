@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Username's Profile</h2>
+<h2>@Session["Username"]'s Profile</h2>
 
 <ul>
     <li>My Current Sales</li>
     <li>My Reviews and Ratings</li>
     <li>My Watchlist</li>
-    <li>My Wishlist</li>
-    <li><a href="/users/edit/@Model.ID">Edit Profile</a></li>
+    <li><a href="/profile/wishlistindex/@Session["UserID"]">My Wishlist</a></li>
+    <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
 </ul>
