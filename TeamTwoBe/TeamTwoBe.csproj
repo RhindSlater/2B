@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.Designer.cs">
       <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.cs" />
+    <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.Designer.cs">
+      <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -358,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.resx">
       <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.resx">
+      <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
