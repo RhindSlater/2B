@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+<<<<<<< HEAD
+=======
+using System.Threading.Tasks;
+>>>>>>> JoesWork
 using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
@@ -28,6 +33,28 @@ namespace TeamTwoBe.Controllers
 
         }
 
+        public async Task<ActionResult> getCards(string id)
+        {
+            HttpClient client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
+            };
+
+            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?name={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var rsp = await response.Content.ReadAsStringAsync();
+
+                rsp = rsp.Substring(1, rsp.Length - 2);
+                List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
+
+                return View(li);
+            }
+            return View();
+
+        }
+
+
         // GET: Sales/Details/5
         public ActionResult Details(int? id)
         {
@@ -46,12 +73,17 @@ namespace TeamTwoBe.Controllers
         // GET: Sales/Create
         public ActionResult Create(int id)
         {
+<<<<<<< HEAD
             //These help get the data into the view for the dropdown list.
             ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
 
 
 
+=======
+            ViewBag.Conditions = new SelectList(db.Conditions, "id", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "id", "Grading");
+>>>>>>> JoesWork
             //Stops anyone from creating a new sale if they are not logged in as a valid user. ~Joe
             if (Session["userID"] == null)
             {
@@ -62,16 +94,20 @@ namespace TeamTwoBe.Controllers
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> JoesWork
         // POST: Sales/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction,CardCondition,CardGrade")] Sale sale, int id)
+        public ActionResult Create([Bind(Include = "ID,Price,ForAuction,CardCondition,CardGrade")] Sale sale, Card card)
         {
             if (ModelState.IsValid)
             {
-                User user = db.Users.Find(id);
+                User user = db.Users.Find(Session["UserID"]);
                 sale.Seller = user;
                 db.Sales.Add(sale);
                 db.SaveChanges();
