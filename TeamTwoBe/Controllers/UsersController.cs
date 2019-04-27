@@ -88,6 +88,8 @@ namespace TeamTwoBe.Controllers
                     user.Following = new List<User>();
                     user.Wishlist = new List<Card>();
                     user.ShoppingCart = new List<Sale>();
+                    user.IsDeleted = false;
+                    user.IsLocked = false;
                     db.Users.Add(user);
                     db.SaveChanges();
                     return RedirectToAction("Login");
