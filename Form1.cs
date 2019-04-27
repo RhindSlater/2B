@@ -324,6 +324,7 @@ namespace _2bBasedApp
                         listBox1.Items.Add("Defense: " + i.def);
                         auctionPB.Image = Image.FromFile($"D:\\Pictures\\yugioh\\{i.name}.png");
                         auctionPB.SizeMode = PictureBoxSizeMode.StretchImage;
+                        //This break will stop after getting alll the info above from the FIRST card searched (if its an 'fname' fuzzy search). Comment this out plus all unnecessary unfo to get all similar name cards etc.
                         break;
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -12,10 +13,11 @@ namespace TeamTwoBe.Models
         public CardType Cardtype { get; set; }
 
         //Below is all the info we want to be pulled from the API. Can add more later as required.
+        [DisplayName("Name")]
         public string name { get; set; }
 
 
-        //Info we want but the API doesn't provide.
+        //Info we want but the API doesn't currently provide.
         public float PriceLow { get; set; }
         public float PriceAverage { get; set; }
         public float PriceHigh { get; set; }

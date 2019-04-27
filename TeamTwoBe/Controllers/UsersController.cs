@@ -152,10 +152,16 @@ namespace TeamTwoBe.Controllers
         }
 
 
-        public ActionResult Profile(int? id) // Logged in and looking at your home page
+        public ActionResult Profile(int id) // Logged in and looking at your home page
         {
-            User LoggedInUser = db.Users.Find(id);
-            return View(LoggedInUser);
+            if(id == Convert.ToInt32(Session["UserID"]))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("sleep");
+            }
         }
 
         public ActionResult LogOut() // logged out

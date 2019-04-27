@@ -10,6 +10,7 @@ namespace TeamTwoBe.Models
     public class Condition
     {
         public int ID { get; set; }
+
         //Poor, Played, Light Played, Good, Excellent, Near Mint, Mint
         [DisplayName("Card Condition")]
         public string CardCondition { get; set; }  
