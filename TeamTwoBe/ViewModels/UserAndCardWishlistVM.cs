@@ -9,9 +9,5 @@ namespace TeamTwoBe.ViewModels
     public class UserAndCardWishlistVM
     {
         public User MyUser { get; set; }
-
-        public Card MyCard { get; set; }
-
-
     }
 }

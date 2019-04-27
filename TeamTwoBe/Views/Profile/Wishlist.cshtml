@@ -1,17 +1,18 @@
-﻿@model TeamTwoBe.ViewModels.UserAndCardWishlistVM
-@{
+﻿@model TeamTwoBe.Models.User
     ViewBag.Title = "WishlistIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.MyUser.Username's Wishlist View</h2>
+<h2>@Model.Username's Wishlist View</h2>
 
-@if(Model.MyUser.Wishlist.Count < 1)
+
+
+@if(Model.Wishlist.Count < 1)
 {
 <div>
     <P>You currently have no cards in your wishlist. Try searching for some using the search bar below!</P>
     <br />
-    @using (Html.BeginForm("WishlistIndex", "Profile", FormMethod.Get))
+    @using (Html.BeginForm("index", "Profile", FormMethod.Get))
     {
         <b>Search:</b>
         @Html.TextBox("search")<input type="submit" value="Search" />
@@ -20,10 +21,10 @@
     <table>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MyCard.name)
+                @*@Html.DisplayNameFor(model => model.MyCard.name)*@
             </th>
         </tr>
-        @foreach (var item in Model.MyCard.name)
+        @foreach (var item in Model.Wishlist)
         {
             <tr>
                 <td>

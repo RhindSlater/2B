@@ -12,14 +12,10 @@ namespace TeamTwoBe.Views.ViewModels
         public User MyUser { get; set; }
 
         public Sale MySale { get; set; }
-<<<<<<< HEAD
 
-        //I don't think this needs to be a list. ~Joe
-        public List<Condition> MyCondition { get; set; }
+        public Grade grade { get; set; }
 
-        public Grade MyGrade { get; set; }
-=======
-        public User MyUser { get; set; }
+        public User user { get; set; }
 
         [Display(Name = "Card name")]
         public Card MyCard { get; set; }
@@ -29,7 +25,5 @@ namespace TeamTwoBe.Views.ViewModels
 
         [Display(Name = "Grades")]
         public string MyGrade { get; set; }
->>>>>>> JoesWork
-
     }
 }
