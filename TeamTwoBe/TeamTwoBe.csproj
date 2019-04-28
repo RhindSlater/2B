@@ -142,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -231,6 +232,18 @@
     <Compile Include="Migrations\201904121144485_addingDataMigrations2.Designer.cs">
       <DependentUpon>201904121144485_addingDataMigrations2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.cs" />
+    <Compile Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.Designer.cs">
+      <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.cs" />
+    <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.Designer.cs">
+      <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904271119567_addingrarity.cs" />
+    <Compile Include="Migrations\201904271119567_addingrarity.Designer.cs">
+      <DependentUpon>201904271119567_addingrarity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -243,6 +256,8 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\UserReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\SaleConditionGradeVM.cs" />
+    <Compile Include="ViewModels\UserAndCardWishlistVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -273,6 +288,8 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Users\Profile.cshtml" />
+    <Content Include="Views\Users\UserReview.cshtml" />
+    <Content Include="Views\Profile\Wishlist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -282,6 +299,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Card\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +365,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904121144485_addingDataMigrations2.resx">
       <DependentUpon>201904121144485_addingDataMigrations2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.resx">
+      <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.resx">
+      <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904271119567_addingrarity.resx">
+      <DependentUpon>201904271119567_addingrarity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

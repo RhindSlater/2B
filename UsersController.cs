@@ -19,7 +19,7 @@ namespace TeamTwoBe.Controllers
         // GET: Users
         public ActionResult Index(User user)
         {
-            if (user.ID != 0)
+            if(user.ID != 0)
             {
                 user = db.Users.Find(user.ID);
                 AccountType ACL = db.AccountTypes.Find(1);
@@ -33,7 +33,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Login(User user)
         {
-            if (Session["UserID"] != null)
+            if(Session["UserID"] != null)
             {
                 return RedirectToAction("Index");
             }
@@ -41,7 +41,7 @@ namespace TeamTwoBe.Controllers
             if (user.Password != null)
             {
                 User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
-                if (newUser != null)
+                if(newUser != null)
                 {
                     bool test = Crypto.VerifyHashedPassword(newUser.Password, user.Password);
                     if (test)
@@ -74,7 +74,7 @@ namespace TeamTwoBe.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Where(x => x.Username == user.Username).Count() > 0)
+                if(db.Users.Where(x => x.Username == user.Username).Count() > 0)
                 {
                     throw new Exception("This username is taken. Please select another one");
                 }
@@ -88,8 +88,6 @@ namespace TeamTwoBe.Controllers
                     user.Following = new List<User>();
                     user.Wishlist = new List<Card>();
                     user.ShoppingCart = new List<Sale>();
-                    user.IsDeleted = false;
-                    user.IsLocked = false;
                     db.Users.Add(user);
                     db.SaveChanges();
                     return RedirectToAction("Login");
@@ -151,23 +149,20 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        public ActionResult Profile(int id) // Logged in and looking at your home page
+
+        public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
-            if(id == Convert.ToInt32(Session["UserID"]))
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("sleep");
-            }
+            User LoggedInUser = db.Users.Find(id);
+            return View(LoggedInUser);
         }
 
         public ActionResult LogOut() // logged out
         {
             Session["UserID"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index","Home");
         }
+
+
 
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)

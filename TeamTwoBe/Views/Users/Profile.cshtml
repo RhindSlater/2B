@@ -4,49 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<head>
-    <style type="text/css" media="all">
-        th {
-            border-bottom: 2px solid #ccc;
-        }
+<h2>@Session["Username"]'s Profile</h2>
 
-        th, td {
-            padding: 0.5em 1em;
-            margin: 0;
-            border-collapse: collapse;
-        }
-
-        tr td:first-child {
-            border-right: 2px solid #ccc;
-        }
-
-        #Scrolly {
-            width: 249px;
-            height: 299px;
-            background-color: Gray;
-            overflow-y: auto;
-            max-width: 230px;
-            max-height: 100px;
-        }
-    </style>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript">
-    </script>
-</head>
-
-<h2>@Model.Username's Profile</h2>
-
-<div>
-    <div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div id="Scrolly">
-        @foreach (var i in Model.Follower)
-        {
-            <div><p>@i </p></div>
-        }
-    </div>
-</div>
+<ul>
+    <li>My Current Sales</li>
+    <li>My Reviews and Ratings</li>
+    <li>My Watchlist</li>
+    <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
+    <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
+</ul>
 
