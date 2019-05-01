@@ -3,16 +3,16 @@ namespace TeamTwoBe.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class addingrarity : DbMigration
+    public partial class someStuffYo : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Cards", "Rarity", c => c.String());
+            DropColumn("dbo.Cards", "Rarity");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Cards", "Rarity");
+            AddColumn("dbo.Cards", "Rarity", c => c.String());
         }
     }
 }

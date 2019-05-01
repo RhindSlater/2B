@@ -33,7 +33,7 @@ namespace TeamTwoBe.Controllers
                 BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
             };
 
-            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?name={id}");
+            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?fname={id}");
             if (response.IsSuccessStatusCode)
             {
                 var rsp = await response.Content.ReadAsStringAsync();

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
@@ -26,7 +28,37 @@ namespace TeamTwoBe.Controllers
             int id = Convert.ToInt32(Session["UserID"]);
             user = db.Users.Where(x => x.ID == id).FirstOrDefault();
 
-            return View(user);
+
+
+            return View();
+        }
+
+        public async Task<ActionResult> GetCardName(string GetCardName)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            HttpClient client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
+            };
+
+            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?fname={GetCardName}");
+            if (response.IsSuccessStatusCode)
+            {
+                var rsp = await response.Content.ReadAsStringAsync();
+
+                rsp = rsp.Substring(1, rsp.Length - 2);
+                List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
+
+                return View("Wishlist",li);
+            }
+
+
+
+            return View();
         }
 
 
