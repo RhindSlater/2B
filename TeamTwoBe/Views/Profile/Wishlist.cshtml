@@ -2,25 +2,24 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model List<TeamTwoBe.Models.Card>
+@{ 
+    ViewBag.Title = "Wishlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}   
 
-<h2>@Model.Username's Wishlist View</h2>
-
-
-
+<h2>@Session["Username"]'s Wishlist View</h2>
 
 <div>
     <P>You currently have no cards in your wishlist. Try searching for some using the search bar below!</P>
     <br />
-    @using (Html.BeginForm("index", "Profile", FormMethod.Get))
+    @using (Html.BeginForm("GetCardName", "Profile"))
     {
         <b>Search:</b>
-        @Html.TextBox("search")<input type="submit" value="Search" />
+        <input type="text" name="GetCardName" />
+        <input type="submit" value="Search" />
     }
-
-
-
     @*<table>
             <tr>
                 <th>
@@ -36,4 +35,37 @@
                 </tr>
             }
         </table>*@
+</div>
+    @if (Model != null)
+    {
+     <table class="table table-hover table-bordered">
+        <tr>
+            <th>Image</th>
+            <th>
+            @Html.DisplayNameFor(model => model)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="" /></td>
+                <td>
+                    <h4>@item.name</h4>
+                    @*@Html.DisplayFor(modelItem => item.name)*@
+                    <p><b>Card Type:</b> @item.Cardtype</p>
+                    <p><b>Price:</b> @item.PriceAverage.ToString("c2")</p>
+                    @using (Html.BeginForm("addToWishList", "Profile"))
+                    {
+                        @*<input type="submit" name="@item.name" value="Add to Wishlist"/>*@
+                        @*<button onclick="@Url.Action("addToWishList","profile", new { id = item.name})">Add to Wishlist</button>*@
+                        @Html.ActionLink("Add to Wishlist", "addToWishList", new { id = item.name }, new { @class="btn btn-primary"})
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    }
+
 </div>

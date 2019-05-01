@@ -240,9 +240,9 @@
     <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.Designer.cs">
       <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904271119567_addingrarity.cs" />
-    <Compile Include="Migrations\201904271119567_addingrarity.Designer.cs">
-      <DependentUpon>201904271119567_addingrarity.cs</DependentUpon>
+    <Compile Include="Migrations\201904290348238_someStuffYo.cs" />
+    <Compile Include="Migrations\201904290348238_someStuffYo.Designer.cs">
+      <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
@@ -372,8 +372,8 @@
     <EmbeddedResource Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.resx">
       <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904271119567_addingrarity.resx">
-      <DependentUpon>201904271119567_addingrarity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904290348238_someStuffYo.resx">
+      <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

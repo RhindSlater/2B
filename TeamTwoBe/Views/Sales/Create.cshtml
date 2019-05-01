@@ -6,12 +6,25 @@
 }
 
     <body>
+
     @using (Html.BeginForm("Create","Sales"))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
             <h2>Hey @Session["Username"], Create a new sale</h2>
             <hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+}
+
+    <div class="form-horizontal">
+        <h2>Hey @Session["Username"], Create a new sale</h2>
+    <hr />
+
+        <h4>Sale</h4>
+        <hr/>
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -72,7 +85,6 @@
                 </div>
             </div>
         </div>
-
 
         <div>
             @Html.ActionLink("Back to List", "Index", new { id = Session["UserID"] })

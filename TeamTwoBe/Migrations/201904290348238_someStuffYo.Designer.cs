@@ -7,13 +7,13 @@ namespace TeamTwoBe.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class addingrarity : IMigrationMetadata
+    public sealed partial class someStuffYo : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addingrarity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(someStuffYo));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904271119567_addingrarity"; }
+            get { return "201904290348238_someStuffYo"; }
         }
         
         string IMigrationMetadata.Source
