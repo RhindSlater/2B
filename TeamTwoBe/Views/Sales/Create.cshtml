@@ -6,57 +6,28 @@
 }
 
     <body>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-}
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        }
 
-    <div class="form-horizontal">
-        <h2>Hey @Session["Username"], Create a new sale</h2>
-    <hr />
+        <div class="form-horizontal">
+            <h2>Hey @Session["Username"], Create a new sale</h2>
+            <hr />
 
-        <h4>Sale</h4>
-        <hr/>
+            <input list="CardList" type="text" name="test" />
+            @Html.ActionLink("Search", "getCards")
 
 
-        <input list="CardList" type="text" oninput="getCard(this.value)"/>
-        <datalist id="CardList">
-
-        </datalist>
-
-        <script>
-
-                var url = 'https://db.ygoprodeck.com/api/v4/cardinfo.php?fname=';
-
-                function getCard(card) {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open('GET', url + card, true);
-
-                    xhttp.onload = function () {
-                        if (xhttp.status >= 200 && xhttp.status < 400) {
-                            var rsp = JArray.parse(xhttp.responseText.toString());
-
-                            var <@Model.MyCard> li = JArray.Parse(rsp).ToObject<List<@Model.MyCard>>();
-
-                            rsp.forEach(function (param) {
-                                addListEntry(param);
-                            });
-                        }
-                    };
-                    xhttp.send();
-                }
-
-            function addListEntry(value1) {
-                var optionNode = document.createElement("option");
-
-                optionNode.value = value1;
-
-                document.getElementById("CardList").appendChild(optionNode);
+            @if (Model.MyCards != null)
+            {
+                <datalist id="CardList">
+                    foreach (var i in Model.MyCards)
+                    {
+                    <option value=i.name></option>  
+                    }
+                </datalist>
             }
-
-
-        </script>
-
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -99,11 +70,11 @@
                 </div>
             </div>
         </div>
-}
 
-            <div>
-                @Html.ActionLink("Back to List", "Index",new { id = Session["UserID"] })
-            </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index",new { id = Session["UserID"] })
+        </div>
 </body>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

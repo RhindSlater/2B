@@ -1,5 +1,7 @@
 ﻿@model TeamTwoBe.Models.User
-    ViewBag.Title = "WishlistIndex";
+
+@{
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,8 +9,7 @@
 
 
 
-@if(Model.Wishlist.Count < 1)
-{
+
 <div>
     <P>You currently have no cards in your wishlist. Try searching for some using the search bar below!</P>
     <br />
@@ -18,20 +19,21 @@
         @Html.TextBox("search")<input type="submit" value="Search" />
     }
 
-    <table>
-        <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.MyCard.name)*@
-            </th>
-        </tr>
-        @foreach (var item in Model.Wishlist)
-        {
+
+
+    @*<table>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.MyCard.name)
+                </th>
             </tr>
-        }
-    </table>
+            @foreach (var item in Model.Wishlist)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                </tr>
+            }
+        </table>*@
 </div>
-}

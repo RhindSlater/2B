@@ -25,5 +25,7 @@ namespace TeamTwoBe.Views.ViewModels
 
         [Display(Name = "Grades")]
         public string MyGrade { get; set; }
+
+        public List<Card> MyCards { get; set; }
     }
 }

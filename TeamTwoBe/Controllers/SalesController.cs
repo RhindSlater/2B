@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
+using TeamTwoBe.Views.ViewModels;
 
 namespace TeamTwoBe.Controllers
 {
@@ -26,14 +27,14 @@ namespace TeamTwoBe.Controllers
             return View(db.Sales.ToList());
         }
 
-        public async Task<ActionResult> getCards(string id)
+        public async Task<ActionResult> getCards(string test)
         {
             HttpClient client = new HttpClient()
             {
                 BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
             };
 
-            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?name={id}");
+            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?name={test}");
             if (response.IsSuccessStatusCode)
             {
                 var rsp = await response.Content.ReadAsStringAsync();
@@ -41,7 +42,16 @@ namespace TeamTwoBe.Controllers
                 rsp = rsp.Substring(1, rsp.Length - 2);
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
 
-                return View(li);
+
+                SaleConditionGradeVM salevm = new SaleConditionGradeVM()
+                {
+                    user = db.Users.Find(Session["UserID"]),
+                    MyCards = li,
+                };
+                ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
+                ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
+
+                return View("Create", salevm);
             }
             return View();
 
@@ -63,21 +73,35 @@ namespace TeamTwoBe.Controllers
         }
 
         // GET: Sales/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(List<Card> li)
         {
             //These help get the data into the view for the dropdown list.
             ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
-
-            ViewBag.Conditions = new SelectList(db.Conditions, "id", "CardCondition");
-            ViewBag.Grades = new SelectList(db.Grades, "id", "Grading");
 
             //Stops anyone from creating a new sale if they are not logged in as a valid user. ~Joe
             if (Session["userID"] == null)
             {
                 return RedirectToAction("login", "users");
             }
-            return View();
+
+            if(li != null)
+            {
+                SaleConditionGradeVM salevm = new SaleConditionGradeVM()
+                {
+                    user = db.Users.Find(Session["UserID"]),
+                    MyCards = li,
+                };
+                return View(salevm);
+            }
+            SaleConditionGradeVM sale = new SaleConditionGradeVM()
+            {
+                user = db.Users.Find(Session["UserID"]),
+                MyCards = li,
+            };
+
+            return View(sale);
+
         }
 
         // POST: Sales/Create
