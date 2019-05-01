@@ -6,35 +6,37 @@
 }
 
     <body>
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-        }
-
+    @using (Html.BeginForm("Create","Sales"))
+    {
+        @Html.AntiForgeryToken()
         <div class="form-horizontal">
             <h2>Hey @Session["Username"], Create a new sale</h2>
             <hr />
 
-            <input list="CardList" type="text" name="test" />
-            @Html.ActionLink("Search", "getCards")
-
-
-            @if (Model.MyCards != null)
-            {
-                <datalist id="CardList">
-                    foreach (var i in Model.MyCards)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.MyCard.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input list="CardList" type="text" name="test" />
+                    @Html.ActionLink("Search", "getCards")
+                    @if (Model.MyCards != null)
                     {
-                    <option value=i.name></option>  
+                        <datalist id="CardList" name="">
+                            @foreach (var i in Model.MyCards)
+                            {
+                                <option value="@i.name"></option>
+                            }
+                        </datalist>
                     }
-                </datalist>
-            }
+                </div>
+            </div>
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.MySale.Price, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.MySale.Price, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MySale.Price, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
                 </div>
             </div>
 
@@ -58,7 +60,7 @@
                 @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <div class="checkbox">
-                        @Html.EditorFor(model => model.MySale.ForAuction)
+                        @Html.EditorFor(model => model.ForAuction)
                         @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -73,9 +75,13 @@
 
 
         <div>
-            @Html.ActionLink("Back to List", "Index",new { id = Session["UserID"] })
+            @Html.ActionLink("Back to List", "Index", new { id = Session["UserID"] })
         </div>
+    }
+
 </body>
+
+
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

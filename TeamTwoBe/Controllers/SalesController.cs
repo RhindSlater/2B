@@ -34,7 +34,7 @@ namespace TeamTwoBe.Controllers
                 BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
             };
 
-            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?name={test}");
+            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?fname={test}");
             if (response.IsSuccessStatusCode)
             {
                 var rsp = await response.Content.ReadAsStringAsync();
@@ -75,6 +75,7 @@ namespace TeamTwoBe.Controllers
         // GET: Sales/Create
         public ActionResult Create(List<Card> li)
         {
+
             //These help get the data into the view for the dropdown list.
             ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
@@ -109,13 +110,30 @@ namespace TeamTwoBe.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction,CardCondition,CardGrade")] Sale sale, Card card)
+        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string test, string Conditions, string Grades, float Price)
         {
             if (ModelState.IsValid)
             {
+                Card card = new Card()
+                {
+                    name = test,
+                    Cardtype = db.CardTypes.Find(1),
+                };
+                db.Cards.Add(card);
+                Sale testsale = new Sale();
+                sale.MySale = testsale;
+                sale.MySale.Card = card;
+                Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
+                Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
+                sale.MySale.CardCondition = condition;
+                sale.MySale.CardGrade = grade;
                 User user = db.Users.Find(Session["UserID"]);
-                sale.Seller = user;
-                db.Sales.Add(sale);
+                sale.MySale.Seller = user;
+                sale.MySale.Price = Price;
+                sale.MySale.ID = sale.ID;
+                sale.MySale.IsSold = false;
+                sale.MySale.Buyer = null;
+                db.Sales.Add(sale.MySale);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

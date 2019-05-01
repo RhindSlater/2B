@@ -21,6 +21,7 @@ namespace TeamTwoBe.Models
         public Grade CardGrade { get; set; }
         [Required]
         public bool ForAuction { get; set; }
+        []
         public User Buyer { get; set; }
         public bool IsSold { get; set; }
     }
