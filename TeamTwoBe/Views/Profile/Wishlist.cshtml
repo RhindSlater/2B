@@ -1,7 +1,7 @@
 ﻿
 @model List<TeamTwoBe.Models.Card>
 @{ 
-    ViewBag.Title = "WishlistIndex";
+    ViewBag.Title = "Wishlist";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }   
 
@@ -39,6 +39,12 @@
                     @*@Html.DisplayFor(modelItem => item.name)*@
                     <p><b>Card Type:</b> @item.Cardtype</p>
                     <p><b>Price:</b> @item.PriceAverage.ToString("c2")</p>
+                    @using (Html.BeginForm("addToWishList", "Profile"))
+                    {
+                        @*<input type="submit" name="@item.name" value="Add to Wishlist"/>*@
+                        @*<button onclick="@Url.Action("addToWishList","profile", new { id = item.name})">Add to Wishlist</button>*@
+                        @Html.ActionLink("Add to Wishlist", "addToWishList", new { id = item.name }, new { @class="btn btn-primary"})
+                    }
                 </td>
             </tr>
         }

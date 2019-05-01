@@ -15,7 +15,10 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-        private HttpClient yugiohApi;
+        HttpClient yugiohApi = new HttpClient()
+        {
+            BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
+        };
 
         // GET: WishlistIndex/2007/kuri
         public ActionResult Wishlist(User user)
@@ -33,6 +36,7 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
+        //This searches for a card containing any part of the word that is being searched for e.g. dark
         public async Task<ActionResult> GetCardName(string GetCardName)
         {
             if (Session["UserID"] == null)
@@ -40,12 +44,8 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            HttpClient client = new HttpClient()
-            {
-                BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
-            };
-
-            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?fname={GetCardName}");
+            //I think this grabs the text being submitted? ~Joe
+            HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?fname={GetCardName}");
             if (response.IsSuccessStatusCode)
             {
                 var rsp = await response.Content.ReadAsStringAsync();
@@ -56,17 +56,36 @@ namespace TeamTwoBe.Controllers
                 return View("Wishlist",li);
             }
 
-
-
             return View();
         }
 
-
-        public ActionResult addToWishList(string search)
+        //This adds a card to your wishlist when you click the add to wishlist button of any searched card.
+        public async Task<ActionResult> addToWishList(string id)
         {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
 
+            Card card = new Card();
 
-            return View(db.Cards.Where(x => x.name.StartsWith(search)).ToList());
+            HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?name={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var rsp = await response.Content.ReadAsStringAsync();
+
+                rsp = rsp.Substring(1, rsp.Length - 2);
+                List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
+
+                card.name = id;
+
+                db.Cards.Add(card);
+                db.SaveChanges();
+
+                return View("Wishlist", li);
+            }
+
+            return View();
         }
 
 
