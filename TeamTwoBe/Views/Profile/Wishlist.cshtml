@@ -1,13 +1,8 @@
-﻿@model TeamTwoBe.Models.User
-
-@{
-    ViewBag.Title = "Index";
-}
-@model List<TeamTwoBe.Models.Card>
+﻿@model List<TeamTwoBe.Models.Card>
 @{ 
     ViewBag.Title = "Wishlist";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}   
+}
 
 <h2>@Session["Username"]'s Wishlist View</h2>
 
@@ -20,21 +15,6 @@
         <input type="text" name="GetCardName" />
         <input type="submit" value="Search" />
     }
-    @*<table>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MyCard.name)
-                </th>
-            </tr>
-            @foreach (var item in Model.Wishlist)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item)
-                    </td>
-                </tr>
-            }
-        </table>*@
 </div>
     @if (Model != null)
     {
@@ -44,22 +24,17 @@
             <th>
             @Html.DisplayNameFor(model => model)
             </th>
-
         </tr>
-
         @foreach (var item in Model)
         {
             <tr>
                 <td><img src="" /></td>
                 <td>
                     <h4>@item.name</h4>
-                    @*@Html.DisplayFor(modelItem => item.name)*@
                     <p><b>Card Type:</b> @item.Cardtype</p>
                     <p><b>Price:</b> @item.PriceAverage.ToString("c2")</p>
                     @using (Html.BeginForm("addToWishList", "Profile"))
                     {
-                        @*<input type="submit" name="@item.name" value="Add to Wishlist"/>*@
-                        @*<button onclick="@Url.Action("addToWishList","profile", new { id = item.name})">Add to Wishlist</button>*@
                         @Html.ActionLink("Add to Wishlist", "addToWishList", new { id = item.name }, new { @class="btn btn-primary"})
                     }
                 </td>

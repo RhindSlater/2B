@@ -14,24 +14,12 @@
             <h2>Hey @Session["Username"], Create a new sale</h2>
             <hr />
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-}
-
-    <div class="form-horizontal">
-        <h2>Hey @Session["Username"], Create a new sale</h2>
-    <hr />
-
-        <h4>Sale</h4>
-        <hr/>
-
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.MyCard.name, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <input list="CardList" type="text" name="test" />
-                    @Html.ActionLink("Search", "getCards")
+                    @Html.ActionLink("Search", "getCards", null, new { @class= "btn btn-primary" })
                     @if (Model.MyCards != null)
                     {
                         <datalist id="CardList" name="">

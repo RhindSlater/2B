@@ -21,7 +21,7 @@ namespace TeamTwoBe.Models
         public float PriceLow { get; set; }
         public float PriceAverage { get; set; }
         public float PriceHigh { get; set; }
-        //public string Rarity { get; set; }
+        public string Rarity { get; set; }
 
     }
 }
