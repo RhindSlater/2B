@@ -25,6 +25,7 @@ namespace TeamTwoBe.Controllers
                 AccountType ACL = db.AccountTypes.Find(1);
                 if (user.UserLevel == ACL)
                 {
+                    Session["View"] = "UserIndex";
                     return View(db.Users.ToList());
                 }
             }
@@ -58,12 +59,18 @@ namespace TeamTwoBe.Controllers
                     }
                 }
             }
+            Session["View"] = "UserLogin";
             return View();
 
         }
 
         public ActionResult Register()
         {
+            if (Session["UserID"] != null)
+            {
+                return RedirectToAction("Index");
+            }
+            Session["View"] = "UserRegister";
             return View();
         }
 
@@ -111,6 +118,7 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
+            Session["View"] = "UserDetails";
             return View(user);
         }
 
@@ -126,6 +134,7 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
+            Session["View"] = "UserEdit";
             return View(user);
         }
 
@@ -142,10 +151,12 @@ namespace TeamTwoBe.Controllers
                 User user2 = db.Users.Where(x => x.ID == user.ID).AsNoTracking().FirstOrDefault();
                 if (user.Password != user2.Password)
                 {
-                    user2.Password = Crypto.HashPassword(user.Password);
+                    user.Password = Crypto.HashPassword(user.Password);
                 }
-                db.Entry(user2).State = EntityState.Modified;
+                user.DisplayPicture = user2.DisplayPicture;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
+                Session["Username"] = user.Username;
                 return RedirectToAction($"Details/{user2.ID}");
             }
             return View(user);
@@ -153,13 +164,15 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Profile(int id) // Logged in and looking at your home page
         {
-            if(id == Convert.ToInt32(Session["UserID"]))
+            Session["View"] = "UserProfile";
+            if (id == Convert.ToInt32(Session["UserID"]))
             {
                 return View();
             }
             else
             {
-                return RedirectToAction("sleep");
+                //other users profiles
+                return View();
             }
         }
 
@@ -181,6 +194,7 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
+            Session["View"] = "UserDelete";
             return View(user);
         }
 

@@ -24,6 +24,7 @@ namespace TeamTwoBe.Controllers
     // GET: Sales
     public ActionResult Index()
         {
+            Session["View"] = "SaleIndex";
             return View(db.Sales.ToList());
         }
 
@@ -45,7 +46,6 @@ namespace TeamTwoBe.Controllers
 
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
-                    user = db.Users.Find(Session["UserID"]),
                     MyCards = li,
                 };
                 ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
@@ -64,6 +64,7 @@ namespace TeamTwoBe.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            Session["View"] = "SaleDetail";
             Sale sale = db.Sales.Find(id);
             if (sale == null)
             {
@@ -86,21 +87,19 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            if(li != null)
+            Session["View"] = "SaleCreate";
+            if (li != null)
             {
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
-                    user = db.Users.Find(Session["UserID"]),
                     MyCards = li,
                 };
                 return View(salevm);
             }
             SaleConditionGradeVM sale = new SaleConditionGradeVM()
             {
-                user = db.Users.Find(Session["UserID"]),
                 MyCards = li,
             };
-
             return View(sale);
 
         }
@@ -120,20 +119,24 @@ namespace TeamTwoBe.Controllers
                     Cardtype = db.CardTypes.Find(1),
                 };
                 db.Cards.Add(card);
-                Sale testsale = new Sale();
-                sale.MySale = testsale;
-                sale.MySale.Card = card;
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
-                sale.MySale.CardCondition = condition;
-                sale.MySale.CardGrade = grade;
                 User user = db.Users.Find(Session["UserID"]);
-                sale.MySale.Seller = user;
-                sale.MySale.Price = Price;
-                sale.MySale.ID = sale.ID;
-                sale.MySale.IsSold = false;
-                sale.MySale.Buyer = null;
-                db.Sales.Add(sale.MySale);
+
+                Sale MySale = new Sale()
+                {
+                    Card = card,
+                    Buyer = null,
+                    CardCondition = condition,
+                    CardGrade = grade,
+                    ForAuction = sale.ForAuction,
+                    ID = sale.ID,
+                    Seller = user,
+                    Price = Price,
+                    IsSold = false,
+                };               
+
+                db.Sales.Add(MySale);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -153,6 +156,7 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
+            Session["View"] = "SaleEdit";
             return View(sale);
         }
 
@@ -184,6 +188,7 @@ namespace TeamTwoBe.Controllers
             {
                 return HttpNotFound();
             }
+            Session["View"] = "SaleDelete";
             return View(sale);
         }
 

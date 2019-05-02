@@ -16,12 +16,11 @@ namespace TeamTwoBe.Models
         [DisplayName("Name")]
         public string name { get; set; }
 
-
         //Info we want but the API doesn't currently provide.
         public float PriceLow { get; set; }
         public float PriceAverage { get; set; }
         public float PriceHigh { get; set; }
         public string Rarity { get; set; }
-
+        public string image_url { get; set; }
     }
 }

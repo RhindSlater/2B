@@ -245,6 +245,14 @@
     <Compile Include="Migrations\201904290348238_someStuffYo.Designer.cs">
       <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905012358091_dataAnnotationChanges.cs" />
+    <Compile Include="Migrations\201905012358091_dataAnnotationChanges.Designer.cs">
+      <DependentUpon>201905012358091_dataAnnotationChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905020232086_dataAnnotationChanges2.cs" />
+    <Compile Include="Migrations\201905020232086_dataAnnotationChanges2.Designer.cs">
+      <DependentUpon>201905020232086_dataAnnotationChanges2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -301,8 +309,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Card\" />
     <Folder Include="Views\Auction\" />
+    <Folder Include="Views\Card\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +385,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904290348238_someStuffYo.resx">
       <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905012358091_dataAnnotationChanges.resx">
+      <DependentUpon>201905012358091_dataAnnotationChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905020232086_dataAnnotationChanges2.resx">
+      <DependentUpon>201905020232086_dataAnnotationChanges2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
