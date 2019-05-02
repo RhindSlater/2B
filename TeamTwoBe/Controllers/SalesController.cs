@@ -25,7 +25,12 @@ namespace TeamTwoBe.Controllers
     public ActionResult Index()
         {
             Session["View"] = "SaleIndex";
-            return View(db.Sales.ToList());
+            List<Sale> li = new List<Sale>();
+            foreach(var i in db.Sales.Include("Card"))
+            {
+                li.Add(i);
+            }
+            return View(li);
         }
 
         public async Task<ActionResult> getCards(string test)
@@ -118,7 +123,7 @@ namespace TeamTwoBe.Controllers
                     name = test,
                     Cardtype = db.CardTypes.Find(1),
                 };
-                db.Cards.Add(card);
+                //db.Cards.Add(card);
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
                 User user = db.Users.Find(Session["UserID"]);

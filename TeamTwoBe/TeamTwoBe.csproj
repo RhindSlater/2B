@@ -253,6 +253,10 @@
     <Compile Include="Migrations\201905020232086_dataAnnotationChanges2.Designer.cs">
       <DependentUpon>201905020232086_dataAnnotationChanges2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905020637333_wishlistUsersFix.cs" />
+    <Compile Include="Migrations\201905020637333_wishlistUsersFix.Designer.cs">
+      <DependentUpon>201905020637333_wishlistUsersFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -391,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905020232086_dataAnnotationChanges2.resx">
       <DependentUpon>201905020232086_dataAnnotationChanges2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905020637333_wishlistUsersFix.resx">
+      <DependentUpon>201905020637333_wishlistUsersFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

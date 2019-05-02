@@ -1,16 +1,13 @@
-﻿@model IEnumerable<TeamTwoBe.Models.Sale>
-
+﻿@model List<TeamTwoBe.Models.Sale>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @if (Model != null)
 {
     <table class="table table-hover table-bordered">
-        @foreach (var item in Model)
-        {
+        @foreach (var item in Model) {
             <tr>
                 <td><img src="@item.Card.image_url" /></td>
                 <td>
@@ -25,21 +22,4 @@
             </tr>
         }
     </table>
-}
-
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ForAuction)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
 }
