@@ -22,5 +22,6 @@ namespace TeamTwoBe.Models
         public float PriceHigh { get; set; }
         public string Rarity { get; set; }
         public string image_url { get; set; }
+        public List<User> Wishers { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace TeamTwoBe.Models
         public List<User> Following { get; set; }
         [InverseProperty("Following")]
         public List<User> Follower { get; set; }
+        [InverseProperty("Wishers")]
         public List<Card> Wishlist { get; set; }
         public List<Sale> ShoppingCart { get; set; }
         [InverseProperty("Buyer")]
