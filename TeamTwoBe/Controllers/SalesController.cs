@@ -18,48 +18,71 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-        private HttpClient yugiohApi;
+        private HttpClient yugiohApi = new HttpClient()
+        {
+            BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
+        };
+        private HttpClient yugiohPriceApi = new HttpClient()
+        {
+            BaseAddress = new Uri("http://yugiohprices.com/api/")
+        };
 
-
-    // GET: Sales
-    public ActionResult Index()
+        // GET: Sales
+        public ActionResult Index()
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach(var i in db.Sales.Include("Card"))
+            foreach(var i in db.Sales.Include("Card").Include("Seller.UserLevel"))
             {
                 li.Add(i);
             }
             return View(li);
         }
 
-        public async Task<ActionResult> getCards(string test)
+        [HttpPost]
+        public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
-            HttpClient client = new HttpClient()
+            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
+
+            HttpResponseMessage resp = await yugiohPriceApi.GetAsync($"get_card_prices/{dropboxvalue}");
+            if (resp.IsSuccessStatusCode)
             {
-                BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
-            };
+                var rsp = await resp.Content.ReadAsStringAsync();
 
-            HttpResponseMessage response = await client.GetAsync($"v4/cardinfo.php?fname={test}");
-            if (response.IsSuccessStatusCode)
-            {
-                var rsp = await response.Content.ReadAsStringAsync();
-
-                rsp = rsp.Substring(1, rsp.Length - 2);
-                List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
-
+                var li = JObject.Parse(rsp).ToObject<RootObject>();
 
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
-                    MyCards = li,
+                    MyDatum = li.data,
+                    MyCard = dropboxvalue,
                 };
-                ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
-                ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
 
+                if(db.Cards.Where(x=> x.name == dropboxvalue).FirstOrDefault() == null)
+                {
+                    foreach (var i in li.data)
+                    {
+                        Card card = new Card()
+                        {
+                            apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
+                            name = dropboxvalue,
+                            rarity = i.rarity,
+                            print_tag = i.print_tag,
+                            Cardtype = db.CardTypes.Find(1),
+                            image_url = "http://www.ygo-api.com/api/Images/cards/" + dropboxvalue,
+                            average = i.price_data.data.prices.average,
+                            high = i.price_data.data.prices.high,
+                            low = i.price_data.data.prices.low,
+                        };
+                        db.Cards.Add(card);
+                    }
+                    db.SaveChanges();
+                }
+                
                 return View("Create", salevm);
             }
-            return View();
-
+            SaleConditionGradeVM salev = new SaleConditionGradeVM();
+            return View("Create", salev);
         }
 
         // GET: Sales/Details/5
@@ -79,12 +102,11 @@ namespace TeamTwoBe.Controllers
         }
 
         // GET: Sales/Create
-        public ActionResult Create(List<Card> li)
+        public async Task<ActionResult> Create()
         {
 
-            //These help get the data into the view for the dropdown list.
-            ViewBag.Conditions = new SelectList(db.Conditions, "Id", "CardCondition");
-            ViewBag.Grades = new SelectList(db.Grades, "Id", "Grading");
+            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
             //Stops anyone from creating a new sale if they are not logged in as a valid user. ~Joe
             if (Session["userID"] == null)
@@ -93,20 +115,21 @@ namespace TeamTwoBe.Controllers
             }
 
             Session["View"] = "SaleCreate";
-            if (li != null)
+
+            SaleConditionGradeVM salevm = new SaleConditionGradeVM();
+
+            HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?");
+            if (response.IsSuccessStatusCode)
             {
-                SaleConditionGradeVM salevm = new SaleConditionGradeVM()
-                {
-                    MyCards = li,
-                };
+                var rsp = await response.Content.ReadAsStringAsync();
+
+                rsp = rsp.Substring(1, rsp.Length - 2);
+                List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
+                
+                salevm.MyCards = li;
                 return View(salevm);
             }
-            SaleConditionGradeVM sale = new SaleConditionGradeVM()
-            {
-                MyCards = li,
-            };
-            return View(sale);
-
+            return View(salevm);
         }
 
         // POST: Sales/Create
@@ -114,16 +137,11 @@ namespace TeamTwoBe.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string test, string Conditions, string Grades, float Price)
+        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades, float Price)
         {
             if (ModelState.IsValid)
-            {
-                Card card = new Card()
-                {
-                    name = test,
-                    Cardtype = db.CardTypes.Find(1),
-                };
-                //db.Cards.Add(card);
+            {    
+                Card card = db.Cards.Where(x => x.apiID == dropboxvalue).FirstOrDefault();
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
                 User user = db.Users.Find(Session["UserID"]);
@@ -139,7 +157,7 @@ namespace TeamTwoBe.Controllers
                     Seller = user,
                     Price = Price,
                     IsSold = false,
-                };               
+                };
 
                 db.Sales.Add(MySale);
                 db.SaveChanges();

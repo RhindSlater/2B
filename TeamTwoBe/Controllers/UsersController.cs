@@ -36,7 +36,10 @@ namespace TeamTwoBe.Controllers
         {
             if (Session["UserID"] != null)
             {
-                return RedirectToAction("Index");
+                if (Convert.ToInt32(Session["UserID"].ToString()) > Convert.ToInt32("1"))
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             if (user.Password != null)
@@ -66,7 +69,11 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Register()
         {
-            if (Session["UserID"] != null)
+            if(Session["UserID"] == null)
+            {
+                return View();
+            }
+            if(Convert.ToInt32(Session["UserID"].ToString()) > Convert.ToInt32("1"))
             {
                 return RedirectToAction("Index");
             }
@@ -162,17 +169,23 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        public ActionResult Profile(int id) // Logged in and looking at your home page
+        public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
             Session["View"] = "UserProfile";
-            if (id == Convert.ToInt32(Session["UserID"]))
+            if(id == null)
             {
-                return View();
+                return RedirectToAction("Index","Users");
+            }
+            if (id == Convert.ToInt32(Session["UserID"].ToString()))
+            {
+                User user = db.Users.Find(Session["UserID"]);
+                return View(user);
             }
             else
             {
                 //other users profiles
-                return View();
+                User user = db.Users.Find(id);
+                return View(user);
             }
         }
 

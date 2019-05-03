@@ -44,6 +44,13 @@
                         <li><a href="/Users/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 }
+                else if (Convert.ToInt32(Session["UserID"].ToString()) < Convert.ToInt32("1"))
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/Users/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="/Users/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                }
                 else
                 {
                     <ul class="nav navbar-nav navbar-right">
@@ -51,8 +58,8 @@
                     </ul>
                     <div>
                         <a style="padding-right:13px; padding-top:7px" class="nav navbar-nav navbar-right" href="/Users/Profile/@Session["UserID"]">
-                        <img src="~/Properties/@Session["UserPic"]" width="39" height="39" />
-                        <span style="color:white;">@Session["Username"]</span>
+                            <img src="~/Properties/@Session["UserPic"]" width="39" height="39" />
+                            <span style="color:white;">@Session["Username"]</span>
                         </a>
                     </div>
                 }

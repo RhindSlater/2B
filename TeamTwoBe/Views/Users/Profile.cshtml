@@ -4,13 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Session["Username"]'s Profile</h2>
+<h2>@Model.Username's profile</h2>
 
 <ul>
-    <li>My Current Sales</li>
-    <li>My Reviews and Ratings</li>
-    <li>My Watchlist</li>
-    <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
-    <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
+    @if (Model.ID.ToString() == Session["UserID"].ToString())
+    {
+        <li>My Current Sales</li>
+        <li>My Reviews and Ratings</li>
+        <li>My Watchlist</li>
+        <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
+        <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
+    }
+    else
+    {
+        <li>Current Sales</li>
+        <li>Reviews and Ratings</li>
+        <li><a href="/profile/wishlist/@Session["UserID"]">Wishlist</a></li>
+    }
 </ul>
-

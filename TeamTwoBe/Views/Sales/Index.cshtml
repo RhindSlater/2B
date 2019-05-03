@@ -7,17 +7,93 @@
 @if (Model != null)
 {
     <table class="table table-hover table-bordered">
-        @foreach (var item in Model) {
+        @*will show my listings first*@
+        @if (Session["UserID"] != null)
+        {
+            foreach (var item in Model.Where(x => x.Seller.ID.ToString() == Session["UserID"].ToString() & x.ForAuction == false))
+            {
+                <tr>
+                    <td><img width="145" src="@item.Card.image_url" /></td>
+                    <td>
+                        <div id="CardDetails">
+                            <h3>@item.Card.name</h3>
+                            <p><b>Card Type:</b> @item.Card.Cardtype</p>
+                            <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                            @using (Html.BeginForm("addToWatchlist", "Profile"))
+                        {
+                                <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            Session["UserID"] = 0;
+        }
+
+        @*will then show cards sold by admin*@
+        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 1 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
+        {
             <tr>
-                <td><img src="@item.Card.image_url" /></td>
+                <td><img width="145" src="@item.Card.image_url" /></td>
                 <td>
-                    <h4>@item.Card.name</h4>
-                    <p><b>Card Type:</b> @item.Card.Cardtype</p>
-                    <p><b>Price:</b> @item.Card.PriceAverage.ToString("c2")</p>
-                    @using (Html.BeginForm("addToWishList", "Profile"))
-                    {
-                        @Html.ActionLink("Add to Wishlist", "addToWishList", new { id = item.Card.name }, new { @class = "btn btn-primary" })
-                    }
+                    <div id="CardDetails">
+                        <h3>@item.Card.name</h3>
+                        <p><b>Card Type:</b> @item.Card.Cardtype</p>
+                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                        @using (Html.BeginForm("addToWatchlist", "Profile"))
+                        {
+                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                            <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+        @*then cards sold by premium users*@
+        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 3 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
+        {
+            <tr>
+                <td><img width="145" src="@item.Card.image_url" /></td>
+                <td>
+                    <div id="CardDetails">
+                        <h3>@item.Card.name</h3>
+                        <p><b>Card Type:</b> @item.Card.Cardtype</p>
+                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                        @using (Html.BeginForm("addToWatchlist", "Profile"))
+                        {
+                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                            <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+        @*lastly show listings by guest users*@
+        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 2 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
+        {
+            <tr>
+                <td><img width="145" src="@item.Card.image_url" /></td>
+                <td>
+                    <div id="CardDetails">
+                        <h3>@item.Card.name</h3>
+                        <p><b>Card Type:</b> @item.Card.Cardtype</p>
+                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                        @using (Html.BeginForm("addToWatchlist", "Profile"))
+                        {
+                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                            <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        }
+                    </div>
                 </td>
             </tr>
         }

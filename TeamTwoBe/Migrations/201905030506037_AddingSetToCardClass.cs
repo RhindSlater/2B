@@ -3,16 +3,16 @@ namespace TeamTwoBe.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class addingDataMigrations2 : DbMigration
+    public partial class AddingSetToCardClass : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("dbo.Users", "Password", c => c.String(nullable: false));
+            AddColumn("dbo.Cards", "print_tag", c => c.String());
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.Users", "Password", c => c.String(nullable: false));
+            DropColumn("dbo.Cards", "print_tag");
         }
     }
 }

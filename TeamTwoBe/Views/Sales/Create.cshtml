@@ -5,32 +5,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <body>
+<body>
+    <div class="form-horizontal">
 
-    @using (Html.BeginForm("Create","Sales"))
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-horizontal">
-            <h2>Hey @Session["Username"], Create a new sale</h2>
-            <hr />
+        <h2>Hey @Session["Username"], Create a new sale</h2>
+        <hr />
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <label class="control-label col-md-2">Card name</label>
-                <div class="col-md-10">
-                    <input list="CardList" type="text" name="test" />
-                    @Html.ActionLink("Search", "getCards", null, new { @class= "btn btn-primary" })
-                    @if (Model.MyCards != null)
-                    {
-                        <datalist id="CardList" name="">
-                            @foreach (var i in Model.MyCards)
-                            {
-                                <option value="@i.name"></option>
-                            }
-                        </datalist>
-                    }
+        <div class="form-group">
+            <label class="control-label col-md-2">Card name</label>
+            <div class="col-md-10">
+                @using (Html.BeginForm("apiPrice", "Sales"))
+                {
+                    <input list="CardList" type="text" name="dropboxvalue"/>
+                    <input type="submit" value="Search">
+                }
+
+                @if (Model.MyCards != null)
+                {
+                    <datalist id="CardList">
+                        @foreach (var i in Model.MyCards)
+                        {
+                            <option value="@i.name"></option>
+                        }
+                    </datalist>
+                }
+
+                @if (Model.MyDatum != null)
+                {
+                    <datalist id="CardList">
+                        @foreach (var i in Model.MyDatum)
+                        {
+                            <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+                        }
+                    </datalist>
+                }
                 </div>
             </div>
+
+        @using (Html.BeginForm("Create", "Sales"))
+        {
+            @Html.AntiForgeryToken()
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -70,18 +84,11 @@
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
-        </div>
-
-        <div>
-            @Html.ActionLink("Back to List", "Index", new { id = Session["UserID"] })
-        </div>
-    }
-
+        }
+    </div>
 </body>
-
 
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
