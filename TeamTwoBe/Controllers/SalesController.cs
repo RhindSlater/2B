@@ -26,7 +26,7 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach(var i in db.Sales.Include("Card"))
+            foreach(var i in db.Sales.Include("Cards"))
             {
                 li.Add(i);
             }
