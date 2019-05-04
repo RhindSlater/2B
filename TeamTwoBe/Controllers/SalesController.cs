@@ -32,7 +32,7 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach(var i in db.Sales.Include("Card").Include("Seller.UserLevel"))
+            foreach(var i in db.Sales.Include("Card.Cardtype").Include("Seller.UserLevel"))
             {
                 li.Add(i);
             }
@@ -137,7 +137,7 @@ namespace TeamTwoBe.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades, float Price)
+        public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades)
         {
             if (ModelState.IsValid)
             {    
@@ -155,7 +155,7 @@ namespace TeamTwoBe.Controllers
                     ForAuction = sale.ForAuction,
                     ID = sale.ID,
                     Seller = user,
-                    Price = Price,
+                    Price = sale.Price,
                     IsSold = false,
                 };
 
@@ -166,6 +166,21 @@ namespace TeamTwoBe.Controllers
 
             return View(sale);
         }
+
+        [HttpPost]
+        public ActionResult Search(string search)
+        {
+            List<Sale> li = new List<Sale>();
+
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
+            {
+                li.Add(i);
+            }
+
+            return View("Index",li);
+        }
+
+
 
         // GET: Sales/Edit/5
         public ActionResult Edit(int? id)

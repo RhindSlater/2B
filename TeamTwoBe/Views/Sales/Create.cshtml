@@ -14,9 +14,10 @@
         <div class="form-group">
             <label class="control-label col-md-2">Card name</label>
             <div class="col-md-10">
+
                 @using (Html.BeginForm("apiPrice", "Sales"))
                 {
-                    <input list="CardList" type="text" name="dropboxvalue" />
+                    <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
                     <input type="submit" value="Search">
                 }
 
@@ -44,6 +45,7 @@
 
         @using (Html.BeginForm("Create", "Sales"))
         {
+            <input width="0" id="d" list="CardList" type="text" name="dropboxvalue" />
             @Html.AntiForgeryToken()
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -87,7 +89,6 @@
         }
     </div>
 </body>
-
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
