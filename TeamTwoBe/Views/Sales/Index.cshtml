@@ -22,8 +22,7 @@
                             @using (Html.BeginForm("addToWatchlist", "Profile"))
                         {
                                 <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
-                                <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                                 <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
 
                             }

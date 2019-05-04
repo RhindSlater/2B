@@ -22,5 +22,6 @@ namespace TeamTwoBe.Models
         [Required]
         public User Seller { get; set; }
         public bool IsSold { get; set; }
+        public DateTime UploadDate { get; set; }
     }
 }

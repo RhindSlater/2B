@@ -157,6 +157,7 @@ namespace TeamTwoBe.Controllers
                     Seller = user,
                     Price = sale.Price,
                     IsSold = false,
+                    UploadDate = DateTime.Now.Date,
                 };
 
                 db.Sales.Add(MySale);
@@ -215,27 +216,34 @@ namespace TeamTwoBe.Controllers
         }
 
         // GET: Sales/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult removeListing(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Sale sale = db.Sales.Find(id);
+
+            Sale sale = db.Sales.Include("Card").Where(x => x.ID == id).FirstOrDefault();
             if (sale == null)
             {
                 return HttpNotFound();
             }
-            Session["View"] = "SaleDelete";
-            return View(sale);
+            if(sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                Session["View"] = "SaleDelete";
+                return View(sale);
+            }
+            return RedirectToAction("Login","Users");
         }
 
         // POST: Sales/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult removeListing(int id)
         {
-            Sale sale = db.Sales.Find(id);
+            Sale sale = db.Sales.Include("Card").Include("Seller.Collection").Where(x=>x.ID == id).FirstOrDefault();
+            User user = db.Users.Find(sale.Seller.ID);
+            user.Collection.Add(sale.Card);
             db.Sales.Remove(sale);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -102,6 +102,7 @@ namespace TeamTwoBe.Controllers
                     user.Following = new List<User>();
                     user.Wishlist = new List<Card>();
                     user.ShoppingCart = new List<Sale>();
+                    user.Collection = new List<Card>();
                     user.IsDeleted = false;
                     user.IsLocked = false;
                     db.Users.Add(user);

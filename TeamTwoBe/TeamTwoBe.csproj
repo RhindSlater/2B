@@ -273,6 +273,14 @@
     <Compile Include="Migrations\201905030523330_AddingApiIDToCard.Designer.cs">
       <DependentUpon>201905030523330_AddingApiIDToCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905041427244_AddingUploadDateToSale.cs" />
+    <Compile Include="Migrations\201905041427244_AddingUploadDateToSale.Designer.cs">
+      <DependentUpon>201905041427244_AddingUploadDateToSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905041443320_AddingCollectionToUsers.cs" />
+    <Compile Include="Migrations\201905041443320_AddingCollectionToUsers.Designer.cs">
+      <DependentUpon>201905041443320_AddingCollectionToUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -323,6 +331,7 @@
     <Content Include="Views\Users\Profile.cshtml" />
     <Content Include="Views\Users\UserReview.cshtml" />
     <Content Include="Views\Profile\Wishlist.cshtml" />
+    <Content Include="Views\Sales\removeListing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -429,6 +438,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905030523330_AddingApiIDToCard.resx">
       <DependentUpon>201905030523330_AddingApiIDToCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905041427244_AddingUploadDateToSale.resx">
+      <DependentUpon>201905041427244_AddingUploadDateToSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905041443320_AddingCollectionToUsers.resx">
+      <DependentUpon>201905041443320_AddingCollectionToUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
