@@ -24,6 +24,24 @@ namespace TeamTwoBe.Models
             {
                 x.ToTable("Collection");
             });
+            modelBuilder.Entity<User>().HasMany(x => x.Wishlist).WithMany().Map(x =>
+            {
+                x.ToTable("Wishlist");
+            });
+            modelBuilder.Entity<User>().HasMany(x => x.ShoppingCart).WithMany().Map(x =>
+            {
+                x.ToTable("ShoppingCart");
+            });
+            modelBuilder.Entity<User>().HasMany(x => x.Watchlist).WithMany().Map(x =>
+            {
+                x.ToTable("Watchlist");
+            });
+            modelBuilder.Entity<User>().HasMany(x => x.Follower).WithMany().Map(x =>
+            {
+                x.ToTable("Followers");
+                x.MapLeftKey("Follower");
+                x.MapRightKey("Following");
+            });
             base.OnModelCreating(modelBuilder);
         }
     }

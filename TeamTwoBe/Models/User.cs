@@ -39,19 +39,28 @@ namespace TeamTwoBe.Models
         public bool IsLocked { get; set; }
 
         public string DisplayPicture { get; set; } //picture
-
-
-
         public AccountType UserLevel { get; set; }
+
         [InverseProperty("Follower")]
         public List<User> Following { get; set; }
+
+
         [InverseProperty("Following")]
         public List<User> Follower { get; set; }
+
+
         [InverseProperty("Wishers")]
         public List<Card> Wishlist { get; set; }
+
+
+        [InverseProperty("Shopper")]
         public List<Sale> ShoppingCart { get; set; }
-        [InverseProperty("Buyer")]
-        public List<Sale> selling { get; set; }
+
+
+        [InverseProperty("Watcher")]
+        public List<Sale> Watchlist { get; set; }
+
+
         [InverseProperty("CollectionOwners")]
         public List<Card> Collection { get;  set; }
     }

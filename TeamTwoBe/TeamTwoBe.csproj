@@ -289,6 +289,10 @@
     <Compile Include="Migrations\201905050308153_removingTableName.Designer.cs">
       <DependentUpon>201905050308153_removingTableName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905050327349_AddingShoppingCartWatchListWishlist.cs" />
+    <Compile Include="Migrations\201905050327349_AddingShoppingCartWatchListWishlist.Designer.cs">
+      <DependentUpon>201905050327349_AddingShoppingCartWatchListWishlist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -457,6 +461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905050308153_removingTableName.resx">
       <DependentUpon>201905050308153_removingTableName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050327349_AddingShoppingCartWatchListWishlist.resx">
+      <DependentUpon>201905050327349_AddingShoppingCartWatchListWishlist.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

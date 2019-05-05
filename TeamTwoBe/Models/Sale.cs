@@ -23,5 +23,7 @@ namespace TeamTwoBe.Models
         public User Seller { get; set; }
         public bool IsSold { get; set; }
         public DateTime UploadDate { get; set; }
+        public List<User> Shopper { get; set; }
+        public List<User> Watcher { get; set; }
     }
 }
