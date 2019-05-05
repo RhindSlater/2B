@@ -242,10 +242,6 @@
     <Compile Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.Designer.cs">
       <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904290348238_someStuffYo.cs" />
-    <Compile Include="Migrations\201904290348238_someStuffYo.Designer.cs">
-      <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201905012358091_dataAnnotationChanges.cs" />
     <Compile Include="Migrations\201905012358091_dataAnnotationChanges.Designer.cs">
       <DependentUpon>201905012358091_dataAnnotationChanges.cs</DependentUpon>
@@ -428,9 +424,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904271023073_addingBuyerAndIsSoldToSales.resx">
       <DependentUpon>201904271023073_addingBuyerAndIsSoldToSales.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904290348238_someStuffYo.resx">
-      <DependentUpon>201904290348238_someStuffYo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905012358091_dataAnnotationChanges.resx">
       <DependentUpon>201905012358091_dataAnnotationChanges.cs</DependentUpon>

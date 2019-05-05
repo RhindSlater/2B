@@ -32,7 +32,7 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach(var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel"))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel"))
             {
                 li.Add(i);
             }
@@ -59,32 +59,31 @@ namespace TeamTwoBe.Controllers
                     MyDatum = new List<Datum>(),
                 };
 
-                if(db.Cards.Where(x=> x.name == dropboxvalue).FirstOrDefault() == null)
+                foreach (var i in li.data)
                 {
-                    foreach (var i in li.data)
+                    if (i.price_data.status == "success")
                     {
-                        if(i.price_data.status == "success")
+                        Card card = new Card()
                         {
-                            Card card = new Card()
-                            {
-                                apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
-                                name = dropboxvalue,
-                                rarity = i.rarity,
-                                print_tag = i.print_tag,
-                                Cardtype = db.CardTypes.Find(1),
-                                image_url = "http://www.ygo-api.com/api/Images/cards/" + dropboxvalue,
-                                average = i.price_data.data.prices.average,
-                                high = i.price_data.data.prices.high,
-                                low = i.price_data.data.prices.low,
-                            };
-                            salevm.MyDatum.Add(i);
+                            apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
+                            name = dropboxvalue,
+                            rarity = i.rarity,
+                            print_tag = i.print_tag,
+                            Cardtype = db.CardTypes.Find(1),
+                            image_url = "http://www.ygo-api.com/api/Images/cards/" + dropboxvalue,
+                            average = i.price_data.data.prices.average,
+                            high = i.price_data.data.prices.high,
+                            low = i.price_data.data.prices.low,
+                        };
+                        if (db.Cards.Where(x => x.name == dropboxvalue).FirstOrDefault() == null)
+                        {
                             db.Cards.Add(card);
-
                         }
+                        salevm.MyDatum.Add(i);
                     }
-                    db.SaveChanges();
                 }
-                
+                db.SaveChanges();
+
                 return View("Create", salevm);
             }
             SaleConditionGradeVM salev = new SaleConditionGradeVM();
@@ -133,7 +132,7 @@ namespace TeamTwoBe.Controllers
 
                 rsp = rsp.Substring(1, rsp.Length - 2);
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
-                
+
                 salevm.MyCards = li;
                 return View(salevm);
             }
@@ -145,7 +144,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades)
         {
             if (ModelState.IsValid)
-            {    
+            {
                 Card card = db.Cards.Where(x => x.apiID == dropboxvalue).FirstOrDefault();
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
@@ -183,9 +182,9 @@ namespace TeamTwoBe.Controllers
                 li.Add(i);
             }
 
-            return View("Index",li);
+            return View("Index", li);
         }
-    
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
@@ -264,7 +263,7 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult removeListing(int id)
         {
-            Sale sale = db.Sales.Include("Card").Include("Seller.Collection").Where(x=>x.ID == id).FirstOrDefault();
+            Sale sale = db.Sales.Include("Card").Include("Seller.Collection").Where(x => x.ID == id).FirstOrDefault();
             User user = db.Users.Find(sale.Seller.ID);
 
             //adds your unsold card to your collection
