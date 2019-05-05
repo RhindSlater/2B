@@ -32,7 +32,7 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach(var i in db.Sales.Include("Card.Cardtype").Include("Seller.UserLevel"))
+            foreach(var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel"))
             {
                 li.Add(i);
             }
@@ -54,27 +54,32 @@ namespace TeamTwoBe.Controllers
 
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
-                    MyDatum = li.data,
                     MyCard = dropboxvalue,
+                    MyDatum = new List<Datum>(),
                 };
 
                 if(db.Cards.Where(x=> x.name == dropboxvalue).FirstOrDefault() == null)
                 {
                     foreach (var i in li.data)
                     {
-                        Card card = new Card()
+                        if(i.price_data.status == "success")
                         {
-                            apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
-                            name = dropboxvalue,
-                            rarity = i.rarity,
-                            print_tag = i.print_tag,
-                            Cardtype = db.CardTypes.Find(1),
-                            image_url = "http://www.ygo-api.com/api/Images/cards/" + dropboxvalue,
-                            average = i.price_data.data.prices.average,
-                            high = i.price_data.data.prices.high,
-                            low = i.price_data.data.prices.low,
-                        };
-                        db.Cards.Add(card);
+                            Card card = new Card()
+                            {
+                                apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
+                                name = dropboxvalue,
+                                rarity = i.rarity,
+                                print_tag = i.print_tag,
+                                Cardtype = db.CardTypes.Find(1),
+                                image_url = "http://www.ygo-api.com/api/Images/cards/" + dropboxvalue,
+                                average = i.price_data.data.prices.average,
+                                high = i.price_data.data.prices.high,
+                                low = i.price_data.data.prices.low,
+                            };
+                            salevm.MyDatum.Add(i);
+                            db.Cards.Add(card);
+
+                        }
                     }
                     db.SaveChanges();
                 }
@@ -173,46 +178,12 @@ namespace TeamTwoBe.Controllers
         {
             List<Sale> li = new List<Sale>();
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
             {
                 li.Add(i);
             }
 
             return View("Index",li);
-        }
-
-
-
-        // GET: Sales/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Sale sale = db.Sales.Find(id);
-            if (sale == null)
-            {
-                return HttpNotFound();
-            }
-            Session["View"] = "SaleEdit";
-            return View(sale);
-        }
-
-        // POST: Sales/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Price,ForAuction")] Sale sale)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(sale).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(sale);
         }
 
         // GET: Sales/Delete/5
@@ -223,11 +194,13 @@ namespace TeamTwoBe.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Sale sale = db.Sales.Include("Card").Where(x => x.ID == id).FirstOrDefault();
+            Sale sale = db.Sales.Include("Card").Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             if (sale == null)
             {
                 return HttpNotFound();
             }
+
+            //stops others from removing your sales
             if(sale.Seller.ID.ToString() == Session["UserID"].ToString())
             {
                 Session["View"] = "SaleDelete";
@@ -236,18 +209,77 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Login","Users");
         }
 
-        // POST: Sales/Delete/5
+
+        public ActionResult editListing(int? id)
+        {
+            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Sale sale = db.Sales.Include("Seller").Include("Card").Where(x => x.ID == id).FirstOrDefault();
+            if (sale == null)
+            {
+                return HttpNotFound();
+            }
+
+            //stops others from removing your sales
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                Session["View"] = "SaleEdit";
+                return View(sale);
+            }
+            return RedirectToAction("Login", "Users");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
+        {
+            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
+
+            Sale sale1 = db.Sales.Include("Card").Include("Seller").Include("CardCondition").Include("CardGrade").Where(x => x.ID == sale.ID).AsNoTracking().FirstOrDefault();
+
+            if (Conditions != "")
+            {
+                Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
+                sale1.CardCondition = condition;
+            }
+            if(Grades != "")
+            {
+                Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
+                sale1.CardGrade = grade;
+            }
+
+            sale1.Price = sale.Price;
+            sale1.ForAuction = sale.ForAuction;
+            db.Entry(sale1).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult removeListing(int id)
         {
             Sale sale = db.Sales.Include("Card").Include("Seller.Collection").Where(x=>x.ID == id).FirstOrDefault();
             User user = db.Users.Find(sale.Seller.ID);
+
+            //adds your unsold card to your collection
             user.Collection.Add(sale.Card);
             db.Sales.Remove(sale);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

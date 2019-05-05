@@ -281,6 +281,14 @@
     <Compile Include="Migrations\201905041443320_AddingCollectionToUsers.Designer.cs">
       <DependentUpon>201905041443320_AddingCollectionToUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905050205505_removingColumnFromCards.cs" />
+    <Compile Include="Migrations\201905050205505_removingColumnFromCards.Designer.cs">
+      <DependentUpon>201905050205505_removingColumnFromCards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905050308153_removingTableName.cs" />
+    <Compile Include="Migrations\201905050308153_removingTableName.Designer.cs">
+      <DependentUpon>201905050308153_removingTableName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -323,15 +331,14 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Sales\Create.cshtml" />
-    <Content Include="Views\Sales\Delete.cshtml" />
     <Content Include="Views\Sales\Details.cshtml" />
-    <Content Include="Views\Sales\Edit.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Users\Profile.cshtml" />
     <Content Include="Views\Users\UserReview.cshtml" />
     <Content Include="Views\Profile\Wishlist.cshtml" />
     <Content Include="Views\Sales\removeListing.cshtml" />
+    <Content Include="Views\Sales\editListing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -444,6 +451,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905041443320_AddingCollectionToUsers.resx">
       <DependentUpon>201905041443320_AddingCollectionToUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050205505_removingColumnFromCards.resx">
+      <DependentUpon>201905050205505_removingColumnFromCards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050308153_removingTableName.resx">
+      <DependentUpon>201905050308153_removingTableName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

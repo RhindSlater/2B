@@ -18,5 +18,13 @@ namespace TeamTwoBe.Models
         public DbSet<CardType> CardTypes { get; set; }
         public DbSet<UserReview> UserReviews { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasMany(x => x.Collection).WithMany().Map(x =>
+            {
+                x.ToTable("Collection");
+            });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

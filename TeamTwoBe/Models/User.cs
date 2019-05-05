@@ -52,6 +52,7 @@ namespace TeamTwoBe.Models
         public List<Sale> ShoppingCart { get; set; }
         [InverseProperty("Buyer")]
         public List<Sale> selling { get; set; }
+        [InverseProperty("CollectionOwners")]
         public List<Card> Collection { get;  set; }
     }
 }
