@@ -1,14 +1,14 @@
 ﻿@model TeamTwoBe.Models.User
 
 @{
-    ViewBag.Title = "Watchlist";
+    ViewBag.Title = "Shoppingcart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Watchlist</h2>
+<h2>Shopping Cart</h2>
 
 <table class="table table-hover table-bordered">
-    @foreach (var item in Model.Watchlist)
+    @foreach (var item in Model.ShoppingCart)
     {
         <tr>
             <td><img width="145" src="@item.Card.image_url" /></td>
@@ -19,8 +19,8 @@
                     <p><b>Price:</b> @item.Price.ToString("c2")</p>
                     <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                     <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                    <a>@Html.ActionLink("Add to shopping Cart", "addShoppingcart", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                    <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                    <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                    <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                 </div>
             </td>
         </tr>

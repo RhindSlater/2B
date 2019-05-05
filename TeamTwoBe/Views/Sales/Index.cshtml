@@ -47,7 +47,7 @@
                         <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                         <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                         <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile" , new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", "Profile" , new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile" , new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                     </div>
                 </td>
             </tr>
@@ -65,7 +65,7 @@
                         <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                         <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                         <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
 
                     </div>
                 </td>
@@ -84,7 +84,7 @@
                         <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                         <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                         <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addToShoppingcart", new { id = item.Card.name }, new { @class = "btn btn-primary" })</a>
+                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                     </div>
                 </td>
             </tr>

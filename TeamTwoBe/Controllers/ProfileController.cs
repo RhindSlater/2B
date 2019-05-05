@@ -35,7 +35,22 @@ namespace TeamTwoBe.Controllers
 
             return View();
         }
+        public ActionResult Shoppingcart()
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
 
+            User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
+            return View(user);
+
+        }
 
         public ActionResult Watchlist()
         {
@@ -77,7 +92,61 @@ namespace TeamTwoBe.Controllers
 
             return RedirectToAction("Watchlist");
         }
+        public ActionResult removeFromShoppingCart(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                return RedirectToAction("Index");
+            }
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
+            user.ShoppingCart.Remove(sale);
+            db.SaveChanges();
+
+            return RedirectToAction("ShoppingCart");
+        }
+
+        public ActionResult addShoppingcart(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                return RedirectToAction("Index");
+            }
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("ShoppingCart").Include("Watchlist").Where(x => x.ID == id).FirstOrDefault();
+
+            if (user.ShoppingCart.Contains(sale) == false)
+            {
+                user.ShoppingCart.Add(sale);
+                db.SaveChanges();
+            }
+            if (user.Watchlist.Contains(sale) == false)
+            {
+                user.Watchlist.Add(sale);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Shoppingcart");
+        }
 
 
 
