@@ -1,0 +1,32 @@
+﻿@model TeamTwoBe.Models.User
+
+@{
+    ViewBag.Title = "Watchlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Watchlist</h2>
+
+<table class="table table-hover table-bordered">
+    @foreach (var item in Model.Watchlist)
+    {
+        <tr>
+            <td><img width="145" src="@item.Card.image_url" /></td>
+            <td>
+                <div id="CardDetails">
+                    <h3>@item.Card.name</h3>
+                    <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                    <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                    <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                    @using (Html.BeginForm("addToWatchlist", "Profile"))
+                {
+                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            <a>@Html.ActionLink("Add to shopping Cart", "addShoppingcart", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+</table>

@@ -186,29 +186,33 @@ namespace TeamTwoBe.Controllers
             return View("Index",li);
         }
 
-        // GET: Sales/Delete/5
-        public ActionResult removeListing(int? id)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
         {
-            if (id == null)
+            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
+            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
+
+            Sale sale1 = db.Sales.Include("Card").Include("Seller").Include("CardCondition").Include("CardGrade").Where(x => x.ID == sale.ID).AsNoTracking().FirstOrDefault();
+
+            if (Conditions != "")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
+                sale1.CardCondition = condition;
+            }
+            if (Grades != "")
+            {
+                Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
+                sale1.CardGrade = grade;
             }
 
-            Sale sale = db.Sales.Include("Card").Include("Seller").Where(x => x.ID == id).FirstOrDefault();
-            if (sale == null)
-            {
-                return HttpNotFound();
-            }
-
-            //stops others from removing your sales
-            if(sale.Seller.ID.ToString() == Session["UserID"].ToString())
-            {
-                Session["View"] = "SaleDelete";
-                return View(sale);
-            }
-            return RedirectToAction("Login","Users");
+            sale1.Price = sale.Price;
+            sale1.ForAuction = sale.ForAuction;
+            db.Entry(sale1).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
-
 
         public ActionResult editListing(int? id)
         {
@@ -235,35 +239,27 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Login", "Users");
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
+        public ActionResult removeListing(int? id)
         {
-            ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
-            ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
-
-            Sale sale1 = db.Sales.Include("Card").Include("Seller").Include("CardCondition").Include("CardGrade").Where(x => x.ID == sale.ID).AsNoTracking().FirstOrDefault();
-
-            if (Conditions != "")
+            if (id == null)
             {
-                Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
-                sale1.CardCondition = condition;
-            }
-            if(Grades != "")
-            {
-                Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
-                sale1.CardGrade = grade;
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            sale1.Price = sale.Price;
-            sale1.ForAuction = sale.ForAuction;
-            db.Entry(sale1).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-            
+            Sale sale = db.Sales.Include("Card").Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            if (sale == null)
+            {
+                return HttpNotFound();
+            }
+
+            //stops others from removing your sales
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                Session["View"] = "SaleDelete";
+                return View(sale);
+            }
+            return RedirectToAction("Login", "Users");
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

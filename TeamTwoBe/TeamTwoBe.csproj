@@ -343,6 +343,7 @@
     <Content Include="Views\Profile\Wishlist.cshtml" />
     <Content Include="Views\Sales\removeListing.cshtml" />
     <Content Include="Views\Sales\editListing.cshtml" />
+    <Content Include="Views\Profile\Watchlist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

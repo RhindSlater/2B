@@ -36,6 +36,81 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
+
+        public ActionResult Watchlist()
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+
+            User user = db.Users.Include("Watchlist.Card.CardType").Include("Watchlist.Seller").Include("Watchlist.CardGrade").Include("Watchlist.CardCondition").Where(x => x.ID == id).FirstOrDefault();
+            return View(user);
+
+        }
+        
+        public ActionResult removeFromWatchlist(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                return RedirectToAction("Index");
+            }
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("Watchlist").Where(x => x.ID == id).FirstOrDefault();
+
+            user.Watchlist.Remove(sale);
+            db.SaveChanges();
+
+            return RedirectToAction("Watchlist");
+        }
+
+
+
+
+
+        public ActionResult addToWatchlist(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
+            {
+                return RedirectToAction("Index");
+            }
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("Watchlist").Where(x => x.ID == id).FirstOrDefault();
+
+            if(user.Watchlist.Contains(sale) == false)
+            {
+                user.Watchlist.Add(sale);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Watchlist");
+        }
+
+
+
         //This searches for a card containing any part of the word that is being searched for e.g. dark
         public async Task<ActionResult> GetCardName(string GetCardName)
         {
