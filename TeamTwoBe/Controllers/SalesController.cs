@@ -18,16 +18,16 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-        private HttpClient yugiohApi = new HttpClient()
+        HttpClient yugiohApi = new HttpClient()
         {
             BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
         };
-        private HttpClient yugiohPriceApi = new HttpClient()
+
+        HttpClient yugiohPriceApi = new HttpClient()
         {
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
 
-        // GET: Sales
         public ActionResult Index()
         {
             Session["View"] = "SaleIndex";
@@ -42,6 +42,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
+
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -90,7 +91,6 @@ namespace TeamTwoBe.Controllers
             return View("Create", salev);
         }
 
-        // GET: Sales/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -106,7 +106,6 @@ namespace TeamTwoBe.Controllers
             return View(sale);
         }
 
-        // GET: Sales/Create
         public async Task<ActionResult> Create()
         {
 
@@ -115,6 +114,10 @@ namespace TeamTwoBe.Controllers
 
             //Stops anyone from creating a new sale if they are not logged in as a valid user. ~Joe
             if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
             {
                 return RedirectToAction("login", "users");
             }
@@ -137,9 +140,6 @@ namespace TeamTwoBe.Controllers
             return View(salevm);
         }
 
-        // POST: Sales/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades)
@@ -185,8 +185,7 @@ namespace TeamTwoBe.Controllers
 
             return View("Index",li);
         }
-
-
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
@@ -274,8 +273,6 @@ namespace TeamTwoBe.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
 
         protected override void Dispose(bool disposing)
         {

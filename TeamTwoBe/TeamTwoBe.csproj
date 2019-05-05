@@ -142,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
+    <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -345,6 +346,7 @@
     <Content Include="Views\Sales\editListing.cshtml" />
     <Content Include="Views\Profile\Watchlist.cshtml" />
     <Content Include="Views\Profile\Shoppingcart.cshtml" />
+    <Content Include="Views\Card\Wishlist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -355,7 +357,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Auction\" />
-    <Folder Include="Views\Card\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

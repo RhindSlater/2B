@@ -1,0 +1,59 @@
+﻿@model TeamTwoBe.Views.ViewModels.SaleConditionGradeVM
+
+@{
+    ViewBag.Title = "Wishlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Wishlist</h2>
+
+<div>
+    @using (Html.BeginForm("apiPrice", "Card"))
+    {
+        <b>Search:</b>
+        <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
+        <input type="submit" value="Search" />
+    }
+    @if (Model.MyCards != null)
+    {
+        <datalist id="CardList">
+            @foreach (var i in Model.MyCards)
+            {
+                <option value="@i.name"></option>
+            }
+        </datalist>
+    }
+
+    @if (Model.MyDatum != null)
+    {
+        <datalist id="CardList">
+            @foreach (var i in Model.MyDatum)
+            {
+                <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+            }
+        </datalist>
+    }
+
+    @if (Model.MyDatum != null)
+    {
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th>Image</th>
+                <th>Cards</th>
+            </tr>
+            @foreach (var item in Model.MyCards)
+            {
+                <tr>
+                    <td><img width="145" src="@item.image_url" /></td>
+                    <td>
+                        <h4>@item.name</h4>
+                        <p><b>Card Type:</b> @item.Cardtype</p>
+                        <p><b>Price:</b> @item.average.ToString("c2")</p>
+                        @Html.ActionLink("Add to Wishlist", "addCardToWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
