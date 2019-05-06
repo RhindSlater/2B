@@ -12,6 +12,7 @@
         <li>My Current Sales</li>
         <li>My Reviews and Ratings</li>
         <li><a href="/profile/Watchlist/">My Watchlist</a></li>
+        <li><a href="/profile/collection/@Session["UserID"]">My Collection</a></li>
         <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
         <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
     }
@@ -19,6 +20,7 @@
     {
         <li>Current Sales</li>
         <li>Reviews and Ratings</li>
+        <li><a href="/profile/collection/@Model.ID">Collection</a></li>
         <li><a href="/profile/wishlist/@Model.ID">Wishlist</a></li>
     }
 </ul>
