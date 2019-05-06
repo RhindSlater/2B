@@ -176,7 +176,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("login", "users");
             }
-            User user = db.Users.Include("Wishlist").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("Wishlist.CardType").Where(x => x.ID == id).FirstOrDefault();
             if(user.Wishlist.Count == 0)
             {
                 return RedirectToAction("Wishlist","Card", user.ID);

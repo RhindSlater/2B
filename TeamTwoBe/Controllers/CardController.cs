@@ -105,7 +105,6 @@ namespace TeamTwoBe.Controllers
             return View(vm);
         }
 
-
         //This searches for a card containing any part of the word that is being searched for e.g. dark
         public ActionResult addCardToWishlist(int id)
         {
