@@ -8,86 +8,40 @@
 {
     <table class="table table-hover table-bordered">
         @*will show my listings first*@
-        @if (Session["UserID"] != null)
+        
+
+        @foreach (var item in Model.Where(x=> x.ForAuction == false))
         {
-            foreach (var item in Model.Where(x => x.Seller.ID.ToString() == Session["UserID"].ToString() & x.ForAuction == false))
-            {
-                <tr>
-                    <td><img width="145" src="@item.Card.image_url" /></td>
-                    <td>
-                        <div id="CardDetails">
-                            <h3>@item.Card.name</h3>
-                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                            <p><b>Price:</b> @item.Price.ToString("c2")</p>
-                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+            <tr>
+                <td><img width="290" src="@item.Card.image_url" /></td>
+                <td>
+                    <div id="CardDetails">
+                        <h1>@item.Card.name</h1>
+                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                        <p><b>Card Set:</b> @item.Card.print_tag</p>
+                        <br />
+                        <h3>Price Info (USD based):</h3>
+                        <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                        <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                        <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                        <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+
+                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                        @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                        {
                             <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                             <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-
-                        </div>
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            Session["UserID"] = 0;
-        }
-
-        @*will then show cards sold by admin*@
-        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 1 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
-        {
-            <tr>
-                <td><img width="145" src="@item.Card.image_url" /></td>
-                <td>
-                    <div id="CardDetails">
-                        <h3>@item.Card.name</h3>
-                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
-                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile" , new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile" , new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                        }
+                        else
+                        {
+                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                        }
                     </div>
                 </td>
             </tr>
         }
-        @*then cards sold by premium users*@
-        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 3 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
-        {
-            <tr>
-                <td><img width="145" src="@item.Card.image_url" /></td>
-                <td>
-                    <div id="CardDetails">
-                        <h3>@item.Card.name</h3>
-                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
-                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
 
-                    </div>
-                </td>
-            </tr>
-        }
-        @*lastly show listings by guest users*@
-        @foreach (var item in Model.Where(x => x.Seller.UserLevel.ID == 2 & x.Seller.ID.ToString() != Session["UserID"].ToString() & x.ForAuction == false))
-        {
-            <tr>
-                <td><img width="145" src="@item.Card.image_url" /></td>
-                <td>
-                    <div id="CardDetails">
-                        <h3>@item.Card.name</h3>
-                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
-                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                    </div>
-                </td>
-            </tr>
-        }
     </table>
 }

@@ -58,7 +58,30 @@ namespace TeamTwoBe.Controllers
             return View(user);
 
         }
-        
+
+        public ActionResult removeWishlist(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
+
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("Wishlist").Where(x => x.ID == id).FirstOrDefault();
+            user.Wishlist.Remove(card);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Wishlist", id);
+        }
+
+
         public ActionResult removeFromWatchlist(int id)
         {
             if (Session["UserID"] == null)
