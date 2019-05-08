@@ -17,9 +17,6 @@ namespace TeamTwoBe.Views.ViewModels
         public int ID { get; set; }
         public string MyCard { get; set; }
         public bool ForAuction { get; set; }
-
-
-
-
+        public bool fix { get; set; }
     }
 }

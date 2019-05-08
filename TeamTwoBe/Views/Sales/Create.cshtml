@@ -7,93 +7,89 @@
 
 <body>
     <div class="form-horizontal">
-
         <h2>Hey @Session["Username"], Create a new sale</h2>
         <hr />
-
         <div class="form-group">
-            <label class="control-label col-md-2">Card name</label>
-            <div class="col-md-10">
-
-                @using (Html.BeginForm("apiPrice", "Sales"))
-                {
-                    <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
-                    <input type="submit" value="Search">
-                }
-
-                @if (Model.MyCards != null)
-                {
-                    <datalist id="CardList">
-                        @foreach (var i in Model.MyCards)
-                        {
-                            <option value="@i.name"></option>
-                        }
-                    </datalist>
-                }
-
-                @if (Model.MyDatum != null)
-                {
-                    <datalist id="CardList">
-                        @foreach (var i in Model.MyDatum)
-                        {
-                            <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
-                        }
-                    </datalist>
-                }
-            </div>
-        </div>
-
-        @using (Html.BeginForm("Create", "Sales"))
-        {
-            <div class="form-group">
+            @if (Model.fix == false)
+            {
                 <label class="control-label col-md-2">Card name</label>
                 <div class="col-md-10">
-                    <input id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
-                    <input type="submit" value="Search">
-                </div>
-            </div>
-                    @Html.AntiForgeryToken()
-
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MySale.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MySale.CardCondition, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("Conditions", "Choose Condition")
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MySale.CardGrade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("Grades", "Choose Grade")
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.ForAuction)
-                                @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </div>
+                    @using (Html.BeginForm("apiPrice", "Sales"))
+                    {
+                        <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
+                        <input type="submit" value="Search">
                     }
                 </div>
+            }
+            @if (Model.MyCards != null)
+            {
+                <datalist id="CardList">
+                    @foreach (var i in Model.MyCards)
+                    {
+                        <option value="@i.name"></option>
+                    }
+                </datalist>
+            }
+            @if (Model.MyDatum != null)
+            {
+                <datalist id="CardList">
+                    @foreach (var i in Model.MyDatum)
+                    {
+                        <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+                    }
+                </datalist>
+            }
+        </div>
+        @using (Html.BeginForm("Create", "Sales"))
+        {            
+            if (Model.fix == true)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">Card name</label>
+                    <div class="col-md-10">
+                        <input id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
+                        <input type="submit" value="Search">
+                    </div>
+                </div>
+            }
+                   
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.MySale.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MySale.CardCondition, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Conditions", "Choose Condition")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MySale.CardGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Grades", "Choose Grade")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.ForAuction)
+                        @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
 </body>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

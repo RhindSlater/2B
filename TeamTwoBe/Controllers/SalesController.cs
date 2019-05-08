@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
+using TeamTwoBe.ViewModels;
 using TeamTwoBe.Views.ViewModels;
 
 namespace TeamTwoBe.Controllers
@@ -32,16 +33,16 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
             {
                 li.Add(i);
 
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false))
             {
                 li.Add(i);
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false))
             {
                 li.Add(i);
             }
@@ -60,7 +61,7 @@ namespace TeamTwoBe.Controllers
             {
                 Session["UserID"] = 0;
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
             {
                 li.Add(i);
             }
@@ -70,7 +71,14 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
-
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -83,6 +91,7 @@ namespace TeamTwoBe.Controllers
 
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
+                    fix = true,
                     MyCard = dropboxvalue,
                     MyDatum = new List<Datum>(),
                 };
@@ -150,10 +159,10 @@ namespace TeamTwoBe.Controllers
 
             Session["View"] = "SaleCreate";
 
-            if (card != null)
-            {
+            //if (card != null)
+            //{
 
-            }
+            //}
 
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
 
@@ -166,8 +175,10 @@ namespace TeamTwoBe.Controllers
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
 
                 salevm.MyCards = li;
+                salevm.fix = false;
                 return View(salevm);
             }
+            salevm.fix = false;
             return View(salevm);
         }
 
@@ -207,14 +218,23 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult Search(string search)
         {
-            List<Sale> li = new List<Sale>();
+            ListCardListSale li = new ListCardListSale()
+            {
+                Cards = new List<Card>(),
+                Sales = new List<Sale>(),
+            };
 
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
             {
-                li.Add(i);
+                li.Sales.Add(i);
+            }
+            foreach(var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search))
+            {
+                li.Cards.Add(i);
             }
 
-            return View("Index", li);
+
+            return View(li);
         }
 
         [HttpPost]
@@ -300,6 +320,9 @@ namespace TeamTwoBe.Controllers
 
             //adds your unsold card to your collection
             user.Collection.Add(sale.Card);
+            List<User> li = db.Users.Include("Watchlist").Where(x => x.Watchlist.Contains(sale)).ToList();
+            List<User> li2 = db.Users.Include("ShoppingCart").Where(x => x.ShoppingCart.Contains(sale)).ToList();
+
             db.Sales.Remove(sale);
             db.SaveChanges();
             return RedirectToAction("Index");
