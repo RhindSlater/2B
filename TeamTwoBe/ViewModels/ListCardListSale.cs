@@ -10,5 +10,6 @@ namespace TeamTwoBe.ViewModels
     {
         public List<Card> Cards { get; set; }
         public List<Sale> Sales { get; set; }
+        public List<User> Users { get; set; }
     }
 }

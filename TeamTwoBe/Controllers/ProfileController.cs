@@ -221,9 +221,12 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
             User user = db.Users.Include("Wishlist.CardType").Where(x => x.ID == id).FirstOrDefault();
-            if(user.Wishlist.Count == 0)
+            if(user.ID.ToString() == Session["UserID"].ToString())
             {
-                return RedirectToAction("Wishlist","Card", user.ID);
+                if (user.Wishlist.Count == 0)
+                {
+                    return RedirectToAction("Wishlist", "Card", user.ID);
+                }
             }
             return View(user);
         }
@@ -239,9 +242,12 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
             User user = db.Users.Include("Collection.CardType").Where(x => x.ID == id).FirstOrDefault();
-            if (user.Collection.Count == 0)
+            if (user.ID.ToString() == Session["UserID"].ToString())
             {
-                return RedirectToAction("Collection", "Card", user.ID);
+                if (user.Collection.Count == 0)
+                {
+                    return RedirectToAction("Collection", "Card", user.ID);
+                }
             }
             return View(user);
         }

@@ -218,10 +218,15 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult Search(string search)
         {
+            if(search == null)
+            {
+                return RedirectToAction("Index");
+            }
             ListCardListSale li = new ListCardListSale()
             {
                 Cards = new List<Card>(),
                 Sales = new List<Sale>(),
+                Users = new List<User>(),
             };
 
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
@@ -232,8 +237,10 @@ namespace TeamTwoBe.Controllers
             {
                 li.Cards.Add(i);
             }
-
-
+            foreach (var i in db.Users.Where(x => x.Username.Contains(search)))
+            {
+                li.Users.Add(i);
+            }
             return View(li);
         }
 
