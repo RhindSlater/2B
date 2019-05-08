@@ -47,6 +47,8 @@
                     <td><img width="145" src="@item.image_url" /></td>
                     <td>
                         <h4>@item.name</h4>
+                        <p><b>Set:</b> @item.print_tag</p>
+                        <p><b>Rarity:</b> @item.rarity</p>
                         <p><b>Card Type:</b> @item.Cardtype.Name</p>
                         <p><b>Price:</b> @item.average.ToString("c2")</p>
                         @Html.ActionLink("Add to Wishlist", "addCardToWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })

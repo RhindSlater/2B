@@ -76,7 +76,7 @@
             foreach (var item in Model.Users)
             {
                 <tr>
-                    <td><img width="290" src="@item.DisplayPicture" /></td>
+                    <td><img width="100" src="~/Properties/@item.DisplayPicture" /></td>
                     <td>
                         <div id="CardDetails">
                             <h2>@Html.ActionLink(item.Username, "Profile", "Users", new { id = item.ID }, new { @class = "Active" })</h2>

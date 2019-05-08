@@ -1,8 +1,25 @@
-﻿
+﻿@model TeamTwoBe.ViewModels.HomeViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div>
+    <h2>Recommended</h2>
+    @foreach (var i in Model.Recommended)
+    {
+        <img src="@i.Card.image_url" />
+    }
+    <h2>Following</h2>
+    @foreach (var i in Model.Followers)
+    {
+        <img src="@i.Card.image_url" />
+    }
+    <h2>Trending</h2>
+    @foreach (var i in Model.Trending)
+    {
+        <img src="@i.Card.image_url" />
+    }
+</div>
+
 

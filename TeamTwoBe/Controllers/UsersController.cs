@@ -71,11 +71,17 @@ namespace TeamTwoBe.Controllers
         {
             if(Session["UserID"] == null)
             {
+                Session["View"] = "UserRegister";
                 return View();
             }
-            if(Convert.ToInt32(Session["UserID"].ToString()) > Convert.ToInt32("1"))
+            if(Session["UserID"].ToString() == "0")
             {
-                return RedirectToAction("Index");
+                Session["View"] = "UserRegister";
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
             }
             Session["View"] = "UserRegister";
             return View();
@@ -121,7 +127,7 @@ namespace TeamTwoBe.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(Session["UserID"]);
             if (user == null)
             {
                 return HttpNotFound();
@@ -193,7 +199,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult LogOut() // logged out
         {
             Session["UserID"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Sales");
         }
 
         // GET: Users/Delete/5
