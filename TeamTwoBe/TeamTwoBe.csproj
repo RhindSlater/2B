@@ -343,6 +343,9 @@
     <Content Include="Views\Profile\Watchlist.cshtml" />
     <Content Include="Views\Profile\Shoppingcart.cshtml" />
     <Content Include="Views\Card\Wishlist.cshtml" />
+    <Content Include="Views\Profile\Collection.cshtml" />
+    <Content Include="Views\Card\Collection.cshtml" />
+    <Content Include="Views\Sales\MyListings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

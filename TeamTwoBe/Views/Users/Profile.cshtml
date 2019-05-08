@@ -9,7 +9,7 @@
 <ul>
     @if (Model.ID.ToString() == Session["UserID"].ToString())
     {
-        <li>My Current Sales</li>
+        <li><a href="/Sales/MyListings/@Session["UserID"]">My Current Sales</a></li>
         <li>My Reviews and Ratings</li>
         <li><a href="/profile/Watchlist/">My Watchlist</a></li>
         <li><a href="/profile/collection/@Session["UserID"]">My Collection</a></li>
@@ -18,7 +18,7 @@
     }
     else
     {
-        <li>Current Sales</li>
+        <li><a href="/Sales/MyListings/@Model.ID">Current Sales</a></li>
         <li>Reviews and Ratings</li>
         <li><a href="/profile/collection/@Model.ID">Collection</a></li>
         <li><a href="/profile/wishlist/@Model.ID">Wishlist</a></li>

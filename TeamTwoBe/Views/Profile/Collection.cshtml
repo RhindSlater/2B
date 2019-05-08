@@ -1,11 +1,11 @@
 ﻿@model TeamTwoBe.Models.User
 @{
-    ViewBag.Title = "Wishlist";
+    ViewBag.Title = "Collection";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Username's Wishlist</h2>
-<h4>@Html.ActionLink("Add card to wishlist","Wishlist","Card")</h4>
+<h2>@Model.Username's collection </h2>
+<h4>@Html.ActionLink("Add card to collection", "Collection", "Card")</h4>
 
 <div>
     <table class="table table-hover table-bordered">
@@ -13,7 +13,7 @@
             <th>Image</th>
             <th>Cards</th>
         </tr>
-        @foreach (var item in Model.Wishlist)
+        @foreach (var item in Model.Collection)
         {
             <tr>
                 <td><img width="145" src="@item.image_url" /></td>
@@ -21,7 +21,8 @@
                     <h4>@item.name</h4>
                     <p><b>Card Type:</b> @item.Cardtype.Name</p>
                     <p><b>Price:</b> @item.average.ToString("c2")</p>
-                    <a>@Html.ActionLink("Remove from wishlist", "removeWishlist", new { id = item.ID } , new { @class="btn btn-primary"})</a>
+                    <a>@Html.ActionLink("List for Sale", "Create", new { card = item }, new { @class = "btn btn-primary" })</a>
+                    <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                 </td>
             </tr>
         }

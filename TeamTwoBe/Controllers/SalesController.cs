@@ -52,6 +52,21 @@ namespace TeamTwoBe.Controllers
             return View(li);
         }
 
+        public ActionResult MyListings(int id)
+        {
+            Session["View"] = "SaleIndex";
+            List<Sale> li = new List<Sale>();
+            if (Session["UserID"] == null)
+            {
+                Session["UserID"] = 0;
+            }
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id))
+            {
+                li.Add(i);
+            }
+            return View(li);
+        }
+
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
@@ -118,9 +133,8 @@ namespace TeamTwoBe.Controllers
             return View(sale);
         }
 
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(Card card)
         {
-
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -135,6 +149,11 @@ namespace TeamTwoBe.Controllers
             }
 
             Session["View"] = "SaleCreate";
+
+            if (card != null)
+            {
+
+            }
 
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
 

@@ -78,9 +78,30 @@ namespace TeamTwoBe.Controllers
             db.SaveChanges();
 
 
-            return RedirectToAction("Wishlist", id);
+            return RedirectToAction("Wishlist", new { id = id });
         }
 
+        public ActionResult removeCollection(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
+
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("Collection").Where(x => x.ID == id).FirstOrDefault();
+            user.Collection.Remove(card);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Collection", new { id = id });
+        }
 
         public ActionResult removeFromWatchlist(int id)
         {
@@ -203,6 +224,24 @@ namespace TeamTwoBe.Controllers
             if(user.Wishlist.Count == 0)
             {
                 return RedirectToAction("Wishlist","Card", user.ID);
+            }
+            return View(user);
+        }
+
+        public ActionResult Collection(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            User user = db.Users.Include("Collection.CardType").Where(x => x.ID == id).FirstOrDefault();
+            if (user.Collection.Count == 0)
+            {
+                return RedirectToAction("Collection", "Card", user.ID);
             }
             return View(user);
         }
