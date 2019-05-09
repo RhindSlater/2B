@@ -4,87 +4,104 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model != null)
-{
-    <table class="table table-hover table-bordered">
-        @*will show my listings first*@
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
 
-        @if (Model.Sales.Count > 0)
-        {
-            <thead><tr><td><h1>Sales</h1></td></tr></thead>
-            
-            foreach (var item in Model.Sales.Where(x => x.ForAuction == false))
+    @if (Model != null)
+    {
+        <table class="table table-hover table-bordered">
+            @*will show my listings first*@
+
+            @if (Model.Sales.Count > 0)
             {
-                <tr>
-                    <td><img width="290" src="@item.Card.image_url" /></td>
-                    <td>
-                        <div id="CardDetails">
-                            <h2>@item.Card.name</h2>
-                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                            <p><b>Card Set:</b> @item.Card.print_tag</p>
-                            <br />
-                            <h3>Price Info (USD based):</h3>
-                            <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
-                            <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
-                            <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                            <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                <thead><tr><td><h1>Sales</h1></td></tr></thead>
 
-                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                            @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                foreach (var item in Model.Sales.Where(x => x.ForAuction == false))
+                {
+                    <tr>
+                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="290" class="lozad" data-src="@item.Card.image_url" /></div></td>
+
+                        <td>
+                            <div id="CardDetails">
+                                <h2>@item.Card.name</h2>
+                                <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                                <p><b>Card Set:</b> @item.Card.print_tag</p>
+                                <br />
+                                <h3>Price Info (USD based):</h3>
+                                <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                                <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                                <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                                <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+
+                                <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                                <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                         {
-                                <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
-                            else
-                            {
-                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
-                        </div>
-                    </td>
-                </tr>
+                                    <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                    <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                }
+                                else
+                                {
+                                    <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                    <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
-        @if (Model.Cards.Count > 0)
-        {
-            <tr><td><h1>Cards</h1></td></tr>
-            foreach (var item in Model.Cards)
+            @if (Model.Cards.Count > 0)
             {
-                <tr>
-                    <td><img width="290" src="@item.image_url" /></td>
-                    <td>
-                        <div id="CardDetails">
-                            <h2>@item.name</h2>
-                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                            <p><b>Card Set:</b> @item.print_tag</p>
-                            <br />
-                            <h3>Price Info (USD based):</h3>
-                            <p><b>Low:</b> @item.low.ToString("c2") </p>
-                            <p><b>Average:</b> @item.average.ToString("c2") </p>
-                            <p><b>High:</b> @item.high.ToString("c2") </p>
-                            <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Add to Collection", "addCardToCollection", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        </div>
-                    </td>
-                </tr>
+                <tr><td><h1>Cards</h1></td></tr>
+                foreach (var item in Model.Cards)
+                {
+                    <tr>
+                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="290" class="lozad" data-src="@item.image_url" /></div></td>
+                        <td>
+                            <div id="CardDetails">
+                                <h2>@item.name</h2>
+                                <p><b>Card Type:</b> @item.Cardtype.Name</p>
+                                <p><b>Card Set:</b> @item.print_tag</p>
+                                <br />
+                                <h3>Price Info (USD based):</h3>
+                                <p><b>Low:</b> @item.low.ToString("c2") </p>
+                                <p><b>Average:</b> @item.average.ToString("c2") </p>
+                                <p><b>High:</b> @item.high.ToString("c2") </p>
+                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Add to Collection", "addCardToCollection", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
-        @if (Model.Users.Count > 0)
-        {
-            <tr><td><h1>Users</h1></td></tr>
-            foreach (var item in Model.Users)
+            @if (Model.Users.Count > 0)
             {
-                <tr>
-                    <td><img width="100" src="~/Properties/@item.DisplayPicture" /></td>
-                    <td>
-                        <div id="CardDetails">
-                            <h2>@Html.ActionLink(item.Username, "Profile", "Users", new { id = item.ID }, new { @class = "Active" })</h2>
-                        </div>
-                    </td>
-                </tr>
+                <tr><td><h1>Users</h1></td></tr>
+                foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="100" class="lozad" src="~/Properties/@item.DisplayPicture" /></div></td>
+                        <td>
+                            <div id="CardDetails">
+                                <h2>@Html.ActionLink(item.Username, "Profile", "Users", new { id = item.ID }, new { @class = "Active" })</h2>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
 
-    </table>
-}
+        </table>
+    }
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>
+
+
+

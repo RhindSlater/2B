@@ -5,57 +5,72 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Wishlist</h2>
 
-<div>
-    @using (Html.BeginForm("apiPrice", "Card"))
-    {
-        <b>Search:</b>
-        <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
-        <input type="submit" value="Search" />
-    }
-    @if (Model.MyCards != null)
-    {
-        <datalist id="CardList">
-            @foreach (var i in Model.MyCards)
-            {
-                <option value="@i.name"></option>
-            }
-        </datalist>
-    }
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
 
-    @if (Model.MyDatum != null)
-    {
-        <datalist id="CardList">
-            @foreach (var i in Model.MyDatum)
-            {
-                <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
-            }
-        </datalist>
-    }
+    <h2>Wishlist</h2>
 
-    @if (Model.MyDatum != null)
-    {
-        <table class="table table-hover table-bordered">
-            <tr>
-                <th>Image</th>
-                <th>Cards</th>
-            </tr>
-            @foreach (var item in Model.MyCards)
-            {
+    <div>
+        @using (Html.BeginForm("apiPrice", "Card"))
+        {
+            <b>Search:</b>
+            <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
+            <input type="submit" value="Search" />
+        }
+        @if (Model.MyCards != null)
+        {
+            <datalist id="CardList">
+                @foreach (var i in Model.MyCards)
+                {
+                    <option value="@i.name"></option>
+                }
+            </datalist>
+        }
+
+        @if (Model.MyDatum != null)
+        {
+            <datalist id="CardList">
+                @foreach (var i in Model.MyDatum)
+                {
+                    <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+                }
+            </datalist>
+        }
+
+        @if (Model.MyDatum != null)
+        {
+            <table class="table table-hover table-bordered">
                 <tr>
-                    <td><img width="145" src="@item.image_url" /></td>
-                    <td>
-                        <h4>@item.name</h4>
-                        <p><b>Set:</b> @item.print_tag</p>
-                        <p><b>Rarity:</b> @item.rarity</p>
-                        <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                        <p><b>Price:</b> @item.average.ToString("c2")</p>
-                        @Html.ActionLink("Add to Wishlist", "addCardToWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })
-                    </td>
+                    <th>Image</th>
+                    <th>Cards</th>
                 </tr>
-            }
-        </table>
-    }
-</div>
+                @foreach (var item in Model.MyCards)
+                {
+                    <tr>
+                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="290" class="lozad" data-src="@item.image_url" /></div></td>
+                        <td>
+                            <h4><b>Name:</b> @item.name</h4>
+                            <p><b>Set:</b> @item.print_tag</p>
+                            <p><b>Rarity:</b> @item.rarity</p>
+                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
+                            <p><b>Price:</b> @item.average.ToString("c2")</p>
+                            @Html.ActionLink("Add to Wishlist", "addCardToWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>
 

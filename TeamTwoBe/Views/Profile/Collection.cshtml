@@ -4,45 +4,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, null)</h2>
-@if (Model.ID.ToString() == Session["UserID"].ToString())
-{
-    <h4>@Html.ActionLink("Add card to collection", "Collection", "Card")</h4>
-}
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
 
-<div>
-    @if (Model.Collection.Count < 1)
+    <h2>@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, null)</h2>
+    @if (Model.ID.ToString() == Session["UserID"].ToString())
     {
-        <h4>@Model.Username does not have any cards in their collection.</h4> 
+        <h4>@Html.ActionLink("Add card to collection", "Collection", "Card")</h4>
     }
-    else
-    {
-        <table class="table table-hover table-bordered">
-            <tr>
-                <th>Image</th>
-                <th>Cards</th>
-            </tr>
-            @foreach (var item in Model.Collection)
-            {
+
+    <div>
+        @if (Model.Collection.Count < 1)
+        {
+            <h4>@Model.Username does not have any cards in their collection.</h4>
+        }
+        else
+        {
+            <table class="table table-hover table-bordered">
                 <tr>
-                    <td><img width="145" src="@item.image_url" /></td>
-                    <td>
-                        <h4>@item.name</h4>
-                        <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                        <p><b>Price:</b> @item.average.ToString("c2")</p>
-                        @if (Model.ID.ToString() == Session["UserID"].ToString())
-                    {
-                            <a>@Html.ActionLink("List for Sale", "Create", new { card = item }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        }
-                        else
-                        {
-                            <a>@Html.ActionLink("Request trade", "requestTrade", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        }
-                    </td>
+                    <th>Image</th>
+                    <th>Cards</th>
                 </tr>
-            }
-        </table>
-    }
-</div>
+                @foreach (var item in Model.Collection)
+                {
+                    <tr>
+                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="210" class="lozad" data-src="@item.image_url" /></div></td>
+                        <td>
+                            <h4><b>Name:</b> @item.name</h4>
+                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
+                            <p><b>Set:</b> @item.print_tag</p>
+                            <p><b>Rarity:</b> @item.rarity</p>
+                            <p><b>Average Price:</b> @item.average.ToString("c2")</p>
+                            @if (Model.ID.ToString() == Session["UserID"].ToString())
+                    {
+                                <a>@Html.ActionLink("List for Sale", "Create", new { card = item }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            }
+                            else
+                            {
+                                <a>@Html.ActionLink("Request trade", "requestTrade", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>

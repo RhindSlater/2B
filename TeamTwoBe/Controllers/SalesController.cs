@@ -53,13 +53,17 @@ namespace TeamTwoBe.Controllers
             return View(li);
         }
 
-        public ActionResult MyListings(int id)
+        public ActionResult MyListings(int? id)
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
             if (Session["UserID"] == null)
             {
                 Session["UserID"] = 0;
+            }
+            if(id == null)
+            {
+                return RedirectToAction("Index");
             }
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
             {
@@ -229,11 +233,11 @@ namespace TeamTwoBe.Controllers
                 Users = new List<User>(),
             };
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
             {
                 li.Sales.Add(i);
             }
-            foreach(var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search))
+            foreach(var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search | x.rarity.Contains(search)))
             {
                 li.Cards.Add(i);
             }

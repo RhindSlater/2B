@@ -3,41 +3,61 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
+    @if(Model[0].Seller.ID.ToString() == Session["UserID"].ToString())
+    {
+        <h1 style="text-align: center" >My listings</h1>
+    }
+    else
+    {
+        <h2>@Model[0].Seller.Username's listings</h2>
+    }
+    <h2></h2>
+    @if (Model != null)
+    {
+        <table class="table table-hover table-bordered"  id="container">
+            @foreach (var item in Model.Where(x => x.ForAuction == false))
+            {
+                <tr>
+                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="290" class="lozad" data-src="@item.Card.image_url" /></div></td>
+                    <td>
+                        <div class="lozad" id="loading">
+                            <h2>@item.Card.name</h2>
+                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                            <p><b>Card Set:</b> @item.Card.print_tag</p>
+                            <br />
+                            <h3>Price Info (USD based):</h3>
+                            <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                            <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                            <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                            <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
 
-@if (Model != null)
-{
-    <table class="table table-hover table-bordered">
-        @foreach (var item in Model.Where(x => x.ForAuction == false))
-        {
-            <tr>
-                <td><img width="290" src="@item.Card.image_url" /></td>
-                <td>
-                    <div id="CardDetails">
-                        <h1>@item.Card.name</h1>
-                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                        <p><b>Card Set:</b> @item.Card.print_tag</p>
-                        <br />
-                        <h3>Price Info (USD based):</h3>
-                        <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
-                        <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
-                        <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                        <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                            {
+                                <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            }
+                            else
+                            {
+                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
 
-                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                        @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
-                        {
-                            <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        }
-                        else
-                        {
-                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        }
-                    </div>
-                </td>
-            </tr>
-        }
-    </table>
-}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>
