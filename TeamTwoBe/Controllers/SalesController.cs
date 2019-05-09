@@ -239,7 +239,10 @@ namespace TeamTwoBe.Controllers
             }
             foreach(var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search | x.rarity.Contains(search)))
             {
-                li.Cards.Add(i);
+                if(li.Cards.Where(x => x.name == i.name).FirstOrDefault() == null)
+                {
+                    li.Cards.Add(i);
+                }
             }
             foreach (var i in db.Users.Where(x => x.Username.Contains(search)))
             {
