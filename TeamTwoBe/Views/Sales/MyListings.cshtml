@@ -23,7 +23,7 @@
             @foreach (var item in Model.Where(x => x.ForAuction == false))
             {
                 <tr>
-                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img width="290" class="lozad" data-src="@item.Card.image_url" /></div></td>
+                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.Card.image_url" /></div></td>
                     <td>
                         <div class="lozad" id="loading">
                             <h2>@item.Card.name</h2>
