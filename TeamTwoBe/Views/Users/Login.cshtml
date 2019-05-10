@@ -1,28 +1,57 @@
-﻿@model TeamTwoBe.Models.User
-
-@{
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Login</h2>
-
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/CSS/StyleSheet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <body>
-    <div id="login-div">
-        @using (Html.BeginForm("Login","Users"))
-        {
-            <div>
-                @Html.LabelFor(Model => Model.Username)
-                @Html.EditorFor(Model => Model.Username)
+    <div id="Main">
+        <div id="Center">
+            <div id="MainCenter">
+                <div id="Login">
+                    <div id="logo">
+                        <h1 id="logoimage">2B</h1>
+                    </div>
+                    <div id="info">
+                        @using (Html.BeginForm("Login", "Users"))
+                        {
+                            <div id="Username">
+                                <input name="Username" placeholder="Username" id="inputinfo" />
+                            </div>
+                            <div id="Password">
+                                <input name="Password" type="password" placeholder="Password" id="inputinfo" />
+                            </div>
+                            <div id="SaveInfo">
+                                <label><input name="SaveData" type="checkbox" id="check" />Save login info</label>
+                            </div>
+                            <div id="ButtonDiv">
+                                <button  id="Button" type="submit" class="btn btn-secondary btn-block">
+                                    <div>Log in</div>
+                                </button>
+                            </div>
+                            <div id="or">
+                                <div class="divide"><hr></div>
+                                <div class="">OR</div>
+                                <div class="divide"><hr></div>
+                            </div>
+                            <div id="hide2">
+                                <Button id="hide" type="button">
+                                    <span class="fa fa-facebook"></span>
+                                    <span width="348" height="14" id="hide"><b>Log in with Facebook</b></span>
+                                </Button>
+                            </div>
+                            <div id="forgot">
+                                <a>Forgot password?</a>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
-            <div>
-                @Html.LabelFor(Model => Model.Password)
-                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { type = "Password" } })
-            </div>
-            <div>
-                <input type="submit" value="Login" />
-            </div>
-        }
+        </div>
+        <div id="signup">
+            <div id="register">Don't have an account? <a href=""><span id="link">Sign up</span></a></div>
+        </div>
     </div>
-
 </body>

@@ -37,7 +37,7 @@ namespace TeamTwoBe.Controllers
             }
             int id = Convert.ToInt32(Session["UserID"].ToString());
 
-            User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.Watcher").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
             return View(user);
 
         }

@@ -326,7 +326,7 @@
     <Content Include="Views\Admins\Details.cshtml" />
     <Content Include="Views\Admins\Edit.cshtml" />
     <Content Include="Views\Admins\Index.cshtml" />
-    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Users\LoginOld.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Locked.cshtml" />
@@ -349,6 +349,7 @@
     <Content Include="Views\Card\Collection.cshtml" />
     <Content Include="Views\Sales\MyListings.cshtml" />
     <Content Include="Views\Sales\Search.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

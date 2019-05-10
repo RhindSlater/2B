@@ -1,0 +1,145 @@
+#login{
+	display:block;
+	height:398px;
+}
+#Container{
+	text-align:center;
+}
+body{
+	background-color:#fafafa;
+	height:100%;
+}
+h1{
+	color:#262626;
+}
+#Main{
+	padding-top:5%
+}
+#Center{
+	background-color:#ffffff;
+	margin: auto;
+	width: auto;
+	max-width: 380;
+	border: 1px solid #e6e6e6;
+	padding: 10px;
+}
+#Logo{
+	margin: auto;
+	width: 20%;
+	padding-top: 8px;
+	padding: 4px;
+	padding-bottom: 10px;
+}
+#Password{
+	margin: auto;
+	width: 85%;
+	padding-left : 8px;
+	padding-right : 8px;
+	padding-bottom: 16px;
+}
+#Username{
+	margin: auto;
+	width: 85%;
+	padding: 8px;
+}
+#inputinfo{
+	width: 100%;
+}
+#Button{
+}
+#ButtonDiv{
+	margin: auto;
+	width:79%;
+	text-align:center;
+}
+@font-face {
+  font-family: myFirstFont;
+  src: C:\Users\Rhind Slater\Documents\Visual Studio 2017\Projects\TeamTwoBe\TeamTwoBe\CSS\itc.woff
+}
+#logoimage{
+	font-family: myFirstFont;
+}
+#hide{
+	width:100%;
+	border: 0px solid;
+	color: #385185;
+	background-color:#ffffff;
+	font-size: 1rem;
+	margin:auto;
+}
+form{
+	padding-top:6;
+}
+#hide2{
+	width:100%;
+	height:20px;
+	margin:auto;
+}
+
+.fa-facebook {
+
+	background: #3B5998;
+	color: #fafafa;
+}
+#forgot{
+	color:black;
+	width:100%;
+	margin:auto;
+	margin-top:15px;
+	font-size: x-smaller;
+	text-align:center;
+}
+#or{
+	color:#999999;
+	display:flex;
+	padding-top:18px;
+	padding-bottom:10px;
+	margin:auto;
+}
+.divide{
+	max-width:30%;
+	width:30%;
+
+	margin:auto;
+}
+br{
+	color:#999999;
+}
+label{
+	color:black;
+	padding-left:25px;
+	padding-bottom:7px;
+}
+#saveinfo{
+	width:100%;
+	display:flex;
+}
+#check{
+	width:30;
+	vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+}
+#logoimage{
+	margin-top:10;
+}
+
+#signup{
+	background-color:#ffffff;
+	padding:6px;
+	margin: auto;
+	width: auto;
+	height:43px;
+	max-width: 380;
+	border: 1px solid #e6e6e6;
+	margin-top:10px;
+}
+#register{
+	margin:auto;
+	width:57%;
+	padding:3px;
+	color:#999999;
+}
+#link{
+	color:#003569;
+}

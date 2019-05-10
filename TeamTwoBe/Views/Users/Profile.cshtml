@@ -4,23 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Username's profile</h2>
+<div style="text-align:center;">
+    <h2>@Model.Username's profile</h2>
 
-<ul>
-    @if (Model.ID.ToString() == Session["UserID"].ToString())
-    {
-        <li><a href="/Sales/MyListings/@Session["UserID"]">My Current Sales</a></li>
-        <li>My Reviews and Ratings</li>
-        <li><a href="/profile/Watchlist/">My Watchlist</a></li>
-        <li><a href="/profile/collection/@Session["UserID"]">My Collection</a></li>
-        <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
-        <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
-    }
-    else
-    {
-        <li><a href="/Sales/MyListings/@Model.ID">Current Sales</a></li>
-        <li>Reviews and Ratings</li>
-        <li><a href="/profile/collection/@Model.ID">Collection</a></li>
-        <li><a href="/profile/wishlist/@Model.ID">Wishlist</a></li>
-    }
-</ul>
+    <ul style="display:inline-block;">
+        @if (Model.ID.ToString() == Session["UserID"].ToString())
+        {
+            <li><a href="/Sales/MyListings/@Session["UserID"]">My Current Sales</a></li>
+            <li>My Reviews and Ratings</li>
+            <li><a href="/profile/Watchlist/">My Watchlist</a></li>
+            <li><a href="/profile/collection/@Session["UserID"]">My Collection</a></li>
+            <li><a href="/profile/wishlist/@Session["UserID"]">My Wishlist</a></li>
+            <li><a href="/users/edit/@Session["UserID"]">Edit Profile</a></li>
+        }
+        else
+        {
+            <li><a href="/Sales/MyListings/@Model.ID">Current Sales</a></li>
+            <li>Reviews and Ratings</li>
+            <li><a href="/profile/collection/@Model.ID">Collection</a></li>
+            <li><a href="/profile/wishlist/@Model.ID">Wishlist</a></li>
+        }
+    </ul>
+</div>

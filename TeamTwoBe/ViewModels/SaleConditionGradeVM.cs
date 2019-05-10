@@ -16,7 +16,9 @@ namespace TeamTwoBe.Views.ViewModels
         public float Price { get; set; }
         public int ID { get; set; }
         public string MyCard { get; set; }
+        public string MyCard1 { get; set; }
         public bool ForAuction { get; set; }
         public bool fix { get; set; }
+
     }
 }

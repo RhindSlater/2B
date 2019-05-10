@@ -32,39 +32,46 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Index", "Sales");
         }
 
-        public ActionResult Login(User user)
+        public ActionResult Login(string Username, string Password, bool SaveData)
         {
+            if(Request.Cookies["UserID"] != null)
+            {
+
+            }
             if (Session["UserID"] != null)
             {
-                if (Convert.ToInt32(Session["UserID"].ToString()) > Convert.ToInt32("1"))
+                if (Convert.ToInt32(Session["UserID"].ToString()) >= Convert.ToInt32("1"))
                 {
                     return RedirectToAction("Index");
                 }
             }
 
-            if (user.Password != null)
+            if (Password != null)
             {
-                User newUser = db.Users.SingleOrDefault(x => x.Username == user.Username);
-                if (newUser != null)
+                User user = db.Users.SingleOrDefault(x => x.Username == Username);
+                if (user != null)
                 {
-                    bool test = Crypto.VerifyHashedPassword(newUser.Password, user.Password);
+                    bool test = Crypto.VerifyHashedPassword(user.Password, Password);
                     if (test)
                     {
-                        Session["UserID"] = newUser.ID;
-                        Session["Username"] = newUser.Username;
-                        Session["UserPic"] = newUser.DisplayPicture;
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
 
-                        if (newUser.IsLocked)
+                        if (user.IsLocked)
                         {
                             return RedirectToAction("Locked");
                         }
-                        return RedirectToAction($"Profile/{newUser.ID}"); //change to home page once we have created one
+                        if(SaveData == true)
+                        {
+                            //save data to cookies / session
+                        }
+                        return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
                     }
                 }
             }
-            Session["View"] = "UserLogin";
+            Session["View"] = "loginpage";
             return View();
-
         }
 
         public ActionResult Register()

@@ -98,6 +98,7 @@ namespace TeamTwoBe.Controllers
                     fix = true,
                     MyCard = dropboxvalue,
                     MyDatum = new List<Datum>(),
+                    MyCard1 = "",
                 };
 
                 foreach (var i in li.data)
@@ -124,6 +125,9 @@ namespace TeamTwoBe.Controllers
                     }
                 }
                 db.SaveChanges();
+                Card cd = db.Cards.Where(x => x.name == dropboxvalue).FirstOrDefault();
+                salevm.MyCard1 = cd.apiID;
+
 
                 return View("Create", salevm);
             }
@@ -146,7 +150,7 @@ namespace TeamTwoBe.Controllers
             return View(sale);
         }
 
-        public async Task<ActionResult> Create(Card card)
+        public async Task<ActionResult> Create(string card)
         {
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
@@ -163,13 +167,13 @@ namespace TeamTwoBe.Controllers
 
             Session["View"] = "SaleCreate";
 
-            //if (card != null)
-            //{
 
-            //}
 
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
-
+            if (card != null)
+            {
+                salevm.MyCard = card;
+            }
             HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?");
             if (response.IsSuccessStatusCode)
             {
@@ -177,8 +181,16 @@ namespace TeamTwoBe.Controllers
 
                 rsp = rsp.Substring(1, rsp.Length - 2);
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
+                List<Card> li2 = new List<Card>();
+                foreach (var i in li)
+                {
+                    if (li2.Where(x => x.name == i.name).FirstOrDefault() == null)
+                    {
+                        li2.Add(i);
+                    }
+                }
 
-                salevm.MyCards = li;
+                salevm.MyCards = li2;
                 salevm.fix = false;
                 return View(salevm);
             }
