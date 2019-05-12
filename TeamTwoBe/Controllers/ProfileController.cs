@@ -147,6 +147,7 @@ namespace TeamTwoBe.Controllers
 
             user.ShoppingCart.Remove(sale);
             db.SaveChanges();
+            Session["ShoppingCart"] = user.ShoppingCart.Count();
 
             return RedirectToAction("ShoppingCart");
         }
@@ -179,6 +180,7 @@ namespace TeamTwoBe.Controllers
             {
                 user.Watchlist.Add(sale);
                 db.SaveChanges();
+                Session["ShoppingCart"] = user.ShoppingCart.Count();
             }
             return RedirectToAction("Shoppingcart");
         }

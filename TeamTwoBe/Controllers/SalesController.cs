@@ -33,20 +33,20 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
             {
                 li.Add(i);
 
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false))
             {
                 li.Add(i);
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false))
             {
                 li.Add(i);
             }
-            if(Session["UserID"] == null)
+            if (Session["UserID"] == null)
             {
                 Session["UserID"] = 0;
             }
@@ -61,7 +61,7 @@ namespace TeamTwoBe.Controllers
             {
                 Session["UserID"] = 0;
             }
-            if(id == null)
+            if (id == null)
             {
                 return RedirectToAction("Index");
             }
@@ -234,7 +234,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult Search(string search)
         {
-            if(search == null)
+            if (search == null)
             {
                 return RedirectToAction("Index");
             }
@@ -249,9 +249,9 @@ namespace TeamTwoBe.Controllers
             {
                 li.Sales.Add(i);
             }
-            foreach(var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search | x.rarity.Contains(search)))
+            foreach (var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search | x.rarity.Contains(search)))
             {
-                if(li.Cards.Where(x => x.name == i.name).FirstOrDefault() == null)
+                if (li.Cards.Where(x => x.name == i.name).FirstOrDefault() == null)
                 {
                     li.Cards.Add(i);
                 }
@@ -346,8 +346,8 @@ namespace TeamTwoBe.Controllers
 
             //adds your unsold card to your collection
             user.Collection.Add(sale.Card);
-            List<User> li = db.Users.Include("Watchlist").Where(x => x.Watchlist.Contains(sale)).ToList();
-            List<User> li2 = db.Users.Include("ShoppingCart").Where(x => x.ShoppingCart.Contains(sale)).ToList();
+            //List<User> li = db.Users.Include("Watchlist").Where(x => x.Watchlist.Contains(sale)).ToList();
+            //List<User> li2 = db.Users.Include("ShoppingCart").Where(x => x.ShoppingCart.Contains(sale)).ToList();
 
             db.Sales.Remove(sale);
             db.SaveChanges();

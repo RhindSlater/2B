@@ -31,10 +31,9 @@ namespace TeamTwoBe.Controllers
             }
             return RedirectToAction("Index", "Sales");
         }
-
-        public ActionResult Login(string Username, string Password, bool SaveData)
+        public ActionResult Login()
         {
-            if(Request.Cookies["UserID"] != null)
+            if (Request.Cookies["UserID"] != null)
             {
 
             }
@@ -45,10 +44,16 @@ namespace TeamTwoBe.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            Session["View"] = "loginpage";
+            return View();
+        }
 
+       [HttpPost]
+        public ActionResult Login(string Username, string Password)
+        {
             if (Password != null)
             {
-                User user = db.Users.SingleOrDefault(x => x.Username == Username);
+                User user = db.Users.Include("ShoppingCart").SingleOrDefault(x => x.Username == Username);
                 if (user != null)
                 {
                     bool test = Crypto.VerifyHashedPassword(user.Password, Password);
@@ -57,15 +62,16 @@ namespace TeamTwoBe.Controllers
                         Session["UserID"] = user.ID;
                         Session["Username"] = user.Username;
                         Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
 
                         if (user.IsLocked)
                         {
                             return RedirectToAction("Locked");
                         }
-                        if(SaveData == true)
-                        {
-                            //save data to cookies / session
-                        }
+                        //if(SaveData == true)
+                        //{
+                        //    save data to cookies / session
+                        //}
                         return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
                     }
                 }
@@ -206,6 +212,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult LogOut() // logged out
         {
             Session["UserID"] = null;
+            Session["ShoppingCart"] = null;
             return RedirectToAction("Index", "Sales");
         }
 

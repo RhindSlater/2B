@@ -4,75 +4,115 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a style="padding-right:1rem" class="nav navbar-nav navbar-right" href="/Sales/Index/"><img src="~/Properties/2B4.png" width="80" height="44" /></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (Session["View"] != null & Session["View"] == "SaleCreate")
-                    {
-                        <li class="active"><a href="/Sales/Create/">Sell</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="/Sales/Create/">Sell</a></li>
-                    }
-                </ul>
-
-                @using (Html.BeginForm("Search", "Sales", FormMethod.Post, new { @class= "navbar-form navbar-left" }))
-                {
-                    <div class="form-group">
-                        <input name="search" style="width:500px;" type="text" class="form-control" placeholder="Search"><button type="submit" class="btn btn-default">Search</button>
+    <nav class="navbar navbar-light navbar-expand-lg bg-faded justify-content-center" id="nav">
+        <div class="navbar-brand d-flex w-50 mr-auto"><a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a></div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+            <ul class="navbar-nav w-100 justify-content-center">
+                <li class="nav-item active">
+                    <div>
+                        <a class="nav-link" href="/Sales/Create">Sell</a>
                     </div>
-                }
+                </li>
+                <li class="nav-item1">
+                    <div id="form-div">
+                        <form id="test" action="/Sales/Search/" method="post">
+                            <input name="search" style="width:500px;" type="text" class="form-control letsdothis" placeholder="Search">
+                            <button type="submit" class="btn btn-default letsdothis">Search</button>
+                        </form>
 
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
                 @if (Session["UserID"] == null)
                 {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/Users/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="/Users/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    </ul>
+                    <li class="nav-item">
+                        <div id="signup">
+                            <a href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div id="login">
+                            <a href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        </div>
+                    </li>
                 }
                 else if (Convert.ToInt32(Session["UserID"].ToString()) < Convert.ToInt32("1"))
                 {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/Users/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="/Users/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    </ul>
+                    <li class="nav-item">
+                        <div id="signup">
+                            <a href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div id="login">
+                            <a href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Sign in</a>
+                        </div>
+                    </li>
                 }
                 else
                 {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/Users/LogOut"><span class="glyphicon glyphicon-log-out"></span>Log Out</a></li>
-                    </ul>
-                    <div>
-                        <a style="padding-right:13px; padding-top:7px" class="nav navbar-nav navbar-right" href="/Users/Profile/@Session["UserID"]">
-                            <img src="~/Properties/@Session["UserPic"]" width="39" height="39" />
-                            <span style="color:white;">@Session["Username"]</span>
+                    <li class="nav-item">
+                        <div id="logout">
+                            <a href="/Users/LogOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div id="profile">
+                            <a href="/Users/Profile/@Session["UserID"]">
+                                <img src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+                                @Session["Username"]
+                            </a>
+                        </div>
+                    </li>
+                }
+                <li class="nav-item">
+                    <div id="shoppingcart">
+                        <a href="/Profile/ShoppingCart"><i class="fas fa-shopping-cart"></i>
+                        @if(Session["ShoppingCart"] != null)
+                        {
+                            @Session["ShoppingCart"].ToString()
+                        }
+                        else
+                        {
+                            <a>0</a>
+                        }
                         </a>
                     </div>
-                }
-            </div>
+                </li>
+            </ul>
         </div>
-    </div>
+    </nav>
+    <script>
+        window.onscroll = function () { myFunction() };
 
+        var navbar = document.getElementById("nav");
+        var sticky = navbar.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky")
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
+    </script>
     <div class="container body-content">
         @RenderBody()
     </div>
-
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    
 </body>
 </html>

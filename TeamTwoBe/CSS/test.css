@@ -1,0 +1,138 @@
+body{
+    background-color: #121212;
+}
+.navbar-light{
+    background-color: #272727;
+}
+.btn-default{
+    background-color: #343434;
+    color: #898989;
+    text-align: center;
+    padding-top: 5px;
+}
+.form-control{
+    background-color: #121212;
+    margin-right: 3px;
+    padding: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    border : solid #424242 0px;
+}
+.letsdothis{
+    max-height: 32px;
+    border-radius: 0px;
+}
+#test{
+    display: flex;
+    margin: 0px;
+}
+#form-div{
+    border : solid #424242 1px;
+    background-color: #424242;
+}
+#image{
+    padding-bottom: 2px;
+}
+.nav-link{
+    padding-top: 7px;
+}
+#nav{
+    padding-bottom: 9px;
+    padding-top: 9px;
+    min-width: 910px;
+}
+.form-control:focus { 
+    background-color: #121212;
+    color: white;
+}
+#signup{
+    padding: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+#login{
+    padding: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+#logout{
+    padding: 5px;
+    margin-left: 3px;
+    margin-right: 12px;
+}
+#shoppingcart{
+    margin-left: 3px;
+    margin-right: 3px;
+    padding: 5px;
+    min-width: 85px;
+    background-color: #121212;
+}
+#collapsingNavbar3{
+    min-width: 930px;
+}
+.justify-content-end{
+    width: 315px;
+    min-width: 315px;
+    max-height: 32px;
+    display: flex;
+}
+a{
+    color: white;
+}
+.fa-shopping-cart{
+    margin-left: 3px;
+    margin-right: 15px;
+}
+.btn:hover{
+    color: #9c9c9c;
+}
+.navbar-toggler{
+    position: absolute;
+    left: 70px;
+}
+a:hover{
+    color: white;
+}
+#AllCards{
+    display: block;
+    width: 1350px;
+}
+#Card{
+    min-width: 217px;
+    max-width: 217px;
+    margin-right: 10px;
+    margin:auto;
+}
+#CardName{
+    max-height: 44px;
+    margin: 0px;
+    margin-bottom: 1px;
+}
+#seller{
+    color: #aaaaaa;
+}
+#watchcount{
+    color: #aaaaaa;
+}
+.body-content{
+    margin: auto;
+}
+.container{
+    width:83%;
+    max-width:100%;
+    margin: auto;
+    padding: 0px !important;
+}
+#AllCards{
+    margin: auto;
+}
+#sales{
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+#CardGrid{
+    max-width: 230px;
+}
+#profile{
+    margin-right: 8px;
+}

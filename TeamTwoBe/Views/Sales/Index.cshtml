@@ -1,50 +1,39 @@
 ﻿@model List<TeamTwoBe.Models.Sale>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "2B - Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <body>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script type="text/javascript" src="~/CSS/Card.css"></script>
+    <h2 id="sales" style="text-align:center;">Sales</h2>
     @if (Model != null)
     {
-        <table class="table table-hover table-bordered" id="container">
-
-            @foreach (var item in Model.Where(x => x.ForAuction == false))
-            {
-                <tr>
-                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.Card.image_url" /></div></td>
-                    <td>
-                        <div id="loading">
-                            <h1>@item.Card.name</h1>
-                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                            <p><b>Card Set:</b> @item.Card.print_tag</p>
-                            <p><b>Rarity:</b> @item.Card.rarity</p>
-                            <h3>Price Info (USD based):</h3>
-                            <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
-                            <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
-                            <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                            <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
-
-                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
-                            @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
-                            {
-                                <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                    <a>@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
-                            else
-                            {
-                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                    <a>@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
+        <div id="AllCards" class="container">
+            <div class="row">
+                @foreach (var item in Model.Where(x => x.ForAuction == false))
+                {
+                    <div class="col-xl-2 col-lg-3 col-lg-offset-1 col-md-4 col-sm-6" id="CardGird">
+                        <div id="Card">
+                            <div id="CardImage">
+                                <a href=""><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
+                            </div>
+                            <div id="DetailGrid">
+                                <div id="Detail">
+                                    <a href=""><p id="CardName">@item.Card.name @item.Card.print_tag</p></a>
+                                    <div>
+                                        <a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
+                                        <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            }
-
-        </table>
+                    </div>
+                }
+            </div>
+        </div>
     }
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
