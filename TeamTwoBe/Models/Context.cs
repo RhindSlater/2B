@@ -12,6 +12,7 @@ namespace TeamTwoBe.Models
         public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Condition> Conditions { get; set; }
+        public DbSet<Contact> Contact { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Card> Cards { get; set; }

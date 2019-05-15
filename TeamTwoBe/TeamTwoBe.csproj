@@ -135,13 +135,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -237,11 +240,16 @@
     <Compile Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.Designer.cs">
       <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905082126530_AddedContactModel.cs" />
+    <Compile Include="Migrations\201905082126530_AddedContactModel.Designer.cs">
+      <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
     <Compile Include="Models\CardType.cs" />
     <Compile Include="Models\Condition.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\Sale.cs" />
@@ -284,6 +292,7 @@
     <Content Include="Views\Users\UserReview.cshtml" />
     <Content Include="Views\Auction\View.cshtml" />
     <Content Include="Views\Auction\Index.cshtml" />
+    <Content Include="Views\Contact\Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -362,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904131017421_AddedDataAnnotationsToSaleModel.resx">
       <DependentUpon>201904131017421_AddedDataAnnotationsToSaleModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082126530_AddedContactModel.resx">
+      <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
