@@ -136,3 +136,6 @@ a:hover{
 #profile{
     margin-right: 8px;
 }
+#CardName:hover{
+    cursor: pointer;
+}
