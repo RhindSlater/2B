@@ -139,3 +139,6 @@ a:hover{
 #CardName:hover{
     cursor: pointer;
 }
+br {
+    color: #aaaaaa;
+}

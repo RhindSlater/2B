@@ -126,7 +126,7 @@ namespace TeamTwoBe.Controllers
                 }
                 db.SaveChanges();
                 Card cd = db.Cards.Where(x => x.name == dropboxvalue).FirstOrDefault();
-                salevm.MyCard1 = cd.apiID;
+                salevm.MyCard1 = cd.name;
 
 
                 return View("Create", salevm);
@@ -245,7 +245,7 @@ namespace TeamTwoBe.Controllers
                 Users = new List<User>(),
             };
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Watcher").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
             {
                 li.Sales.Add(i);
             }
