@@ -62,6 +62,7 @@
                                     <div id="Detail">
                                         <a><p id="CardName">@item.name @item.print_tag</p></a>
                                         <div>
+                                            @*<p id="watchcount">Low - @item.low Average - @item.average High - @item.high</p>*@
                                             @*<a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
                                                 <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>*@
                                         </div>
@@ -131,7 +132,3 @@
     <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </body>
-
-
-
-

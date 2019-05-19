@@ -20,7 +20,7 @@
                 {
                     <div class=" lozad" id="CardGird">
                         <div id="Card">
-                            <div data-toggle="modal" data-target="#myModal" id="CardImage">
+                            <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
                                 <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
                             </div>
                             <div id="DetailGrid">
@@ -34,27 +34,27 @@
                             </div>
                         </div>
                     </div>
+                    <div id="@item.ID" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@item.Card.name</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
     }
 
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>

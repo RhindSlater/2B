@@ -233,7 +233,7 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        public ActionResult Collection(int id)
+        public ActionResult Collection(int? id)
         {
             if (Session["UserID"] == null)
             {

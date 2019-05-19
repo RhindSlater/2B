@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TeamTwoBe.Models;
 using System.Web.Helpers;
-
+using TeamTwoBe.ViewModels;
 
 namespace TeamTwoBe.Controllers
 {
@@ -48,7 +48,7 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult Login(string Username, string Password)
         {
             if (Password != null)
@@ -82,12 +82,12 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Register()
         {
-            if(Session["UserID"] == null)
+            if (Session["UserID"] == null)
             {
                 Session["View"] = "UserRegister";
                 return View();
             }
-            if(Session["UserID"].ToString() == "0")
+            if (Session["UserID"].ToString() == "0")
             {
                 Session["View"] = "UserRegister";
                 return View();
@@ -192,21 +192,61 @@ namespace TeamTwoBe.Controllers
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
             Session["View"] = "UserProfile";
-            if(id == null)
+            if (id == null)
             {
-                return RedirectToAction("Index","Users");
+                return RedirectToAction("Index", "Users");
             }
-            if (id == Convert.ToInt32(Session["UserID"].ToString()))
+            User user = db.Users.Include("Collection").Include("Wishlist").Include("Watchlist.Card").Where(x => x.ID == id).FirstOrDefault();
+            ProfileViewModel vm = new ProfileViewModel()
             {
-                User user = db.Users.Find(Session["UserID"]);
-                return View(user);
-            }
-            else
+                MyCollection = new List<Card>(),
+                MyWatchList = new List<Sale>(),
+                MyWishList = new List<Card>(),
+                MySales = new List<Sale>(),
+                MyUser = user,
+            };
+            List<Sale> li = new List<Sale>();
+
+            foreach (var i in db.Sales.Include("Card").Where(x => x.Seller.ID == user.ID))
             {
-                //other users profiles
-                User user = db.Users.Find(id);
-                return View(user);
+                li.Add(i);
             }
+            for (int i = 1; i < 7; i++)
+            {
+                if (user.Collection.Count >= i)
+                {
+                    vm.MyCollection.Add(user.Collection[i - 1]);
+                }
+                else
+                {
+                    vm.MyCollection.Add(db.Cards.Find(1495));
+                }
+                if (user.Wishlist.Count >= i)
+                {
+                    vm.MyWishList.Add(user.Wishlist[i - 1]);
+                }
+                else
+                {
+                    vm.MyWishList.Add(db.Cards.Find(1495));
+                }
+                if (user.Watchlist.Count >= i)
+                {
+                    vm.MyWatchList.Add(user.Watchlist[i - 1]);
+                }
+                else
+                {
+                    vm.MyWatchList.Add(db.Sales.Find(1038));
+                }
+                if (li.Count >= i)
+                {
+                    vm.MySales.Add(li[i - 1]);
+                }
+                else
+                {
+                    vm.MySales.Add(db.Sales.Find(1038));
+                }
+            }
+            return View(vm);
         }
 
         public ActionResult LogOut() // logged out

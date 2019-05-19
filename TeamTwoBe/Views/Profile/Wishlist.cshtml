@@ -10,47 +10,32 @@
 </head>
 <body>
 
-    <h2>@Html.ActionLink(Model.Username + "'s Wishlist", "Profile", "Users", new { id = Model.ID }, null)</h2>
+    <h2 style="text-align:center;">@Html.ActionLink(Model.Username + "'s Wishlist", "Profile", "Users", new { id = Model.ID }, null)</h2>
     @if (Model.ID.ToString() == Session["UserID"].ToString())
     {
-        <h4>@Html.ActionLink("Add card to wishlist", "Wishlist", "Card")</h4>
+        <h4 style="text-align:center;">@Html.ActionLink("Add card to wishlist", "Wishlist", "Card")</h4>
     }
 
-    <div>
-        @if (Model.Wishlist.Count < 1)
-        {
-            <h4>@Model.Username does not have any cards in their wishlist.</h4>
-        }
-        else
-        {
-            <table class="table table-hover table-bordered">
-                <tr>
-                    <th>Image</th>
-                    <th>Cards</th>
-                </tr>
-                @foreach (var item in Model.Wishlist)
-                {
-                    <tr>
-                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="306" width="210" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.image_url" /></div></td>
-                        <td>
-                            <h4><b>Name:</b> @item.name</h4>
-                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                            <p><b>Set:</b> @item.print_tag</p>
-                            <p><b>Rarity:</b> @item.rarity</p>
-                            <p><b>Average Price:</b> @item.average.ToString("c2")</p>
-                            @if (Model.ID.ToString() == Session["UserID"].ToString())
-                    {
-                                <a>@Html.ActionLink("Remove from wishlist", "removeWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
-                            else
-                            {
-                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
+    <div id="AllCards" class="container">
+        <div class="row">
+            @foreach (var item in Model.Wishlist)
+            {
+                <div class=" lozad" id="CardGird">
+                    <div id="Card">
+                        <div data-toggle="modal" data-target="#myModal" id="CardImage">
+                            <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
+                        </div>
+                        <div id="DetailGrid">
+                            <div id="Detail">
+                                <a style="text-align:center;"><p id="CardName">@item.apiID</p></a>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
