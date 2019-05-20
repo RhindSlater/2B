@@ -25,9 +25,9 @@ namespace TeamTwoBe.Controllers
 
         [HttpPost]
         public ActionResult Form(string email, string subject, string message)
-        { 
-        //    try
-        //    {
+        {
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     var senderemail = new MailAddress("teamb7692@gmail.com", "2B");
@@ -48,17 +48,18 @@ namespace TeamTwoBe.Controllers
                     };
                     using (var mess = new MailMessage(senderemail, receiveremail))
                     {
-                        subject = subject;
+                        sub = subject;
                         body = message;
                         smtp.Send(mess);
                     }
 
-                
-            };
-            //catch (Exception)
-            //{
-            //    ViewBag.Error = "There are some problems in sending email";
-            //}
+
+                };
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "There are some problems in sending email";
+            }
             return View("Contact");
         }
 
