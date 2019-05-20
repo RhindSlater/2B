@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201905082126530_AddedContactModel.Designer.cs">
       <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905200823403_Target-201904131017421.cs" />
+    <Compile Include="Migrations\201905200823403_Target-201904131017421.Designer.cs">
+      <DependentUpon>201905200823403_Target-201904131017421.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905082126530_AddedContactModel.resx">
       <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200823403_Target-201904131017421.resx">
+      <DependentUpon>201905200823403_Target-201904131017421.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
