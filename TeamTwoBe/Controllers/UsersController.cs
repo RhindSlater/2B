@@ -196,7 +196,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            User user = db.Users.Include("Collection").Include("Wishlist").Include("Watchlist.Card").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()
             {
                 MyCollection = new List<Card>(),
@@ -207,7 +207,7 @@ namespace TeamTwoBe.Controllers
             };
             List<Sale> li = new List<Sale>();
 
-            foreach (var i in db.Sales.Include("Card").Where(x => x.Seller.ID == user.ID))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID))
             {
                 li.Add(i);
             }
@@ -219,7 +219,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyCollection.Add(db.Cards.Find(1495));
+                    vm.MyCollection.Add(db.Cards.Find(1379));
                 }
                 if (user.Wishlist.Count >= i)
                 {
@@ -227,7 +227,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWishList.Add(db.Cards.Find(1495));
+                    vm.MyWishList.Add(db.Cards.Find(1379));
                 }
                 if (user.Watchlist.Count >= i)
                 {
@@ -235,7 +235,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWatchList.Add(db.Sales.Find(1038));
+                    vm.MyWatchList.Add(db.Sales.Find(1030));
                 }
                 if (li.Count >= i)
                 {
@@ -243,7 +243,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MySales.Add(db.Sales.Find(1038));
+                    vm.MySales.Add(db.Sales.Find(1030));
                 }
             }
             return View(vm);

@@ -38,11 +38,38 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">@item.Card.name</h4>
+                                    <div id="modal-header1">
+                                        <h4 style="text-align:center;" class="modal-title">@item.Card.name</h4>
+                                    </div>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Some text in the modal.</p>
+                                    <div style="display:flex;">
+                                        <div id="modalDetails1">
+                                            <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
+                                        </div>
+                                        <div id="modalDetails">
+                                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                                            <p><b>Card Set:</b> @item.Card.print_tag</p>
+                                            <p><b>Rarity:</b> @item.Card.rarity</p>
+                                            <h4>Price Info (USD based):</h4>
+                                            <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                                            <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                                            <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                                            <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                                            <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                            @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                                            {
+                                                <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                            }
+                                            else
+                                            {
+                                                <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                            }
+                                        </div>
+                                    </div>                                   
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

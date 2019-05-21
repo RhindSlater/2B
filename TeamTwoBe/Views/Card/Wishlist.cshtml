@@ -59,6 +59,7 @@
                             <p><b>Card Type:</b> @item.Cardtype.Name</p>
                             <p><b>Price:</b> @item.average.ToString("c2")</p>
                             @Html.ActionLink("Add to Wishlist", "addCardToWishlist", new { id = item.ID }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary" })
                         </td>
                     </tr>
                 }

@@ -2490,8 +2490,6 @@ input[type="button"].btn-block {
   @media (prefers-reduced-motion: reduce) {
     .fade {
       transition: none; } }
-  .fade:not(.show) {
-    opacity: 0; }
 
 .collapse:not(.show) {
   display: none; }

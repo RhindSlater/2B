@@ -142,3 +142,18 @@ a:hover{
 br {
     color: #aaaaaa;
 }
+.modal-dialog {
+    max-width: 650px;
+	margin-top:55px;
+}
+#modalDetails{
+	padding-left:20px;
+}
+#modalDetails1{
+	padding-left:0px;
+}
+#modal-header1{
+	text-align:center;
+	margin: auto;
+	width:90%;
+}
