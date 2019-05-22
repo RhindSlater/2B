@@ -21,6 +21,9 @@ namespace TeamTwoBe.Models
         public User Buyer { get; set; }
         [Required]
         public User Seller { get; set; }
+        //Starts as false. If true, uses the purchaseVerifiedCard function from Stripe API.
+        public bool IsVerified { get; set; }
+        //Starts as fasle. Changes to true if purchaseCard or purchaseVerifiedCard has been clicked.
         public bool IsSold { get; set; }
         public DateTime UploadDate { get; set; }
         public List<User> Shopper { get; set; }
