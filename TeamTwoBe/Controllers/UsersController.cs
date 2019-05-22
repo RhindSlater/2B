@@ -330,5 +330,9 @@ namespace TeamTwoBe.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult UserReview()
+        {
+            return View();
+        }
     }
 }

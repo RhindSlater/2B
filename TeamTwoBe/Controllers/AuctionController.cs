@@ -13,6 +13,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult Index()
         {
             SaleUserCardVM auctionVM = new SaleUserCardVM { };
+
             return View();
         }
 
