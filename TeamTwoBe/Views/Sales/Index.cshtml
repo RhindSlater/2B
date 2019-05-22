@@ -7,7 +7,7 @@
 @if (Model != null)
 {
     <table class="table table-hover table-bordered">
-        @*will show my listings first*@
+        @*will show my listings first. Also, this Model.Where is lying! There is no error, it works fine!*@
         
 
         @foreach (var item in Model.Where(x=> x.ForAuction == false))
@@ -16,18 +16,18 @@
                 <td><img width="290" src="@item.Card.image_url" /></td>
                 <td>
                     <div id="CardDetails">
-                        <h1>@item.Card.name</h1>
+                        <h1>@item.Card.name </h1><h4>Sale Price (NZD): @item.Price.ToString("c2")</h4>
                         <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                        <p><b>Card Rarity:</b> @item.Card.rarity</p>
                         <p><b>Card Set:</b> @item.Card.print_tag</p>
-                        <br />
                         <h3>Price Info (USD based):</h3>
                         <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
                         <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
                         <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                        <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
-
-                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                        <br />
+                        <p><b>Grade:</b> @item.CardGrade.Grading </p>
+                        <p><b>Condition:</b> @item.CardCondition.CardCondition</p>
+                        <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                         @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                         {
                             <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
