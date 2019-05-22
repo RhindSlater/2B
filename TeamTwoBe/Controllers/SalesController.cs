@@ -341,13 +341,21 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult removeListing(int id)
         {
-            Sale sale = db.Sales.Include("Card").Include("Seller.Collection").Where(x => x.ID == id).FirstOrDefault();
+            Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Card").Include("Seller.Collection").Where(x => x.ID == id).FirstOrDefault();
             User user = db.Users.Find(sale.Seller.ID);
+
+            foreach (var i in sale.Shopper)
+            {
+                i.ShoppingCart.Remove(sale);
+            }
+
+            foreach (var i in sale.Watcher)
+            {
+                i.Watchlist.Remove(sale);
+            }
 
             //adds your unsold card to your collection
             user.Collection.Add(sale.Card);
-            //List<User> li = db.Users.Include("Watchlist").Where(x => x.Watchlist.Contains(sale)).ToList();
-            //List<User> li2 = db.Users.Include("ShoppingCart").Where(x => x.ShoppingCart.Contains(sale)).ToList();
 
             db.Sales.Remove(sale);
             db.SaveChanges();

@@ -95,7 +95,7 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
+            Models.Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
 
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("Collection").Where(x => x.ID == id).FirstOrDefault();
@@ -227,13 +227,18 @@ namespace TeamTwoBe.Controllers
             int id = Convert.ToInt32(Session["saleID"].ToString());
 
             Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
-            //Session["saleID"] = null;
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
             Money moni = new Money()
             {
                 MySale = sale,
                 MyMoney = Convert.ToInt32(sale.Price * 100)
             };
+            if(moni.MyMoney < 500)
+            {
+                moni.MyMoney = 500;
+            }
 
             var options2 = new ChargeCreateOptions
             {
@@ -248,8 +253,10 @@ namespace TeamTwoBe.Controllers
             if(options2 != null)
             {
                 moni.MySale.IsSold = true;
+                moni.MySale.Buyer = user;
 
-                foreach(var i in sale.Shopper)
+
+                foreach (var i in sale.Shopper)
                 {
                     i.ShoppingCart.Remove(sale);
                     
@@ -262,6 +269,7 @@ namespace TeamTwoBe.Controllers
                 }
                 ViewData["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
                 db.SaveChanges();
+                Session["ShoppingCart"] = user.ShoppingCart.Count();
                 return RedirectToAction("Shoppingcart");
             }
             else
