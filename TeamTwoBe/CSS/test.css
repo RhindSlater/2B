@@ -187,15 +187,15 @@ br {
 }
 #PremiumHeading, #PremiumResult{
     font-size: 14px;
-    padding: 25px;
+    Margin: 25px;
 }
 #PremiumButton{
     font-size: 15px;
     Margin: 25px;
 }
 #PremiumTitle{
-    padding: 25px;
-    padding-bottom: 30px;
+    Margin: 25px;
+    Margin-bottom: 30px;
 }
 #PremiumDetails{
     padding-bottom: 8px;

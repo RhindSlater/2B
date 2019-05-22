@@ -31,6 +31,24 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Index", "Sales");
         }
 
+        public ActionResult Subscription(string test)
+        {
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
+            AccountType acc = db.AccountTypes.Find(3);
+            user.UserLevel = acc;
+            PremiumBilling pb = new PremiumBilling()
+            {
+                Amount = 11.99,
+                Date = DateTime.Now,
+                Member = user,
+                NextBillingDate = DateTime.Now.AddMonths(1)
+            };
+            db.PremiumBilling.Add(pb);
+            db.SaveChanges();
+            return RedirectToAction("Premium");
+        }
+
         public ActionResult Premium()
         {
             if (Session["UserID"] == null)
@@ -51,8 +69,6 @@ namespace TeamTwoBe.Controllers
             };
             return View(vm);
         }
-
-
 
         public ActionResult Login()
         {
