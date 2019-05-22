@@ -258,7 +258,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyCollection.Add(db.Cards.Find(1495));
+                    vm.MyCollection.Add(db.Cards.Find(1379));
                 }
                 if (user.Wishlist.Count >= i)
                 {
@@ -266,7 +266,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWishList.Add(db.Cards.Find(1495));
+                    vm.MyWishList.Add(db.Cards.Find(1379));
                 }
                 if (user.Watchlist.Count >= i)
                 {
@@ -274,7 +274,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWatchList.Add(db.Sales.Find(1038));
+                    vm.MyWatchList.Add(db.Sales.Find(1030));
                 }
                 if (li.Count >= i)
                 {
@@ -282,7 +282,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MySales.Add(db.Sales.Find(1038));
+                    vm.MySales.Add(db.Sales.Find(1030));
                 }
             }
             return View(vm);

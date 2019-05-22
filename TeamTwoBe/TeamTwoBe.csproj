@@ -309,9 +309,6 @@
     <Compile Include="Migrations\201905100536068_Added_IsVerified_ToSaleController.Designer.cs">
       <DependentUpon>201905100536068_Added_IsVerified_ToSaleController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905221204062_delme.cs" />
-    <Compile Include="Migrations\201905221204062_delme.Designer.cs">
-      <DependentUpon>201905221204062_delme.cs</DependentUpon>
     <Compile Include="Migrations\201905082126530_AddedContactModel.cs" />
     <Compile Include="Migrations\201905082126530_AddedContactModel.Designer.cs">
       <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
@@ -511,8 +508,6 @@
     <EmbeddedResource Include="Migrations\201905100536068_Added_IsVerified_ToSaleController.resx">
       <DependentUpon>201905100536068_Added_IsVerified_ToSaleController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905221204062_delme.resx">
-      <DependentUpon>201905221204062_delme.cs</DependentUpon>
     <EmbeddedResource Include="Migrations\201905082126530_AddedContactModel.resx">
       <DependentUpon>201905082126530_AddedContactModel.cs</DependentUpon>
     </EmbeddedResource>
