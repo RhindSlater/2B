@@ -290,6 +290,10 @@
     <Compile Include="Migrations\201905050327349_AddingShoppingCartWatchListWishlist.Designer.cs">
       <DependentUpon>201905050327349_AddingShoppingCartWatchListWishlist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905220132117_PremiumBilling.cs" />
+    <Compile Include="Migrations\201905220132117_PremiumBilling.Designer.cs">
+      <DependentUpon>201905220132117_PremiumBilling.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -298,6 +302,7 @@
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Datum.cs" />
     <Compile Include="Models\Grade.cs" />
+    <Compile Include="Models\PremiumBilling.cs" />
     <Compile Include="Models\Prices.cs" />
     <Compile Include="Models\RootObject.cs" />
     <Compile Include="Models\Sale.cs" />
@@ -305,6 +310,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\UserReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PremiumViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ListCardListSale.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
@@ -349,6 +355,7 @@
     <Content Include="Views\Sales\Search.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Users\Premium.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -466,6 +473,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905050327349_AddingShoppingCartWatchListWishlist.resx">
       <DependentUpon>201905050327349_AddingShoppingCartWatchListWishlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905220132117_PremiumBilling.resx">
+      <DependentUpon>201905220132117_PremiumBilling.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

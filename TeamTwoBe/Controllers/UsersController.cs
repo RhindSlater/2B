@@ -16,7 +16,6 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-        // GET: Users
         public ActionResult Index(User user)
         {
             if (user.ID != 0)
@@ -31,6 +30,30 @@ namespace TeamTwoBe.Controllers
             }
             return RedirectToAction("Index", "Sales");
         }
+
+        public ActionResult Premium()
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Index", "Sales");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("Index", "Sales");
+            }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
+            PremiumBilling bill = db.PremiumBilling.Where(x => x.Member.ID == user.ID).FirstOrDefault();
+            PremiumViewModel vm = new PremiumViewModel
+            {
+                MyUser = user,
+                MyBilling = bill,
+            };
+            return View(vm);
+        }
+
+
+
         public ActionResult Login()
         {
             if (Request.Cookies["UserID"] != null)
@@ -194,7 +217,7 @@ namespace TeamTwoBe.Controllers
             Session["View"] = "UserProfile";
             if (id == null)
             {
-                return RedirectToAction("Index", "Users");
+                return RedirectToAction("Index", "Sales");
             }
             User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()

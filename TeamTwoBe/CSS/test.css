@@ -175,3 +175,28 @@ br {
 #ProfileUsername{
     padding-top: 20px;
 }
+#PremiumDiv
+{
+    padding-left: 16px;
+    background-color: #272727;
+    margin-top: 30px;
+    height: 370px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+#PremiumHeading, #PremiumResult{
+    font-size: 14px;
+    padding: 25px;
+}
+#PremiumButton{
+    font-size: 15px;
+    Margin: 25px;
+}
+#PremiumTitle{
+    padding: 25px;
+    padding-bottom: 30px;
+}
+#PremiumDetails{
+    padding-bottom: 8px;
+}

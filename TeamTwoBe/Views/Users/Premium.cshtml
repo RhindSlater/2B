@@ -1,0 +1,48 @@
+﻿@model TeamTwoBe.ViewModels.PremiumViewModel
+
+@{
+    ViewBag.Title = "Premium";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div id="PremiumDiv" class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 id="PremiumTitle">2B Premium</h3>
+            </div>
+            <div style="padding-left:25px;" class="row">
+                <div class="col-lg-4" id="PremiumDetails">
+                    <span id="PremiumHeading">User:</span>
+                </div>
+                <div class="col-lg-8" id="PremiumDetails">
+                    <span id="PremiumResult">@Model.MyUser.Username</span>
+                </div>
+                <div class="col-lg-4" id="PremiumDetails">
+                    <span id="PremiumHeading">Status:</span>
+                </div>
+                <div class="col-lg-8" id="PremiumDetails">
+                    <span id="PremiumResult">@Model.MyUser.UserLevel.AccountLevel</span>
+                </div>
+                <div class="col-lg-4" id="PremiumDetails">
+                    <span id="PremiumHeading">Price:</span>
+                </div>
+                <div class="col-lg-8" id="PremiumDetails">
+                    <span id="PremiumResult">NZ$11.99/month</span>
+                </div>
+                <div class="col-lg-4" id="PremiumDetails">
+                    <span id="PremiumHeading">Next bill date:</span>
+                </div>
+                <div class="col-lg-8" id="PremiumDetails">
+                    <span id="PremiumResult">@Model.MyBilling.NextBillingDate.ToString("dd MMM yyyy")</span>
+                </div>
+                <div class="col-lg-12">
+                    <span id="PremiumButton">Update Payment Method</span>
+                </div>
+                <div class="col-lg-12">
+                    <span id="PremiumButton">Cancel membership</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
