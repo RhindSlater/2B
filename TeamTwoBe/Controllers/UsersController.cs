@@ -196,7 +196,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()
             {
                 MyCollection = new List<Card>(),
@@ -219,7 +219,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyCollection.Add(db.Cards.Find(1379));
+                    vm.MyCollection.Add(db.Cards.Find(1495));
                 }
                 if (user.Wishlist.Count >= i)
                 {
@@ -227,7 +227,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWishList.Add(db.Cards.Find(1379));
+                    vm.MyWishList.Add(db.Cards.Find(1495));
                 }
                 if (user.Watchlist.Count >= i)
                 {
@@ -235,7 +235,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWatchList.Add(db.Sales.Find(1030));
+                    vm.MyWatchList.Add(db.Sales.Find(1038));
                 }
                 if (li.Count >= i)
                 {
@@ -243,7 +243,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MySales.Add(db.Sales.Find(1030));
+                    vm.MySales.Add(db.Sales.Find(1038));
                 }
             }
             return View(vm);

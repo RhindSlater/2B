@@ -333,7 +333,6 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Sales\Create.cshtml" />
-    <Content Include="Views\Sales\Details.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Users\Profile.cshtml" />

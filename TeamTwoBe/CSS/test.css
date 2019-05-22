@@ -116,6 +116,7 @@ a:hover{
 }
 .body-content{
     margin: auto;
+    font-family: 'Roboto', sans-serif;
 }
 .container{
     width:83%;
@@ -129,9 +130,12 @@ a:hover{
 #sales{
     margin-top: 10px;
     margin-bottom: 22px;
+    min-width:200px;
 }
 #CardGrid{
     max-width: 230px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 #profile{
     margin-right: 8px;
@@ -143,17 +147,31 @@ br {
     color: #aaaaaa;
 }
 .modal-dialog {
-    max-width: 650px;
-	margin-top:55px;
+    max-width: 690px;
+    padding-top: 9%;
+	margin:auto;
 }
 #modalDetails{
-	padding-left:20px;
-}
-#modalDetails1{
-	padding-left:0px;
+    padding-left:20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 #modal-header1{
 	text-align:center;
 	margin: auto;
 	width:90%;
+}
+#seeall{
+    color:#3ea6ff;
+    margin: 20px;
+    max-height: 20px;
+}
+#addlisting{
+    color:#3ea6ff;
+    margin: 20px;
+    margin-left: 75%;
+    max-height: 20px;
+}
+#ProfileUsername{
+    padding-top: 20px;
 }

@@ -65,7 +65,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index");
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
             {
                 li.Add(i);
             }

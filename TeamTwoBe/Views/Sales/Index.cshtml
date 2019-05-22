@@ -18,7 +18,7 @@
             <div class="row">
                 @foreach (var item in Model.Where(x => x.ForAuction == false))
                 {
-                    <div class=" lozad" id="CardGird">
+                    <div class=" lozad" id="CardGrid">
                         <div id="Card">
                             <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
                                 <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
