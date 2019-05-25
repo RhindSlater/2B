@@ -2,7 +2,7 @@ body{
     background-color: #121212;
 }
 .navbar-light{
-    background-color: #272727;
+    background-color: #272b34;
 }
 .btn-default{
     background-color: #343434;
@@ -151,6 +151,9 @@ br {
     padding-top: 9%;
 	margin:auto;
 }
+.modal-content {
+    background-color: #272b34;
+}
 #modalDetails{
     padding-left:20px;
     margin-left: auto;
@@ -199,4 +202,14 @@ br {
 }
 #PremiumDetails{
     padding-bottom: 8px;
+}
+.btn-default{
+    background-color: #d6d6d6;
+    color: #272b34;
+    border: 0px;
+}
+.btn-primary{
+    background-color: #63666f;
+    border: 0px;
+    color: white;
 }

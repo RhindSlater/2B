@@ -33,7 +33,7 @@
                         <p><b>Current watchers:</b> @item.Watcher.Count</p>
                         <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                         <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                        <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                     </div>
                 </td>
             </tr>
