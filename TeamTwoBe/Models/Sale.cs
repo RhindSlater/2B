@@ -13,10 +13,16 @@ namespace TeamTwoBe.Models
         public Card Card { get; set; }
         [Required(ErrorMessage = "Price is required")]
         public float Price { get; set; }
+
         [Required]
+        [Display(Name = "Card Condition")]
         public Condition CardCondition { get; set; }
+
         [Required]
+        [Display(Name = "Card grade")]
         public Grade CardGrade { get; set; }
+
+        [Display(Name = "Auction")]
         public bool ForAuction { get; set; }
         public User Buyer { get; set; }
         [Required]

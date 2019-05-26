@@ -1,8 +1,12 @@
 body{
     background-color: #121212;
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/31bfb53f-6d2a-4e43-bd67-7b88552a46b8/dd7r8ij-66f32d14-ebd8-4a67-9953-cb4eeef83fc8.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzMxYmZiNTNmLTZkMmEtNGU0My1iZDY3LTdiODg1NTJhNDZiOFwvZGQ3cjhpai02NmYzMmQxNC1lYmQ4LTRhNjctOTk1My1jYjRlZWVmODNmYzgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Mduc5cYnAS8YcHC0yrrb2hBgZCF3dK20DfOG75YueRc");
+    background-repeat: repeat;
+    background-attachment: local;
+    background-size: contain;
 }
 .navbar-light{
-    background-color: #272727;
+    background-color: #272b34;
 }
 .btn-default{
     background-color: #343434;
@@ -37,8 +41,8 @@ body{
     padding-top: 7px;
 }
 #nav{
-    padding-bottom: 9px;
-    padding-top: 9px;
+    padding-bottom: 7px;
+    padding-top: 7px;
     min-width: 910px;
 }
 .form-control:focus { 
@@ -119,7 +123,7 @@ a:hover{
     font-family: 'Roboto', sans-serif;
 }
 .container{
-    width:83%;
+    width:80%;
     max-width:100%;
     margin: auto;
     padding: 0px !important;
@@ -128,11 +132,13 @@ a:hover{
     margin: auto;
 }
 #sales{
-    margin-top: 10px;
-    margin-bottom: 22px;
+    margin-top: 4%;
+    margin-bottom: 4%;
     min-width:200px;
 }
 #CardGrid{
+    margin-right: auto;
+    margin-left: auto;
     max-width: 230px;
     padding-left: 4px;
     padding-right: 4px;
@@ -150,6 +156,9 @@ br {
     max-width: 690px;
     padding-top: 9%;
 	margin:auto;
+}
+.modal-content {
+    background-color: #272b34;
 }
 #modalDetails{
     padding-left:20px;
@@ -173,7 +182,8 @@ br {
     max-height: 20px;
 }
 #ProfileUsername{
-    padding-top: 20px;
+    margin-top: 4%;
+    margin-bottom: 1%;
 }
 #PremiumDiv
 {
@@ -199,4 +209,38 @@ br {
 }
 #PremiumDetails{
     padding-bottom: 8px;
+}
+.btn-default{
+    background-color: #d6d6d6;
+    color: #272b34;
+    border: 0px;
+}
+.btn-primary{
+    background-color: #63666f;
+    border: 0px;
+    color: white;
+}
+.footer{
+    margin-top: 75px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    background-color: #272b34;
+}
+.footer-container{
+    padding-top: 45px;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    background-color:#131A22;
+    padding-bottom: 45px;
+}
+hr{
+    border-color: #d6d6d6;
+}
+li{
+    list-style-type: none;
+    margin-bottom: 4px;
+}
+ul{
+    text-align: center;
 }

@@ -28,7 +28,7 @@
             }
             <div id="AllCards" class="container">
                 <div class="row">
-                    @foreach (var item in Model.Where(x => x.ForAuction == false))
+                    @foreach (var item in Model)
                     {
                         <div class=" lozad" id="CardGrid">
                             <div id="Card">
@@ -73,12 +73,12 @@
                                                 @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                                                 {
                                                     <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                    <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                                 }
                                                 else
                                                 {
                                                     <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                                 }
                                             </div>
                                         </div>

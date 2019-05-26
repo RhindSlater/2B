@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using TeamTwoBe.Models;
 using System.Web.Helpers;
 using TeamTwoBe.ViewModels;
+using System.Security.Cryptography;
 
 namespace TeamTwoBe.Controllers
 {
@@ -37,6 +38,7 @@ namespace TeamTwoBe.Controllers
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
             AccountType acc = db.AccountTypes.Find(3);
             user.UserLevel = acc;
+            Session["AccountLevel"] = user.UserLevel.ID.ToString();
             PremiumBilling pb = new PremiumBilling()
             {
                 Amount = 11.99,
@@ -70,12 +72,10 @@ namespace TeamTwoBe.Controllers
             return View(vm);
         }
 
+
         public ActionResult Login()
         {
-            if (Request.Cookies["UserID"] != null)
-            {
-
-            }
+            checkCookie();
             if (Session["UserID"] != null)
             {
                 if (Convert.ToInt32(Session["UserID"].ToString()) >= Convert.ToInt32("1"))
@@ -87,12 +87,34 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(string Username, string Password)
+        public void checkCookie()
         {
-            if (Password != null)
+            string userid = string.Empty;
+            if (Request != null)
             {
-                User user = db.Users.Include("ShoppingCart").SingleOrDefault(x => x.Username == Username);
+                if (Request.Cookies["userid"] != null)
+                {
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    RedirectToAction("Profile");
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Login(string Username, string Password, dynamic SaveData)
+        {
+            if (Password != "")
+            {
+                User user = db.Users.Include("ShoppingCart").Include("UserLevel").SingleOrDefault(x => x.Username == Username);
                 if (user != null)
                 {
                     bool test = Crypto.VerifyHashedPassword(user.Password, Password);
@@ -102,15 +124,21 @@ namespace TeamTwoBe.Controllers
                         Session["Username"] = user.Username;
                         Session["UserPic"] = user.DisplayPicture;
                         Session["ShoppingCart"] = user.ShoppingCart.Count();
-
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
                         if (user.IsLocked)
                         {
                             return RedirectToAction("Locked");
                         }
-                        //if(SaveData == true)
-                        //{
-                        //    save data to cookies / session
-                        //}
+                        if (SaveData[0] == "on")
+                        {
+                            string str = user.Username + DateTime.Now;
+                            HttpCookie cookie = new HttpCookie("userid");
+                            cookie.Expires = DateTime.Now.AddDays(30);
+                            cookie.Value = str;
+                            Response.Cookies.Add(cookie);
+                            user.cookie = str;
+                            db.SaveChanges();
+                        }
                         return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
                     }
                 }
@@ -292,6 +320,16 @@ namespace TeamTwoBe.Controllers
         {
             Session["UserID"] = null;
             Session["ShoppingCart"] = null;
+            Session["AccountLevel"] = null;
+            if (Response != null)
+            {
+                if (Response.Cookies["userid"] != null)
+                {
+                    HttpCookie cookie = new HttpCookie("userid");
+                    cookie.Expires = DateTime.Now.AddDays(-1d);
+                    Response.Cookies.Add(cookie);
+                }
+            }
             return RedirectToAction("Index", "Sales");
         }
 

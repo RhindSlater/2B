@@ -11,7 +11,23 @@
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand-lg bg-faded justify-content-center" id="nav">
-        <div class="navbar-brand d-flex w-50 mr-auto"><a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a></div>
+        <div class="navbar-brand d-flex w-50 mr-auto">
+            @if (Session["AccountLevel"] != null)
+            {
+                if (Session["AccountLevel"] != "2")
+                {
+                    <a href="/Sales/Index"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
+                }
+                else
+                {
+                    <a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                }
+            }
+            else
+            {
+                <a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+            }
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="navbar-toggler-icon"></span>
             <span class="icon-bar"></span>
@@ -70,8 +86,9 @@
                     </li>
                     <li class="nav-item">
                         <div id="profile">
+                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
                             <a href="/Users/Profile/@Session["UserID"]">
-                                <img src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+
                                 @Session["Username"]
                             </a>
                         </div>
@@ -79,21 +96,39 @@
                 }
                 <li class="nav-item">
                     <div id="shoppingcart">
-                        <a href="/Profile/ShoppingCart"><i class="fas fa-shopping-cart"></i>
-                        @if(Session["ShoppingCart"] != null)
-                        {
-                            @Session["ShoppingCart"].ToString()
-                        }
-                        else
-                        {
-                            <a>0</a>
-                        }
+                        <a href="/Profile/ShoppingCart">
+                            <i class="fas fa-shopping-cart"></i>
+                            @if (Session["ShoppingCart"] != null)
+                            {
+                                @Session["ShoppingCart"].ToString()
+                            }
+                            else
+                            {
+                                <a>0</a>
+                            }
                         </a>
                     </div>
                 </li>
             </ul>
         </div>
     </nav>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div id="modal-header1">
+                        <h4 style="text-align:center;" class="modal-title">Display Picture</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         window.onscroll = function () { myFunction() };
 
@@ -111,8 +146,48 @@
     <div class="container body-content">
         @RenderBody()
     </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <ul>
+                        <li><h4>Get to know us</h4></li>
+                        <li><a href="/contact/contact">Contact us</a></li>
+                        <li><a href="">About us</a></li>
+                        <li><a href="">Why shop with 2B</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <ul>
+                        <li><h4>Profile</h4></li>
+                        <li><a href="">My Sales</a></li>
+                        <li><a href="">My Watchlist</a></li>
+                        <li><a href="">My Wishlist</a></li>
+                        <li><a href="">My Collection</a></li>
+                        <li><a href="">Items Won</a></li>
+                        <li><a href="">Premium</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <ul>
+                        <li><h4>Social Media</h4></li>
+                        <li><a href=""><i class="fab fa-facebook-square"></i> Facebook</a></li>
+                        <li><a href=""></a><i class="fab fa-twitter-square"></i> Twitter</li>
+                        <li><a href=""><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href=""><i class="fab fa-youtube"></i> Youtube</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="footer-container">
+        <span>&copy; 2B Enterprises. All Rights Reserved</span>
+        <div>
+            Designed by <a href="#">2B Enterprises</a>
+        </div>
+    </div>
+
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    
 </body>
 </html>

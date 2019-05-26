@@ -317,6 +317,14 @@
     <Compile Include="Migrations\201905200823403_Target-201904131017421.Designer.cs">
       <DependentUpon>201905200823403_Target-201904131017421.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905260445232_cookieUserID.cs" />
+    <Compile Include="Migrations\201905260445232_cookieUserID.Designer.cs">
+      <DependentUpon>201905260445232_cookieUserID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905260822083_AddAccountLevels.cs" />
+    <Compile Include="Migrations\201905260822083_AddAccountLevels.Designer.cs">
+      <DependentUpon>201905260822083_AddAccountLevels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -513,6 +521,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905200823403_Target-201904131017421.resx">
       <DependentUpon>201905200823403_Target-201904131017421.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905260445232_cookieUserID.resx">
+      <DependentUpon>201905260445232_cookieUserID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905260822083_AddAccountLevels.resx">
+      <DependentUpon>201905260822083_AddAccountLevels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

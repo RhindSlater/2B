@@ -65,12 +65,12 @@
                                         @if (Model.ID.ToString() == Session["UserID"].ToString())
                                         {
                                             <a>@Html.ActionLink("List for Sale", "Create", "Sales", new { card = item.name }, new { @class = "btn btn-primary" })</a>
-                                            <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                            <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                         }
                                         else
                                         {
                                             <a>@Html.ActionLink("Request trade", "requestTrade", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                            <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                            <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                         }
                                     </div>
                                 </div>

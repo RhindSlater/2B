@@ -31,6 +31,9 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Index()
         {
+            UsersController uc = new UsersController();
+            uc.checkCookie();
+
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))

@@ -1,0 +1,34 @@
+#create-title{
+    margin-bottom: 20%;
+    margin-top: 12%;
+}
+#create-container{
+    max-width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 18%;
+    font-size: 1.3em;
+}
+#dropbox{
+    width: 84%;
+}
+#dropbox2{
+    width: 99%;
+}
+.col-md-2{
+    padding-left: 15px;
+    padding-right: 0px;
+}
+#card-search{
+    width: 100%;
+}
+#pricetb{
+    width: 99%;
+    color: black;
+    background-color: white;
+}
+#submit-btn{
+    width: 20%;
+    text-align: center;
+    margin: auto;
+}
