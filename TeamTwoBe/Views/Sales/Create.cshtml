@@ -4,9 +4,10 @@
     ViewBag.Title = "New Sale";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
-    </head>
+<head>
+    <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+</head>
 <body>
     <div id="create-container" class="form-horizontal">
         <h2 id="create-title" class="text-center">New sale</h2>
@@ -16,7 +17,7 @@
             {
                 <label class="control-label col-md-12">Card name</label>
                 <div class="col-md-12">
-                    @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id ="card-search"}))
+                    @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id = "card-search" }))
                     {
                         <input value="@Model.MyCard1" id="dropbox" list="CardList" type="text" name="dropboxvalue" />
                         <input type="submit" value="Search">
@@ -42,37 +43,61 @@
                 </datalist>
             }
         </div>
-        @using (Html.BeginForm("Create", "Sales", FormMethod.Post, new { @id ="card-search"}))
+        @using (Html.BeginForm("Create", "Sales", FormMethod.Post, new { @id = "card-search" }))
         {
             if (Model.fix == true)
             {
-                <div class="form-group">
+                <div class="form-group has-danger">
                     <label class="control-label col-md-12">Card name</label>
                     <div class="col-md-12">
-                        <input value="@Model.MyCard1" id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
+                        <input class="form-control is-invalid" value="@Model.MyCard1" id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
                     </div>
+                    <div id="changeMe" class="invalid-feedback">Please select a card from the list!</div>
                 </div>
             }
-                   
+            <script>
+                $(document).ready(function () {
+                    $("#dropbox2").change(function () {
+                        var li = $("datalist > option");
+                        var name = $("#dropbox2");
+                        var i;
+                        for (i = 0; i < li.length; i++) {
+                            if (name[0].value == li[i].value) {
+                                $("#dropbox2").attr("class", "form-control is-valid");
+                                $("#changeMe").attr("class", "valid-feedback");
+                                $("#changeMe").html("Success!");
+                                break;
+                            }
+                            else {
+                                $("#dropbox2").attr("class", "form-control is-invalid");
+                                $("#changeMe").attr("class", "invalid-feedback");
+                                $("#changeMe").html("Please select a card from the list!");
+                            }
+                        }
+
+                    });
+                });
+            </script>
+
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.MySale.Price, htmlAttributes: new { @class = "control-label col-md-12" })
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id="pricetb" } })
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "pricetb" } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.MySale.CardCondition, htmlAttributes: new { @class = "control-label col-md-12" })
                 <div class="col-md-12">
-                    @Html.DropDownList("Conditions", null , "Choose Condition", new { @id="pricetb" })
+                    @Html.DropDownList("Conditions", null, "Choose Condition", new { @id = "pricetb" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.MySale.CardGrade, htmlAttributes: new { @class = "control-label col-md-12" })
                 <div class="col-md-12">
-                    @Html.DropDownList("Grades", null , "Choose Grade", new { @id="pricetb" })
+                    @Html.DropDownList("Grades", null, "Choose Grade", new { @id = "pricetb" })
                 </div>
             </div>
             <div class="form-group">

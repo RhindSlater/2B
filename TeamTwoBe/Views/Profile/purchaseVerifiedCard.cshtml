@@ -7,18 +7,19 @@
 <h2>Purchase a Verified Card!</h2>
 
 <script src="https://js.stripe.com/v3/"></script>
-
-<form action="/Profile/purchaseVerifiedCard/" method="POST">
-    <article>
-        <label>Card: @Model.MySale.Card.name</label>
-        <br />
-        <label>Amount: @Model.MySale.Price.ToString("c2")</label>
-    </article>
-    <script src="//checkout.stripe.com/v3/checkout.js"
-            class="stripe-button"
-            data-key="pk_test_it8IfmJsPFnu7cXmNXb8aSp300FSV94EfE"
-            data-locale="auto"
-            data-description="Card Purchase"
-            data-amount="@Model.MyMoney">
-    </script>
-</form>
+<div id="base">
+    <form action="/Profile/purchaseVerifiedCard/" method="POST">
+        <article>
+            <label>Card: @Model.MySale.Card.name</label>
+            <br />
+            <label>Amount: @Model.MySale.Price.ToString("c2")</label>
+        </article>
+        <script src="//checkout.stripe.com/v3/checkout.js"
+                class="stripe-button"
+                data-key="pk_test_it8IfmJsPFnu7cXmNXb8aSp300FSV94EfE"
+                data-locale="auto"
+                data-description="Card Purchase"
+                data-amount="@Model.MyMoney">
+        </script>
+    </form>
+</div>

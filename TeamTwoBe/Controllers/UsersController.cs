@@ -75,7 +75,11 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Login()
         {
-            checkCookie();
+            var i = checkCookie();
+            if (i)
+            {
+                return RedirectToAction("Index","Sales");
+            }
             if (Session["UserID"] != null)
             {
                 if (Convert.ToInt32(Session["UserID"].ToString()) >= Convert.ToInt32("1"))
@@ -87,7 +91,7 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
-        public void checkCookie()
+        public bool checkCookie()
         {
             string userid = string.Empty;
             if (Request != null)
@@ -104,9 +108,10 @@ namespace TeamTwoBe.Controllers
                         Session["ShoppingCart"] = user.ShoppingCart.Count();
                         Session["AccountLevel"] = user.UserLevel.ID.ToString();
                     }
-                    RedirectToAction("Profile");
+                    return true;
                 }
             }
+            return false;
         }
 
         [HttpPost]
@@ -263,6 +268,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index", "Sales");
             }
+            checkCookie();
             User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()
             {
@@ -286,7 +292,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyCollection.Add(db.Cards.Find(1379));
+                    vm.MyCollection.Add(db.Cards.Find(1));
                 }
                 if (user.Wishlist.Count >= i)
                 {
@@ -294,7 +300,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWishList.Add(db.Cards.Find(1379));
+                    vm.MyWishList.Add(db.Cards.Find(1));
                 }
                 if (user.Watchlist.Count >= i)
                 {
@@ -302,7 +308,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MyWatchList.Add(db.Sales.Find(1030));
+                    vm.MyWatchList.Add(db.Sales.Find(1));
                 }
                 if (li.Count >= i)
                 {
@@ -310,7 +316,7 @@ namespace TeamTwoBe.Controllers
                 }
                 else
                 {
-                    vm.MySales.Add(db.Sales.Find(1030));
+                    vm.MySales.Add(db.Sales.Find(1));
                 }
             }
             return View(vm);

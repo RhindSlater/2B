@@ -32,8 +32,11 @@ namespace TeamTwoBe.Controllers
         public ActionResult Index()
         {
             UsersController uc = new UsersController();
-            uc.checkCookie();
-
+            var check = uc.checkCookie();
+            if (check)
+            {
+                return RedirectToAction("Index", "Sales");
+            }
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
@@ -60,6 +63,13 @@ namespace TeamTwoBe.Controllers
         {
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
+            ListCardListSale vm = new ListCardListSale()
+            {
+                Sales = li,
+                Users = new List<User>(),
+            };
+
+
             if (Session["UserID"] == null)
             {
                 Session["UserID"] = 0;
@@ -71,8 +81,10 @@ namespace TeamTwoBe.Controllers
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
             {
                 li.Add(i);
+                vm.Users.Add(i.Seller);
             }
-            return View(li);
+            vm.Sales = li;
+            return View(vm);
         }
 
         [HttpPost]
@@ -250,18 +262,27 @@ namespace TeamTwoBe.Controllers
 
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Watcher").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
             {
-                li.Sales.Add(i);
+                if (i.ID != 1)
+                {
+                    li.Sales.Add(i);
+                }
             }
             foreach (var i in db.Cards.Include("Cardtype").Where(x => x.name.Contains(search) | x.print_tag.Contains(search) | x.Cardtype.Name == search | x.rarity.Contains(search)))
             {
                 if (li.Cards.Where(x => x.name == i.name).FirstOrDefault() == null)
                 {
-                    li.Cards.Add(i);
+                    if (i.ID != 1)
+                    {
+                        li.Cards.Add(i);
+                    }
                 }
             }
             foreach (var i in db.Users.Where(x => x.Username.Contains(search)))
             {
-                li.Users.Add(i);
+                if (i.ID != 1)
+                {
+                    li.Users.Add(i);
+                }
             }
             return View(li);
         }

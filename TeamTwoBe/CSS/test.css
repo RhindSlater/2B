@@ -15,16 +15,17 @@ body{
     padding-top: 5px;
 }
 .form-control{
-    background-color: #121212;
     margin-right: 3px;
     padding: 0;
     padding-left: 2px;
     padding-right: 2px;
-    border : solid #424242 0px;
 }
+
 .letsdothis{
+    background-color: #121212;
     max-height: 32px;
     border-radius: 0px;
+    border : solid #424242 0px;
 }
 #test{
     display: flex;
@@ -187,9 +188,8 @@ br {
 }
 #PremiumDiv
 {
-    padding-left: 16px;
     background-color: #272727;
-    margin-top: 30px;
+    margin-top: 10%;
     height: 370px;
     margin-left: auto;
     margin-right: auto;
@@ -199,7 +199,7 @@ br {
     font-size: 14px;
     Margin: 25px;
 }
-#PremiumButton{
+.PremiumButton{
     font-size: 15px;
     Margin: 25px;
 }
@@ -243,4 +243,31 @@ li{
 }
 ul{
     text-align: center;
+}
+#base{
+    min-height: 1080px;
+}
+#Collection{
+    margin-right: auto;
+    margin-left: auto;
+    width: 80%;
+}
+#Collection1{
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    margin-bottom: 8%;
+}
+#CollectionDropBox{
+    margin-right: auto;
+    margin-left: auto;
+    width: 78%;
+}
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding-left: 15px;
+    font-size: 70%;
+    color: #E74C3C;
 }

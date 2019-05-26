@@ -10,58 +10,61 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <body>
+    <div id="base">
 
-    <h2>Collection</h2>
-    <div>
-        @using (Html.BeginForm("apiPrice2", "Card"))
-        {
-            <b>Search:</b>
-            <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />
-            <input type="submit" value="Search" />
-        }
-        @if (Model.MyCards != null)
-        {
-            <datalist id="CardList">
-                @foreach (var i in Model.MyCards)
-                {
-                    <option value="@i.name"></option>
-                }
-            </datalist>
-        }
 
-        @if (Model.MyDatum != null)
-        {
-            <datalist id="CardList">
-                @foreach (var i in Model.MyDatum)
-                {
-                    <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
-                }
-            </datalist>
-        }
+        <h2 id="sales" style="text-align:center;">Collection</h2>
+        <div id="Collection">
+            @using (Html.BeginForm("apiPrice2", "Card", FormMethod.Post, new { @id="Collection1" } ))
+            {
+                <b>Search:</b>
+                <input id="CollectionDropBox" list="CardList" type="text" name="dropboxvalue" />
+                <input type="submit" value="Search" />
+            }
+            @if (Model.MyCards != null)
+            {
+                <datalist id="CardList">
+                    @foreach (var i in Model.MyCards)
+                    {
+                        <option value="@i.name"></option>
+                    }
+                </datalist>
+            }
 
-        @if (Model.MyDatum != null)
-        {
-            <table class="table table-hover table-bordered">
-                <tr>
-                    <th>Image</th>
-                    <th>Cards</th>
-                </tr>
-                @foreach (var item in Model.MyCards)
-                {
+            @if (Model.MyDatum != null)
+            {
+                <datalist id="CardList">
+                    @foreach (var i in Model.MyDatum)
+                    {
+                        <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+                    }
+                </datalist>
+            }
+
+            @if (Model.MyDatum != null)
+            {
+                <table class="table table-hover table-bordered">
                     <tr>
-                        <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.image_url" /></div></td>
-                        <td>
-                            <h4><b>Name:</b> @item.name</h4>
-                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                            <p><b>Set:</b> @item.print_tag</p>
-                            <p><b>Rarity:</b> @item.rarity</p>
-                            <p><b>Average Price:</b> @item.average.ToString("c2")</p>
-                            @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary" })
-                        </td>
+                        <th>Image</th>
+                        <th>Cards</th>
                     </tr>
-                }
-            </table>
-        }
+                    @foreach (var item in Model.MyCards)
+                    {
+                        <tr>
+                            <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.image_url" /></div></td>
+                            <td>
+                                <h4><b>Name:</b> @item.name</h4>
+                                <p><b>Card Type:</b> @item.Cardtype.Name</p>
+                                <p><b>Set:</b> @item.print_tag</p>
+                                <p><b>Rarity:</b> @item.rarity</p>
+                                <p><b>Average Price:</b> @item.average.ToString("c2")</p>
+                                @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
     </div>
 
 

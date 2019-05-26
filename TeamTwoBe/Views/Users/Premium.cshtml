@@ -7,100 +7,61 @@
 
 <body>
     <script src="https://js.stripe.com/v3"></script>
-
-    <div id="PremiumDiv" class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h3 id="PremiumTitle">2B Premium</h3>
-            </div>
-            <div style="padding-left:25px;" class="row">
-                <div class="col-lg-4" id="PremiumDetails">
-                    <span id="PremiumHeading">User:</span>
+    <div id="base">
+        <div id="PremiumDiv" class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 id="PremiumTitle">2B Premium</h3>
                 </div>
-                <div class="col-lg-8" id="PremiumDetails">
-                    <span id="PremiumResult">@Model.MyUser.Username</span>
-                </div>
-                <div class="col-lg-4" id="PremiumDetails">
-                    <span id="PremiumHeading">Status:</span>
-                </div>
-                <div class="col-lg-8" id="PremiumDetails">
-                    <span id="PremiumResult">@Model.MyUser.UserLevel.AccountLevel</span>
-                </div>
-                <div class="col-lg-4" id="PremiumDetails">
-                    <span id="PremiumHeading">Price:</span>
-                </div>
-                <div class="col-lg-8" id="PremiumDetails">
-                    <span id="PremiumResult">NZ$11.99/month</span>
-                </div>
-                @if (Model.MyUser.UserLevel.ID != 2)
-                {
+                <div style="padding-left:25px;" class="row">
                     <div class="col-lg-4" id="PremiumDetails">
-                        <span id="PremiumHeading">Next bill date:</span>
+                        <span id="PremiumHeading">User:</span>
                     </div>
                     <div class="col-lg-8" id="PremiumDetails">
-                        <span id="PremiumResult">@Model.MyBilling.NextBillingDate.ToString("dd MMM yyyy")</span>
+                        <span id="PremiumResult">@Model.MyUser.Username</span>
                     </div>
-                }
+                    <div class="col-lg-4" id="PremiumDetails">
+                        <span id="PremiumHeading">Status:</span>
+                    </div>
+                    <div class="col-lg-8" id="PremiumDetails">
+                        <span id="PremiumResult">@Model.MyUser.UserLevel.AccountLevel</span>
+                    </div>
+                    <div class="col-lg-4" id="PremiumDetails">
+                        <span id="PremiumHeading">Price:</span>
+                    </div>
+                    <div class="col-lg-8" id="PremiumDetails">
+                        <span id="PremiumResult">NZ$11.99/month</span>
+                    </div>
+                    @if (Model.MyUser.UserLevel.ID != 2)
+                    {
+                        <div class="col-lg-4" id="PremiumDetails">
+                            <span id="PremiumHeading">Next bill date:</span>
+                        </div>
+                        <div class="col-lg-8" id="PremiumDetails">
+                            <span id="PremiumResult">@Model.MyBilling.NextBillingDate.ToString("dd MMM yyyy")</span>
+                        </div>
+                    }
 
 
-                <div class="col-lg-12">
-                    <span id="PremiumButton">Update Payment Method</span>
-                </div>
-
-                @if (Model.MyUser.UserLevel.ID == 2)
-                {
                     <div class="col-lg-12">
-                        <span data-toggle="modal" data-target="#BecomeMember" id="PremiumButton">Become premium member</span>
+                        <span class="PremiumButton">Update Payment Method</span>
                     </div>
-                }
-                else
-                {
-                    <div class="col-lg-12">
-                        <span data-toggle="modal" data-target="#CancelMember" id="PremiumButton">Cancel subscription</span>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div id="BecomeMember" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div id="modal-header1">
-                        Become Premium Member
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <button style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em"
-                            id="checkout-button-plan_F75pO616xMgJCn"
-                            role="link">
-                        Checkout
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="CancelMember" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div id="modal-header1">
-                        Cancel Premium Membership
-                    </div>
-                </div>
-                <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    @if (Model.MyUser.UserLevel.ID == 2)
+                    {
+                        <div class="col-lg-12">
+                            <a class="PremiumButton" id="checkout-button-plan_F75pO616xMgJCn" role="link">Become premium member</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-12">
+                            <a href="" class="PremiumButton">Cancel subscription</a>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="error-message"></div>
+        </div>        
     <script>
         var stripe = Stripe('pk_test_it8IfmJsPFnu7cXmNXb8aSp300FSV94EfE');
 

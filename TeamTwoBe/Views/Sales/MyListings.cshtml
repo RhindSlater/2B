@@ -1,34 +1,36 @@
-﻿@model List<TeamTwoBe.Models.Sale>
+﻿@model TeamTwoBe.ViewModels.ListCardListSale
 @{
     ViewBag.Title = "Listings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <body>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 
-        @if (Model != null)
+    <div id="base">
+        @if (Model.Sales.Count > 0)
         {
-            if (Model[0].Seller.ID.ToString() == Session["UserID"].ToString())
+
+            if (Model.Sales[0].Seller.ID.ToString() == Session["UserID"].ToString())
             {
                 <div style="margin:auto">
                     <div style="display:flex; margin:auto; max-width:1380px;">
                         <h3 style="padding-left:15px;">My Listings</h3>
-                        <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("New listing", "Create", "Sales", new {}, new { @id = "addlisting" })</a>
-                    </div>                    
+                        <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("New listing", "Create", "Sales", new { }, new { @id = "addlisting" })</a>
+                    </div>
                 </div>
             }
             else
             {
                 <div style="display:flex">
-                    <h3 id="sales" style="text-align:center;">@Model[0].Seller.Username's listings</h3>
+                    <h3 id="sales" style="text-align:center;">@Model.Sales[0].Seller.Username's listings</h3>
                 </div>
             }
             <div id="AllCards" class="container">
                 <div class="row">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Sales)
                     {
                         <div class=" lozad" id="CardGrid">
                             <div id="Card">
@@ -93,11 +95,12 @@
                 </div>
             </div>
         }
+    </div>
 
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
-        <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
-        <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-    </body>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>

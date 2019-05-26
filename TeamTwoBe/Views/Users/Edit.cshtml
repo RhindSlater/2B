@@ -7,7 +7,7 @@
 
 <h2>Edit</h2>
 
-
+<div id="base">
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -83,6 +83,7 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index", new { id = Model.ID })
+</div>
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

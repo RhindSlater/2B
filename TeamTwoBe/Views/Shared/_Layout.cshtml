@@ -14,7 +14,7 @@
         <div class="navbar-brand d-flex w-50 mr-auto">
             @if (Session["AccountLevel"] != null)
             {
-                if (Session["AccountLevel"] != "2")
+                if (Session["AccountLevel"].ToString() != "2")
                 {
                     <a href="/Sales/Index"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
                 }
@@ -86,7 +86,7 @@
                     </li>
                     <li class="nav-item">
                         <div id="profile">
-                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="@Session["UserPic"]" width="33" height="33" />
                             <a href="/Users/Profile/@Session["UserID"]">
 
                                 @Session["Username"]
@@ -160,12 +160,12 @@
                 <div class="col-lg-4">
                     <ul>
                         <li><h4>Profile</h4></li>
-                        <li><a href="">My Sales</a></li>
-                        <li><a href="">My Watchlist</a></li>
-                        <li><a href="">My Wishlist</a></li>
-                        <li><a href="">My Collection</a></li>
+                        <li><a href="/Sales/MyListings/@Session["UserID"]">My Sales</a></li>
+                        <li><a href="/Profile/Watchlist/@Session["UserID"]">My Watchlist</a></li>
+                        <li><a href="/Profile/Wishlist/@Session["UserID"]">My Wishlist</a></li>
+                        <li><a href="/Profile/Collection/@Session["UserID"]">My Collection</a></li>
                         <li><a href="">Items Won</a></li>
-                        <li><a href="">Premium</a></li>
+                        <li><a href="/Users/Premium/">Premium</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
