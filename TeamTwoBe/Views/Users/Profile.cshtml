@@ -12,8 +12,6 @@
         <h2 id="ProfileUsername">@Model.MyUser.Username's profile</h2>
 
         <div style="display:inline-block;">
-            @*@if (Model.MyUser.ID.ToString() == Session["UserID"].ToString())
-                {*@
             <div id="CurrentSales">
                 <div style="display:flex">
                     <h3 id="sales" style="text-align:center;">My Listings</h3>
@@ -25,7 +23,7 @@
                         {
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
-                                    @if (item.ID != 1038)
+                                    @if (item.ID != 1)
                                     {
                                         <div data-toggle="modal" data-target="#Listings_@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
@@ -46,7 +44,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if (item.ID != 1038)
+                            if (item.ID != 1)
                             {
                                 <div id="Listings_@item.ID" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
@@ -79,8 +77,8 @@
                                                         }
                                                         else
                                                         {
-                                                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary"})</a>
-                                                            <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default"})</a>
+                                                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                            <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                                         }
                                                     </div>
                                                 </div>
@@ -97,7 +95,7 @@
                 </div>
             </div>
 
-            <br />
+            <hr />
 
             <div id="ProfileWatchlist">
                 <div style="display:flex">
@@ -110,7 +108,7 @@
                         {
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
-                                    @if (item.ID != 1038)
+                                    @if (item.ID != 1)
                                     {
                                         <div data-toggle="modal" data-target="#Watchlist_@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
@@ -131,7 +129,7 @@
                                     }
                                 </div>
                             </div>
-                            if (item.ID != 1038)
+                            if (item.ID != 1)
                             {
                                 <div id="Watchlist_@item.ID" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
@@ -182,7 +180,7 @@
                 </div>
             </div>
 
-            <br />
+            <hr />
 
             <div id="ProfileCollection">
                 <div style="display:flex">
@@ -195,7 +193,7 @@
                         {
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
-                                    @if (item.ID != 1495)
+                                    @if (item.ID != 1)
                                     {
                                         <div data-toggle="modal" data-target="#Collection_@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
@@ -216,7 +214,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if (item.ID != 1495)
+                            if (item.ID != 1)
                             {
                                 <div id="Collection_@item.ID" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
@@ -262,7 +260,7 @@
                 </div>
             </div>
 
-            <br />
+            <hr />
 
             <div id="ProfileWishlist">
                 <div style="display:flex">
@@ -275,7 +273,7 @@
                         {
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
-                                    @if (item.ID != 1495)
+                                    @if (item.ID != 1)
                                     {
                                         <div data-toggle="modal" data-target="#Wishlist_@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
@@ -297,7 +295,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if (item.ID != 1495)
+                            if (item.ID != 1)
                             {
                                 <div id="Wishlist_@item.ID" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
@@ -349,16 +347,14 @@
                     </div>
                 </div>
             </div>
+            <hr />
+
+            <div>
             <a href="/users/edit/@Session["UserID"]">Edit Profile</a>
+            </div>
+            <div>
             <a> My Reviews and Ratings</a>
-            @*}
-                else
-                {
-                    <a href="/Sales/MyListings/@Model.MyUser.ID">Current Sales</a>
-                    <a>Reviews and Ratings</a>
-                    <a href="/profile/collection/@Model.MyUser.ID">Collection</a>
-                    <a href="/profile/wishlist/@Model.MyUser.ID">Wishlist</a>
-                }*@
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>

@@ -7,13 +7,13 @@ namespace TeamTwoBe.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class delme1 : IMigrationMetadata
+    public sealed partial class AddAccountLevels : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(delme1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddAccountLevels));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905241011560_delme1"; }
+            get { return "201905260822083_AddAccountLevels"; }
         }
         
         string IMigrationMetadata.Source

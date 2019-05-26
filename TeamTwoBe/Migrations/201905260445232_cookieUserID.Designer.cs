@@ -7,13 +7,13 @@ namespace TeamTwoBe.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class delme : IMigrationMetadata
+    public sealed partial class cookieUserID : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(delme));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(cookieUserID));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905221204062_delme"; }
+            get { return "201905260445232_cookieUserID"; }
         }
         
         string IMigrationMetadata.Source

@@ -34,6 +34,8 @@ namespace TeamTwoBe.Models
 
         public string Phone { get; set; } //Joe: Either Homephone or Mobile. Must be string datatype to store all numbers properly.
 
+        public string cookie { get; set; }
+
         public bool IsDeleted { get; set; }
 
         public bool IsLocked { get; set; }
