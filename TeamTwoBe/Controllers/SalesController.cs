@@ -28,15 +28,33 @@ namespace TeamTwoBe.Controllers
         {
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
-
+        public bool checkCookie() //check if same ipaddress
+        {
+            string userid = string.Empty;
+            if (Request != null)
+            {
+                if (Request.Cookies["userid"] != null)
+                {
+                    var address = Request.UserHostAddress;
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
         public ActionResult Index()
         {
             UsersController uc = new UsersController();
-            var check = uc.checkCookie();
-            if (check)
-            {
-                return RedirectToAction("Index", "Sales");
-            }
+            checkCookie();
             Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))

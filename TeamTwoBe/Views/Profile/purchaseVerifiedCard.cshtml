@@ -4,15 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Purchase a Verified Card!</h2>
+<h2 style="text-align:center; margin-top:8%; margin-bottom:2%;">Purchase a Verified Card!</h2>
 
 <script src="https://js.stripe.com/v3/"></script>
 <div id="base">
+    <div id="purchase-div">
     <form action="/Profile/purchaseVerifiedCard/" method="POST">
         <article>
-            <label>Card: @Model.MySale.Card.name</label>
+            <label id="SideMarginAuto">Card: @Model.MySale.Card.name</label>
             <br />
-            <label>Amount: @Model.MySale.Price.ToString("c2")</label>
+            <label id="SideMarginAuto">Amount: @Model.MySale.Price.ToString("c2")</label>
         </article>
         <script src="//checkout.stripe.com/v3/checkout.js"
                 class="stripe-button"
@@ -22,4 +23,5 @@
                 data-amount="@Model.MyMoney">
         </script>
     </form>
+    </div>
 </div>

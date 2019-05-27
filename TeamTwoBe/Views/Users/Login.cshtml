@@ -7,22 +7,21 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.3&appId=338968053476558&autoLogAppEvents=1">
-    </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
 
     <script>
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });
-
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '338968053476558',
+                cookie: true,
                 xfbml: true,
                 version: 'v3.3'
             });
-            FB.AppEvents.logPageView();
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
         };
 
         (function (d, s, id) {
@@ -33,14 +32,23 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+                console.log('Success!');
+                
+            } else {
+                console.log('Fail!');
+            }
+        }
 
         function checkLoginState() {
             FB.getLoginStatus(function (response) {
                 statusChangeCallback(response);
             });
         }
-
     </script>
+
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 
     <div id="Main">
         <div id="Center">
@@ -72,9 +80,12 @@
                                 <div class="divide"><hr></div>
                             </div>
                             <div id="hide2">
-                                <Button id="hide" type="button">
-                                    <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
-                                </Button>
+                                @*<Button id="hide" type="button">
+                                        <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
+                                    </Button>*@
+                                <fb:login-button style="margin-left:25%;" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true" data-size="medium" scope="public_profile,email"
+                                                 onlogin="checkLoginState();">
+                                </fb:login-button>
                             </div>
                             <div id="forgot">
                                 <a href="">Forgot password?</a>

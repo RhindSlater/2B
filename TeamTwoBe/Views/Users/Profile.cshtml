@@ -8,6 +8,12 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <body>
+    @*<div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section loader-left"></div>
+        <div class="loader-section loader-right"></div>
+    </div>*@
+
     <div style="text-align:center;">
         <h2 id="ProfileUsername">@Model.MyUser.Username's profile</h2>
 
@@ -72,7 +78,7 @@
                                                         <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                                                         @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                                                         {
-                                                            <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                            <a>@Html.ActionLink("Edit Listing", "editListing", "Sales", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                                                             <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", "Sales", new { id = item.ID }, new { @class = "btn btn-default" })</a>
                                                         }
                                                         else
@@ -349,10 +355,10 @@
             <hr />
 
             <div>
-            <a href="/users/edit/@Session["UserID"]">Edit Profile</a>
+                <a href="/users/edit/@Session["UserID"]">Edit Profile</a>
             </div>
             <div>
-            <a> My Reviews and Ratings</a>
+                <a> My Reviews and Ratings</a>
             </div>
         </div>
     </div>

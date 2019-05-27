@@ -91,13 +91,14 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
-        public bool checkCookie()
+        public bool checkCookie() //check if same ipaddress
         {
             string userid = string.Empty;
             if (Request != null)
             {
                 if (Request.Cookies["userid"] != null)
                 {
+                    var address = Request.UserHostAddress;
                     userid = Request.Cookies["userid"].Value;
                     User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
                     if (user != null)
@@ -134,17 +135,24 @@ namespace TeamTwoBe.Controllers
                         {
                             return RedirectToAction("Locked");
                         }
-                        if (SaveData[0] == "on")
+                        try
                         {
-                            string str = user.Username + DateTime.Now;
-                            HttpCookie cookie = new HttpCookie("userid");
-                            cookie.Expires = DateTime.Now.AddDays(30);
-                            cookie.Value = str;
-                            Response.Cookies.Add(cookie);
-                            user.cookie = str;
-                            db.SaveChanges();
+                            if (SaveData[0] == "on")
+                            {
+                                string str = user.Username + DateTime.Now;
+                                HttpCookie cookie = new HttpCookie("userid");
+                                cookie.Expires = DateTime.Now.AddDays(30);
+                                cookie.Value = str;
+                                Response.Cookies.Add(cookie);
+                                user.cookie = str;
+                                db.SaveChanges();
+                            }
+                            return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
                         }
-                        return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
+                        catch (Exception)
+                        {
+                            return RedirectToAction($"Profile/{user.ID}"); //change to home page once we have created one
+                        }
                     }
                 }
             }
@@ -168,8 +176,6 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Login");
             }
-            Session["View"] = "UserRegister";
-            return View();
         }
 
 

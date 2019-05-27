@@ -175,17 +175,16 @@ namespace TeamTwoBe.Controllers
             }
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("ShoppingCart").Include("Watchlist").Where(x => x.ID == id).FirstOrDefault();
-
             if (user.ShoppingCart.Contains(sale) == false)
             {
                 user.ShoppingCart.Add(sale);
                 db.SaveChanges();
+                Session["ShoppingCart"] = user.ShoppingCart.Count();
             }
             if (user.Watchlist.Contains(sale) == false)
             {
                 user.Watchlist.Add(sale);
                 db.SaveChanges();
-                Session["ShoppingCart"] = user.ShoppingCart.Count();
             }
             return RedirectToAction("Shoppingcart");
         }

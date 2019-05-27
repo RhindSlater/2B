@@ -5,42 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Are you sure you want to remove this listing?</h3>
-<div>
+<div id="base">
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Card)
-        </dt>
+    <div style="margin-top:8%;" id="remove-div">
 
-        <dd>
-            @Html.DisplayFor(model => model.Card.name)
-        </dd>
+        <h3 style="text-align:center;" id="sales">Are you sure you want to remove this listing?</h3>
+        <div style="display:flex;">
+            <div id="remove-details">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Card)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Card.name)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UploadDate)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.UploadDate)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UploadDate)
+                    </dt>
 
-    </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.UploadDate)
+                    </dd>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+                </dl>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Unlist" class="btn btn-default" />
-            @Html.ActionLink("Back to List", "Index",null,new { @class = "btn btn-default" })
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Unlist" class="btn btn-default" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                }
+            </div>
+            <div>
+                <img id="removeimage" src="@Model.Card.image_url" />
+            </div>
         </div>
-    }
+    </div>
 </div>
