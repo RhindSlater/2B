@@ -14,6 +14,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    
+    <script>
+        
+    </script>
 
     <div id="base">
 
@@ -161,14 +165,12 @@
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
                                     <div data-toggle="modal" data-target="#myModal" id="CardImage">
-                                        <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="215" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.DisplayPicture" /></div></a>
+                                        <a><div style="display:inline-block;"><img oncontextmenu="rightclick()" height="215" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.DisplayPicture" /></div></a>
                                     </div>
                                     <div id="DetailGrid">
                                         <div id="Detail">
                                             <a><p id="CardName">@item.Username</p></a>
                                             <div>
-                                                @*<a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
-                                                    <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>*@
                                             </div>
                                         </div>
                                     </div>
@@ -202,6 +204,14 @@
         </div>
     </div>
 
+    <script>
+        window.oncontextmenu = function () {
+            return false;
+        }
+        function rightclick() {
+            alert("Right click");
+        }
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
