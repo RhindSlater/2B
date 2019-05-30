@@ -10,6 +10,11 @@
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script>
+        function loading() {
+            $("#loader-wrapper").css("display", "block");
+        }
+    </script>
 </head>
 <body style="position:relative">
     <div id="loader-wrapper">
@@ -44,7 +49,7 @@
             <ul class="navbar-nav w-100 justify-content-center">
                 <li class="nav-item active">
                     <div>
-                        <a class="nav-link" href="/Sales/Create">Sell</a>
+                        <a class="nav-link" id="selling" onclick="loading()" href="/Sales/Create">Sell</a>
                     </div>
                 </li>
                 <li class="nav-item1">
@@ -93,7 +98,7 @@
                     </li>
                     <li class="nav-item">
                         <div id="profile">
-                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="@Session["UserPic"]" width="33" height="33" />
+                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
                             <a href="/Users/Profile/@Session["UserID"]">
 
                                 @Session["Username"]

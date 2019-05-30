@@ -46,6 +46,8 @@ namespace TeamTwoBe.Controllers
                 Member = user,
                 NextBillingDate = DateTime.Now.AddMonths(1)
             };
+            user.DisplayPicture = "premium.png";
+            Session["UserPic"] = user.DisplayPicture;
             db.PremiumBilling.Add(pb);
             db.SaveChanges();
             return RedirectToAction("Premium");
