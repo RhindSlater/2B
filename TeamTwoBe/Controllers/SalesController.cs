@@ -79,7 +79,6 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult MyListings(int? id)
         {
-            Session["View"] = "SaleIndex";
             List<Sale> li = new List<Sale>();
             ListCardListSale vm = new ListCardListSale()
             {
