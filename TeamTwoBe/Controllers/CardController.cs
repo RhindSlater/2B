@@ -25,9 +25,34 @@ namespace TeamTwoBe.Controllers
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
 
+        public bool checkCookie() //check if same ipaddress
+        {
+            string userid = string.Empty;
+            if (Request != null)
+            {
+                if (Request.Cookies["userid"] != null)
+                {
+                    var address = Request.UserHostAddress;
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
+            checkCookie();
             HttpResponseMessage resp = await yugiohPriceApi.GetAsync($"get_card_prices/{dropboxvalue}");
             if (resp.IsSuccessStatusCode)
             {
@@ -77,6 +102,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public async Task<ActionResult> apiPrice2(string dropboxvalue)
         {
+            checkCookie();
             HttpResponseMessage resp = await yugiohPriceApi.GetAsync($"get_card_prices/{dropboxvalue}");
             if (resp.IsSuccessStatusCode)
             {
@@ -125,6 +151,7 @@ namespace TeamTwoBe.Controllers
 
         public async Task<ActionResult> Wishlist()
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -155,6 +182,7 @@ namespace TeamTwoBe.Controllers
 
         public async Task<ActionResult> Collection()
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -186,6 +214,7 @@ namespace TeamTwoBe.Controllers
         //This searches for a card containing any part of the word that is being searched for e.g. dark
         public ActionResult addCardToWishlist(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -208,6 +237,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult addCardToCollection(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");

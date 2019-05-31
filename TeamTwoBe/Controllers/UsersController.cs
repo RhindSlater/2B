@@ -34,6 +34,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Subscription(string test)
         {
+            checkCookie();
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
             AccountType acc = db.AccountTypes.Find(3);
@@ -66,11 +67,11 @@ namespace TeamTwoBe.Controllers
         {
             if (Session["UserID"] == null)
             {
-                return RedirectToAction("Index", "Sales");
+                return RedirectToAction("Login");
             }
             if (Session["UserID"].ToString() == "0")
             {
-                return RedirectToAction("Index", "Sales");
+                return RedirectToAction("Login");
             }
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
@@ -229,12 +230,9 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            checkCookie();
             User user = db.Users.Find(Session["UserID"]);
             if (user == null)
             {
@@ -244,25 +242,19 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            if (id == null)
+            checkCookie();
+            if(Session["UserID"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Login");
             }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            Session["View"] = "UserEdit";
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Username,Password,City,Email,Phone")] User user)
@@ -286,7 +278,6 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
-            Session["View"] = "UserProfile";
             if (id == null)
             {
                 return RedirectToAction("Index", "Sales");
@@ -399,7 +390,20 @@ namespace TeamTwoBe.Controllers
         }
         public ActionResult UserReview()
         {
+            checkCookie();
             return View();
         }
+
+        public ActionResult Follow(int id)
+        {
+            checkCookie();
+            User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user2 = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
+            user2.Follower.Add(user);
+            db.SaveChanges();
+            return RedirectToAction("Profile",Session["UserID"]);
+        }
+
     }
 }

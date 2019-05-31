@@ -13,9 +13,32 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-        // GET: Home
+        public bool checkCookie() //check if same ipaddress
+        {
+            string userid = string.Empty;
+            if (Request != null)
+            {
+                if (Request.Cookies["userid"] != null)
+                {
+                    var address = Request.UserHostAddress;
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
         public ActionResult Index(int? id)
         {
+            checkCookie();
             HomeViewModel vm = new HomeViewModel()
             {
                 Followers = new List<Models.Sale>(),
@@ -44,7 +67,6 @@ namespace TeamTwoBe.Controllers
                     vm.Recommended.Add(i);
                 }
             }
-
             return View(vm);
         }
     }

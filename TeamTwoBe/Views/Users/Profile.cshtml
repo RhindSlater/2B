@@ -19,7 +19,7 @@
         }
         else
         {
-            <h2 id="ProfileUsername">@Html.ActionLink(Model.MyUser.Username + "'s profile","Follow", Model.MyUser.ID)</h2>
+            <a href="/Users/Follow/@Model.MyUser.ID"><h2 id="ProfileUsername"><i class="fas fa-user-plus"></i> Follow @Model.MyUser.Username</h2></a>
         }
 
         <div style="display:inline-block;">

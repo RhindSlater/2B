@@ -71,6 +71,7 @@ a, .btn{
     color: white;
 }
 .dropdown-toggle{
+    margin-left: 3px;
     padding-top: 4px;
     padding-bottom: 7px;
     cursor: pointer;
