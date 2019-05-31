@@ -28,8 +28,32 @@ namespace TeamTwoBe.Controllers
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
 
+        public bool checkCookie() //check if same ipaddress
+        {
+            string userid = string.Empty;
+            if (Request != null)
+            {
+                if (Request.Cookies["userid"] != null)
+                {
+                    var address = Request.UserHostAddress;
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
         public ActionResult Shoppingcart()
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -47,6 +71,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Watchlist()
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -65,6 +90,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult removeWishlist(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -86,6 +112,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult removeCollection(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -108,6 +135,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult removeFromWatchlist(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -132,6 +160,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult removeFromShoppingCart(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -157,6 +186,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult addShoppingcart(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -193,6 +223,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult purchaseCard(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -251,6 +282,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult purchaseVerifiedCard()
         {
+            checkCookie();
             StripeConfiguration.SetApiKey("sk_test_P6m1FrtIXMp4Eb8vxViEhofQ00VVKk9gpa");
 
             int id = Convert.ToInt32(Session["saleID"].ToString());
@@ -307,7 +339,7 @@ namespace TeamTwoBe.Controllers
                 db.SaveChanges();
                 Session["umm"] = "go";
                 Session["ShoppingCart"] = user.ShoppingCart.Count();
-                return RedirectToAction("Shoppingcart");
+                return RedirectToAction("Won");
             }
             else
             {
@@ -318,7 +350,7 @@ namespace TeamTwoBe.Controllers
         //This int id is the sale id. This one is for the view to enter info first...
         public ActionResult purchaseVerifiedCard(int id)
         {
-
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -352,8 +384,9 @@ namespace TeamTwoBe.Controllers
         }
 
         //This is a list of all the items a user has bought. Checks database for every Sale == IsSold and BuyerID against the current logged in User.
-        public ActionResult itemsIwon(int id)
+        public ActionResult Won()
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -363,33 +396,16 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            Sale sale = db.Sales.Include("Card").Include("Seller").Include("buyer").Where(x => x.ID == id).FirstOrDefault();
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Buyer.ID == id);
 
-            Session["saleID"] = sale.ID;
-
-            id = Convert.ToInt32(Session["UserID"].ToString());
-
-
-            List<Sale> li = new List<Sale>();
-            ListCardListSale vm = new ListCardListSale()
-            {
-                Sales = li,
-                Users = new List<User>(),
-            };
-
-            if (sale.Buyer.ID.ToString() == Session["UserID"].ToString())
-            {
-
-
-                return View();
-            }
-
-            return View();
+            return View(li.ToList());
         }
 
 
         public ActionResult addToWatchlist(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -417,6 +433,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Wishlist(int id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -438,6 +455,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Collection(int? id)
         {
+            checkCookie();
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("login", "users");

@@ -29,6 +29,7 @@
 </head>
 <body style="position:relative">
     <div id="loader-wrapper">
+        <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["UserID"]" />
         <div id="loader">
             <div class="pixels animated infinite flash slow delay-1s"></div>
         </div>
@@ -50,9 +51,6 @@
             {
                 <a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
             }
-        <ul>
-            <li>@Html.ActionLink("Why Us?", "WhyUs", "Home")</li>
-        </ul>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="navbar-toggler-icon"></span>
@@ -109,34 +107,48 @@
                             <a href="/Users/LogOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
                         </div>
                     </li>
+
+
+                    <li class="nav-item">
+                        <div>
+                            <ul class="nav nav-pills">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" onclick="checkNotifications()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
+                                    <div id="notification-div" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                        @*insert stuff here*@
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+
+
                     <li class="nav-item">
                         <div id="profile">
                             <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
-                            
                         </div>
-                        
                     </li>
                     <li class="nav-item">
                         <div>
-                            <a href="/Users/Profile/@Session["UserID"]">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session["Username"]</a>
-                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                            <a class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
-                                            <a class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
-                                            <a class="dropdown-item" href="#">Won</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/Sales/MyListings/@Session["UserID"]">My listings</a>
-                                            <a class="dropdown-item" href="/Profile/Collection/@Session["UserID"]">My collection</a>
-                                            <a class="dropdown-item" href="#">Sold</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/Users/Premium/">Premium</a>
-                                            <a class="dropdown-item" id="settings">Settings</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </a>
+                            <ul class="nav nav-pills">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session["Username"]</a>
+                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                        <a class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
+                                        <a class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
+                                        <a class="dropdown-item" href="/Profile/Won">Won</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Sales/MyListings/@Session["UserID"]">My listings</a>
+                                        <a class="dropdown-item" href="/Profile/Collection/@Session["UserID"]">My collection</a>
+                                        <a class="dropdown-item" href="#">Sold</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Users/Premium/">Premium</a>
+                                        <a class="dropdown-item" id="settings">Settings</a>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </li>
                 }
@@ -200,7 +212,7 @@
                         <li><h4>Get to know us</h4></li>
                         <li><a href="/contact/contact">Contact us</a></li>
                         <li><a href="">About us</a></li>
-                        <li><a href="">Why shop with 2B</a></li>
+                        <li><a href="/Home/WhyUs">Why shop with 2B</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -210,7 +222,7 @@
                         <li><a href="/Profile/Watchlist/@Session["UserID"]">My Watchlist</a></li>
                         <li><a href="/Profile/Wishlist/@Session["UserID"]">My Wishlist</a></li>
                         <li><a href="/Profile/Collection/@Session["UserID"]">My Collection</a></li>
-                        <li><a href="">Items Won</a></li>
+                        <li><a href="/Profile/Won">Items Won</a></li>
                         <li><a href="/Users/Premium/">Premium</a></li>
                     </ul>
                 </div>

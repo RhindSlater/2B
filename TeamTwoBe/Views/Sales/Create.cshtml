@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id = "card-search" }))
                     {
-                        <input value="@Model.MyCard1" id="dropbox" list="CardList" type="text" name="dropboxvalue" />
+                        <input value="@Model.MyCard" id="dropbox" list="CardList" type="text" name="dropboxvalue" />
                         <input type="submit" value="Search">
                     }
                 </div>

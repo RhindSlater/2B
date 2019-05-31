@@ -31,6 +31,14 @@ namespace TeamTwoBe.Controllers
             }
             return RedirectToAction("Index", "Sales");
         }
+        public List<Notification> CheckNotifications()
+        {
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
+            return li;
+        }
+
+
 
         public ActionResult Subscription(string test)
         {
@@ -397,12 +405,41 @@ namespace TeamTwoBe.Controllers
         public ActionResult Follow(int id)
         {
             checkCookie();
+
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user2 = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
+            Notification notify = new Notification()
+            {
+                Date = DateTime.Now,
+                Title = "New Follower",
+                Message = user2 + " has started following you.",
+                Seen = false,
+                NotifyUser = user,
+            };
             user2.Follower.Add(user);
+            db.Notifications.Add(notify);
             db.SaveChanges();
             return RedirectToAction("Profile",Session["UserID"]);
+        }
+
+        public ActionResult requestTrade(int id)
+        {
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Find(id);
+            if(sale != null)
+            {
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Trade request",
+                    Message = user.Username + " has requested to trade for the " + sale.Card.name + " in your collection.",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+            }
+            return RedirectToAction("Index","Sales");
         }
 
     }

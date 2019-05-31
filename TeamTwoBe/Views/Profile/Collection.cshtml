@@ -47,42 +47,45 @@
                         </div>
                     </div>
                     <div id="@item.ID" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div id="modal-header1">
-                                        <h4 style="text-align:center;" class="modal-title">@item.name</h4>
-                                    </div>
-                                </div>
-                                <div class="modal-body">
-                                    <div style="display:flex;">
-                                        <div id="modalDetails1">
-                                            <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
-                                        </div>
-                                        <div id="modalDetails">
-                                            <h4><b>Name:</b> @item.name</h4>
-                                            <p><b>Card Type:</b> @item.Cardtype.Name</p>
-                                            <p><b>Set:</b> @item.print_tag</p>
-                                            <p><b>Rarity:</b> @item.rarity</p>
-                                            <p><b>Average Price:</b> @item.average.ToString("c2")</p>
-                                            @if (Model.ID.ToString() == Session["UserID"].ToString())
-                                            {
-                                                <a>@Html.ActionLink("List for Sale", "Create", "Sales", new { card = item.name }, new { @class = "btn btn-primary" })</a>
-                                                <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-default" })</a>
-                                            }
-                                            else
-                                            {
-                                                <a>@Html.ActionLink("Request trade", "requestTrade", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default" })</a>
-                                            }
+                        <form action="/Sales/apiPrice" id="card-search" method="post">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div id="modal-header1">
+                                            <input name="dropboxvalue" style="display:none" value="@item.name" />
+                                            <h4 style="text-align:center;" class="modal-title">@item.name</h4>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <div class="modal-body">
+                                        <div style="display:flex;">
+                                            <div id="modalDetails1">
+                                                <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
+                                            </div>
+                                            <div id="modalDetails">
+                                                <h4><b>Name:</b> @item.name</h4>
+                                                <p><b>Card Type:</b> @item.Cardtype.Name</p>
+                                                <p><b>Set:</b> @item.print_tag</p>
+                                                <p><b>Rarity:</b> @item.rarity</p>
+                                                <p><b>Average Price:</b> @item.average.ToString("c2")</p>
+                                                @if (Model.ID.ToString() == Session["UserID"].ToString())
+                                                {
+                                                    <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <button class="btn btn-default" type="submit" id="modalDetails1">List for sale</button>
+                                                }
+                                                else
+                                                {
+                                                    <a>@Html.ActionLink("Request trade", "requestTrade", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 }
             </div>

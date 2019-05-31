@@ -182,7 +182,7 @@ namespace TeamTwoBe.Controllers
             return View(sale);
         }
 
-        public async Task<ActionResult> Create(string card)
+        public async Task<ActionResult> Create(int? id)
         {
             checkCookie();
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
@@ -203,9 +203,13 @@ namespace TeamTwoBe.Controllers
 
 
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
-            if (card != null)
+            if (id != null)
             {
-                salevm.MyCard = card;
+                Card card = db.Cards.Find(id);
+                if (card != null)
+                {
+                    salevm.MyCard = card.name;
+                }
             }
             HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?");
             if (response.IsSuccessStatusCode)
@@ -258,6 +262,20 @@ namespace TeamTwoBe.Controllers
                 };
 
                 db.Sales.Add(MySale);
+                var li = db.Users.Include("Watchlist").Include("Wishlist").Where(x => x.Wishlist.Any(z => z.ID == card.ID)).ToList();
+                foreach(var i in li)
+                {
+                    Notification notify = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "New Sale",
+                        Message = "A card in your wishlist is now for sale and has been added to your watchlist",
+                        Seen = false,
+                        NotifyUser = i,
+                    };
+                    db.Notifications.Add(notify);
+                    i.Watchlist.Add(MySale);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -315,7 +333,7 @@ namespace TeamTwoBe.Controllers
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
-            Sale sale1 = db.Sales.Include("Card").Include("Seller").Include("CardCondition").Include("CardGrade").Where(x => x.ID == sale.ID).AsNoTracking().FirstOrDefault();
+            Sale sale1 = db.Sales.Include("Card").Include("Watcher").Include("Shopper").Include("Seller").Include("CardCondition").Include("CardGrade").Where(x => x.ID == sale.ID).AsNoTracking().FirstOrDefault();
 
             if (Conditions != "")
             {
@@ -326,6 +344,31 @@ namespace TeamTwoBe.Controllers
             {
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 sale1.CardGrade = grade;
+            }
+            if(sale1.Price != sale.Price)
+            {
+                foreach (var i in sale1.Watcher)
+                {
+                    Notification notify = new Notification()
+                    {
+                        Title = "Price changed",
+                        Message = "A card on your watchlist has been edited.",
+                        NotifyUser = i,
+                        Seen = false,
+                    };
+                    db.Notifications.Add(notify);
+                }
+                foreach (var i in sale1.Shopper)
+                {
+                    Notification notify = new Notification()
+                    {
+                        Title = "Price changed",
+                        Message = "A card in your shoppingcart has been edited.",
+                        NotifyUser = i,
+                        Seen = false,
+                    };
+                    db.Notifications.Add(notify);
+                }
             }
 
             sale1.Price = sale.Price;
