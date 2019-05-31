@@ -5,90 +5,95 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
-    <script src="https://js.stripe.com/v3"></script>
-    <div id="base">
-        <div id="PremiumDiv" class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 id="PremiumTitle">2B Premium</h3>
-                </div>
-                <div style="padding-left:25px;" class="row">
-                    <div class="col-lg-4" id="PremiumDetails">
-                        <span id="PremiumHeading">User:</span>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+        <script src="https://js.stripe.com/v3"></script>
+        <div id="base">
+            <div id="PremiumDiv" class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 id="PremiumTitle">2B Premium</h3>
                     </div>
-                    <div class="col-lg-8" id="PremiumDetails">
-                        <span id="PremiumResult">@Model.MyUser.Username</span>
-                    </div>
-                    <div class="col-lg-4" id="PremiumDetails">
-                        <span id="PremiumHeading">Status:</span>
-                    </div>
-                    <div class="col-lg-8" id="PremiumDetails">
-                        <span id="PremiumResult">@Model.MyUser.UserLevel.AccountLevel</span>
-                    </div>
-                    <div class="col-lg-4" id="PremiumDetails">
-                        <span id="PremiumHeading">Price:</span>
-                    </div>
-                    <div class="col-lg-8" id="PremiumDetails">
-                        <span id="PremiumResult">NZ$11.99/month</span>
-                    </div>
-                    @if (Model.MyUser.UserLevel.ID != 2)
-                    {
+                    <div style="padding-left:25px;" class="row">
                         <div class="col-lg-4" id="PremiumDetails">
-                            <span id="PremiumHeading">Next bill date:</span>
+                            <span id="PremiumHeading">User:</span>
                         </div>
                         <div class="col-lg-8" id="PremiumDetails">
-                            <span id="PremiumResult">@Model.MyBilling.NextBillingDate.ToString("dd MMM yyyy")</span>
+                            <span id="PremiumResult">@Model.MyUser.Username</span>
                         </div>
-                    }
+                        <div class="col-lg-4" id="PremiumDetails">
+                            <span id="PremiumHeading">Status:</span>
+                        </div>
+                        <div class="col-lg-8" id="PremiumDetails">
+                            <span id="PremiumResult">@Model.MyUser.UserLevel.AccountLevel</span>
+                        </div>
+                        <div class="col-lg-4" id="PremiumDetails">
+                            <span id="PremiumHeading">Price:</span>
+                        </div>
+                        <div class="col-lg-8" id="PremiumDetails">
+                            <span id="PremiumResult">NZ$11.99/month</span>
+                        </div>
+                        @if (Model.MyUser.UserLevel.ID != 2)
+                        {
+                            <div class="col-lg-4" id="PremiumDetails">
+                                <span id="PremiumHeading">Next bill date:</span>
+                            </div>
+                            <div class="col-lg-8" id="PremiumDetails">
+                                <span id="PremiumResult">@Model.MyBilling.NextBillingDate.ToString("dd MMM yyyy")</span>
+                            </div>
+                        }
 
 
-                    <div class="col-lg-12">
-                        <span class="PremiumButton">Update Payment Method</span>
+                        <div class="col-lg-12">
+                            <span class="PremiumButton">Update Payment Method</span>
+                        </div>
+
+                        @if (Model.MyUser.UserLevel.ID == 2)
+                        {
+                            <div class="col-lg-12">
+                                <a class="PremiumButton" id="checkout-button-plan_F75pO616xMgJCn" role="link">Become premium member</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-12">
+                                <a href="" class="PremiumButton">Cancel subscription</a>
+                            </div>
+                        }
                     </div>
-
-                    @if (Model.MyUser.UserLevel.ID == 2)
-                    {
-                        <div class="col-lg-12">
-                            <a class="PremiumButton" id="checkout-button-plan_F75pO616xMgJCn" role="link">Become premium member</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-lg-12">
-                            <a href="" class="PremiumButton">Cancel subscription</a>
-                        </div>
-                    }
                 </div>
             </div>
-        </div>        
-    <script>
-        var stripe = Stripe('pk_test_it8IfmJsPFnu7cXmNXb8aSp300FSV94EfE');
+        </div>
+        <script>
+            var stripe = Stripe('pk_test_it8IfmJsPFnu7cXmNXb8aSp300FSV94EfE');
 
-        var checkoutButton = document.getElementById('checkout-button-plan_F75pO616xMgJCn');
-        checkoutButton.addEventListener('click', function () {
-            // When the customer clicks on the button, redirect
-            // them to Checkout.
-            stripe.redirectToCheckout({
-                items: [{ plan: 'plan_F75pO616xMgJCn', quantity: 1 }],
+            var checkoutButton = document.getElementById('checkout-button-plan_F75pO616xMgJCn');
+            checkoutButton.addEventListener('click', function () {
+                // When the customer clicks on the button, redirect
+                // them to Checkout.
+                stripe.redirectToCheckout({
+                    items: [{ plan: 'plan_F75pO616xMgJCn', quantity: 1 }],
 
-                // Do not rely on the redirect to the successUrl for fulfilling
-                // purchases, customers may not always reach the success_url after
-                // a successful payment.
-                // Instead use one of the strategies described in
-                // https://stripe.com/docs/payments/checkout/fulfillment
-                successUrl: 'http://localhost:50637/users/subscription/success',
-                cancelUrl: 'http://localhost:50637/users/premium',
-            })
-                .then(function (result) {
-                    if (result.error) {
-                        // If `redirectToCheckout` fails due to a browser or network
-                        // error, display the localized error message to your customer.
-                        var displayError = document.getElementById('error-message');
-                        displayError.textContent = result.error.message;
-                    }
-                });
-        });
-    </script>
-</body>
+                    // Do not rely on the redirect to the successUrl for fulfilling
+                    // purchases, customers may not always reach the success_url after
+                    // a successful payment.
+                    // Instead use one of the strategies described in
+                    // https://stripe.com/docs/payments/checkout/fulfillment
+                    successUrl: 'http://localhost:50637/users/subscription/success',
+                    cancelUrl: 'http://localhost:50637/users/premium',
+                })
+                    .then(function (result) {
+                        if (result.error) {
+                            // If `redirectToCheckout` fails due to a browser or network
+                            // error, display the localized error message to your customer.
+                            var displayError = document.getElementById('error-message');
+                            displayError.textContent = result.error.message;
+                        }
+                    });
+            });
+        </script>
+    </body>
 

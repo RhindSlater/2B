@@ -4,16 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-</head>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    </head>
 <body>
     <div id="base">
         @if (Model.ID.ToString() == Session["UserID"].ToString())
         {
             <div style="margin:auto">
-                <div style="display:flex; margin:auto; max-width:1380px;">
+                <div style="position:relative; display:flex; margin:auto; max-width:1380px;">
                     <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s wishlist", "Profile", "Users", new { id = Model.ID }, null)</h3>
                     <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("Add card to wishlist", "Wishlist", "Card", new { }, new { @id = "addlisting" })</a>
                 </div>

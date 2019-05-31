@@ -53,9 +53,8 @@ namespace TeamTwoBe.Controllers
         }
         public ActionResult Index()
         {
-            UsersController uc = new UsersController();
             checkCookie();
-            Session["View"] = "SaleIndex";
+            UsersController uc = new UsersController();
             List<Sale> li = new List<Sale>();
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
             {
@@ -79,15 +78,13 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult MyListings(int? id)
         {
-            Session["View"] = "SaleIndex";
+            checkCookie();
             List<Sale> li = new List<Sale>();
             ListCardListSale vm = new ListCardListSale()
             {
                 Sales = li,
                 Users = new List<User>(),
             };
-
-
             if (Session["UserID"] == null)
             {
                 Session["UserID"] = 0;
@@ -108,6 +105,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
+            checkCookie();
             if (Session["userID"] == null)
             {
                 return RedirectToAction("login", "users");
@@ -170,6 +168,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Details(int? id)
         {
+            checkCookie();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -185,6 +184,7 @@ namespace TeamTwoBe.Controllers
 
         public async Task<ActionResult> Create(string card)
         {
+            checkCookie();
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -235,6 +235,7 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Price,ForAuction")] SaleConditionGradeVM sale, string dropboxvalue, string Conditions, string Grades)
         {
+            checkCookie();
             if (ModelState.IsValid)
             {
                 Card card = db.Cards.Where(x => x.apiID == dropboxvalue).FirstOrDefault();
@@ -267,6 +268,7 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult Search(string search)
         {
+            checkCookie();
             if (search == null)
             {
                 return RedirectToAction("Index");
@@ -280,7 +282,7 @@ namespace TeamTwoBe.Controllers
 
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Watcher").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
             {
-                if (i.ID != 1)
+                if (i.ID != 1 & i.IsSold == false)
                 {
                     li.Sales.Add(i);
                 }
@@ -309,6 +311,7 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult editListing([Bind(Include = "ID,Price,ForAuction")] Sale sale, string Conditions, string Grades)
         {
+            checkCookie();
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -334,6 +337,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult editListing(int? id)
         {
+            checkCookie();
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -359,6 +363,7 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult removeListing(int? id)
         {
+            checkCookie();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -383,16 +388,33 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult removeListing(int id)
         {
+            checkCookie();
             Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Card").Include("Seller.Collection").Where(x => x.ID == id).FirstOrDefault();
             User user = db.Users.Find(sale.Seller.ID);
 
             foreach (var i in sale.Shopper)
             {
+                Notification notify = new Notification()
+                {
+                    Title = "Sale removed",
+                    Message = "A card in your shoppingcart has been unlisted.",
+                    NotifyUser = i,
+                    Seen = false,
+                };
+                db.Notifications.Add(notify);
                 i.ShoppingCart.Remove(sale);
             }
 
             foreach (var i in sale.Watcher)
             {
+                Notification notify = new Notification()
+                {
+                    Title = "Sale removed",
+                    Message = "A card on your watchlist has been unlisted.",
+                    NotifyUser = i,
+                    Seen = false,
+                };
+                db.Notifications.Add(notify);
                 i.Watchlist.Remove(sale);
             }
 

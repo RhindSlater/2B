@@ -3,8 +3,8 @@
     height: 400px;
 }
 .contact-us{
-    background: #ff9b00;
-    padding: 4%;
+    background: #474747;
+    padding: 2%;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
 }
@@ -33,10 +33,11 @@
     font-weight: 600;
 }
 .contact-form button {
-    background: #25274d;
+    background: #ff0000;
     color: #fff;
     font-weight: 600;
     width: 25%;
+    margin-top: 7px;
 }
 .contact-form button:focus {
     box-shadow: none;
@@ -63,6 +64,6 @@
     color: black;
 }
 #details2{
-    background-color: #303030;
+    background-color: #333333;
     color: white;
 }

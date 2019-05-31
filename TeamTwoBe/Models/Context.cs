@@ -19,6 +19,7 @@ namespace TeamTwoBe.Models
         public DbSet<CardType> CardTypes { get; set; }
         public DbSet<UserReview> UserReviews { get; set; }
         public DbSet<PremiumBilling> PremiumBilling { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

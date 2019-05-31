@@ -134,6 +134,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\FTP.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -325,6 +326,14 @@
     <Compile Include="Migrations\201905260822083_AddAccountLevels.Designer.cs">
       <DependentUpon>201905260822083_AddAccountLevels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905310426301_Notifications.cs" />
+    <Compile Include="Migrations\201905310426301_Notifications.Designer.cs">
+      <DependentUpon>201905310426301_Notifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905310453240_AddingDateToNotifications.cs" />
+    <Compile Include="Migrations\201905310453240_AddingDateToNotifications.Designer.cs">
+      <DependentUpon>201905310453240_AddingDateToNotifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -334,6 +343,7 @@
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Datum.cs" />
     <Compile Include="Models\Grade.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\PremiumBilling.cs" />
     <Compile Include="Models\Prices.cs" />
     <Compile Include="Models\RootObject.cs" />
@@ -527,6 +537,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905260822083_AddAccountLevels.resx">
       <DependentUpon>201905260822083_AddAccountLevels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905310426301_Notifications.resx">
+      <DependentUpon>201905310426301_Notifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905310453240_AddingDateToNotifications.resx">
+      <DependentUpon>201905310453240_AddingDateToNotifications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

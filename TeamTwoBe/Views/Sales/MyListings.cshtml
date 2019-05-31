@@ -16,7 +16,7 @@
             if (Model.Sales[0].Seller.ID.ToString() == Session["UserID"].ToString())
             {
                 <div style="margin:auto">
-                    <div style="display:flex; margin:auto; max-width:1380px;">
+                    <div style="position:relative; display:flex; margin:auto; max-width:1380px;">
                         <h3 style="padding-left:15px;">My Listings</h3>
                         <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("New listing", "Create", "Sales", new { }, new { @id = "addlisting" })</a>
                     </div>

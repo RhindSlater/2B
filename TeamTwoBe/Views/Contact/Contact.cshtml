@@ -3,9 +3,13 @@
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<head>
-    <link href="~/CSS/contact.css" rel="stylesheet" type="text/css">
-</head>
+    <head>
+        <link href="~/CSS/contact.css" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    </head>
 
 @if (ViewBag.Error != null)
 {
@@ -17,8 +21,7 @@
         <div class="row">
             <div class="col-md-3 contact-us">
                 <div class="contact-info">
-                    <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image" />
-                    <h2>Contact Us</h2>
+                    <h2><img id="contact-us" style="margin-top:35px" src="https://image.ibb.co/kUASdV/contact-image.png" alt="image" /> Contact Us</h2>
                     <h4>We would love to hear from you !</h4>
                 </div>
             </div>
@@ -59,7 +62,7 @@
                 </address>
 
                 <address>
-                    <strong>Support:</strong>   <a href="mailto:teamb7692@gmail.com">teamb7692@gmail.com</a><br />
+                    <strong>Support:</strong> <a href="mailto:teamb7692@gmail.com">teamb7692@gmail.com</a><br />
                 </address>
             </div>
         </div>

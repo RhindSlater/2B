@@ -4,21 +4,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <head>
+        <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js"></script>
     </head>
 <body>
     <div style="text-align:center;">
-        <h2 id="ProfileUsername">@Model.MyUser.Username's profile</h2>
+        @if (Model.MyUser.ID.ToString() == Session["UserID"].ToString())
+        {
+        <a href="/users/edit/@Session["UserID"]"><h2 id="ProfileUsername"><i class="fas fa-edit"></i> @Model.MyUser.Username's profile</h2></a>
+        }
+        else
+        {
+            <h2 id="ProfileUsername">@Html.ActionLink(Model.MyUser.Username + "'s profile","Follow", Model.MyUser.ID)</h2>
+        }
 
         <div style="display:inline-block;">
             <div id="CurrentSales">
-                <div style="display:flex">
+                <div id="seeall-div">
                     <h3 id="sales" style="text-align:center;">My Listings</h3>
                     <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "MyListings", "Sales", new { id = Model.MyUser.ID }, new { @id = "seeall" })</a>
                 </div>
-                <div id="AllCards" class="container">
+                <div id="AllCards">
                     <div class="row">
                         @foreach (var item in Model.MySales)
                         {
@@ -99,11 +109,11 @@
             <hr />
 
             <div id="ProfileWatchlist">
-                <div style="display:flex">
+                <div id="seeall-div">
                     <h3 id="sales" style="text-align:center;">My Watchlist</h3>
                     <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "Watchlist", "Profile", new { id = Model.MyUser.ID }, new { @id = "seeall" })</a>
                 </div>
-                <div id="AllCards" class="container">
+                <div id="AllCards">
                     <div class="row">
                         @foreach (var item in Model.MyWatchList)
                         {
@@ -184,11 +194,11 @@
             <hr />
 
             <div id="ProfileCollection">
-                <div style="display:flex">
+                <div id="seeall-div">
                     <h3 id="sales" style="text-align:center;">My Collection</h3>
                     <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "Collection", "Profile", new { id = Model.MyUser.ID }, new { @id = "seeall" })</a>
                 </div>
-                <div id="AllCards" class="container">
+                <div id="AllCards">
                     <div class="row">
                         @foreach (var item in Model.MyCollection)
                         {
@@ -264,11 +274,11 @@
             <hr />
 
             <div id="ProfileWishlist">
-                <div style="display:flex">
+                <div id="seeall-div">
                     <h3 id="sales" style="text-align:center;">My Wishlist</h3>
                     <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "Wishlist", "Profile", new { id = Model.MyUser.ID }, new { @id = "seeall" })</a>
                 </div>
-                <div id="AllCards" class="container">
+                <div id="AllCards">
                     <div class="row">
                         @foreach (var item in Model.MyWishList)
                         {

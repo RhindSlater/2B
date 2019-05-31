@@ -5,21 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2B - @ViewBag.Title</title>
     <link href="~/CSS/animation.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="~/Scripts/js-test.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
-        function loading() {
-            $("#loader-wrapper").css("display", "block");
-        }
-    </script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "f989edc7-a2dc-487d-be47-0ed687188eb3",
+                notifyButton: {
+                    enable: true,
+                },
+            });
+        });
+
+/**/</script>
+
+
 </head>
 <body style="position:relative">
     <div id="loader-wrapper">
         <div id="loader">
-            <div class="pixels animated infinite flash slower delay-1s"></div>
+            <div class="pixels animated infinite flash slow delay-1s"></div>
         </div>
     </div>
     <nav class="navbar navbar-light navbar-expand-lg bg-faded justify-content-center" id="nav">
@@ -54,15 +65,14 @@
                 </li>
                 <li class="nav-item1">
                     <div id="form-div">
-                        <form id="test" action="/Sales/Search/" method="post">
-                            <input name="search" style="width:500px;" type="text" class="form-control letsdothis" placeholder="Search">
-                            <button type="submit" class="btn btn-default letsdothis">Search</button>
+                        <form id="searchform" action="/Sales/Search/" method="post">
+                            <input name="search" style="width:500px;" type="text" class="form-control" id="searchbar" placeholder="Search">
+                            <button type="submit" id="search-button" class="btn letsdothis">Search</button>
                         </form>
-
                     </div>
                 </li>
             </ul>
-            <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <ul id="navbar-right-side" class="nav navbar-nav ml-auto w-100 justify-content-end">
                 @if (Session["UserID"] == null)
                 {
                     <li class="nav-item">
@@ -99,9 +109,30 @@
                     <li class="nav-item">
                         <div id="profile">
                             <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+                            
+                        </div>
+                        
+                    </li>
+                    <li class="nav-item">
+                        <div>
                             <a href="/Users/Profile/@Session["UserID"]">
-
-                                @Session["Username"]
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session["Username"]</a>
+                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                            <a class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
+                                            <a class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
+                                            <a class="dropdown-item" href="#">Won</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/Sales/MyListings/@Session["UserID"]">My listings</a>
+                                            <a class="dropdown-item" href="/Profile/Collection/@Session["UserID"]">My collection</a>
+                                            <a class="dropdown-item" href="#">Sold</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/Users/Premium/">Premium</a>
+                                            <a class="dropdown-item" id="settings">Settings</a>
+                                        </div>
+                                    </li>
+                                </ul>
                             </a>
                         </div>
                     </li>
@@ -162,7 +193,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <ul>
+                    <ul id="footer-ul">
                         <li><h4>Get to know us</h4></li>
                         <li><a href="/contact/contact">Contact us</a></li>
                         <li><a href="">About us</a></li>
@@ -170,7 +201,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-4">
-                    <ul>
+                    <ul id="footer-ul">
                         <li><h4>Profile</h4></li>
                         <li><a href="/Sales/MyListings/@Session["UserID"]">My Sales</a></li>
                         <li><a href="/Profile/Watchlist/@Session["UserID"]">My Watchlist</a></li>
@@ -181,10 +212,10 @@
                     </ul>
                 </div>
                 <div class="col-lg-4">
-                    <ul>
+                    <ul id="footer-ul">
                         <li><h4>Social Media</h4></li>
                         <li><a href=""><i class="fab fa-facebook-square"></i> Facebook</a></li>
-                        <li><a href=""></a><i class="fab fa-twitter-square"></i> Twitter</li>
+                        <li><a href=""><i class="fab fa-twitter-square"></i> Twitter</a></li>
                         <li><a href=""><i class="fab fa-instagram"></i> Instagram</a></li>
                         <li><a href=""><i class="fab fa-youtube"></i> Youtube</a></li>
                     </ul>

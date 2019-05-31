@@ -46,9 +46,18 @@ namespace TeamTwoBe.Controllers
                 Member = user,
                 NextBillingDate = DateTime.Now.AddMonths(1)
             };
+            Notification notify = new Notification()
+            {
+                Date = DateTime.Now,
+                Title = "Subscription",
+                Message = "Congrats, you're now a premium member here at 2B.",
+                Seen = false,
+                NotifyUser = user,
+            };
             user.DisplayPicture = "premium.png";
             Session["UserPic"] = user.DisplayPicture;
             db.PremiumBilling.Add(pb);
+            db.Notifications.Add(notify);
             db.SaveChanges();
             return RedirectToAction("Premium");
         }
@@ -73,7 +82,6 @@ namespace TeamTwoBe.Controllers
             };
             return View(vm);
         }
-
 
         public ActionResult Login()
         {
@@ -205,15 +213,22 @@ namespace TeamTwoBe.Controllers
                     user.IsDeleted = false;
                     user.IsLocked = false;
                     db.Users.Add(user);
+                    Notification notify = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "Registration",
+                        Message = "Your account has successfully been created. Please verify your email.",
+                        Seen = false,
+                        NotifyUser = user,
+                    };
+                    db.Notifications.Add(notify);
                     db.SaveChanges();
                     return RedirectToAction("Login");
                 }
             }
-
             return View(user);
         }
 
-        // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)

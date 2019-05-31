@@ -17,14 +17,14 @@
                 <div class="row">
                     @foreach (var item in Model)
                     {
-                        <div class=" lozad" id="CardGrid">
+                        <div id="CardGrid">
                             <div id="Card">
                                 <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
                                     <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
                                 </div>
                                 <div id="DetailGrid">
                                     <div id="Detail">
-                                        <a><p id="CardName">@item.Card.name @item.Card.print_tag</p></a>
+                                        <a id="CardName">@item.Card.name @item.Card.print_tag</a>
                                         <div>
                                             <a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a><a style="margin-left:10px;" id="seller">@item.Price.ToString("c2")</a>
                                             <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>
@@ -81,6 +81,9 @@
             </div>
         }
     </div>
+    <script>
+        Notification.requestPermission();
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
