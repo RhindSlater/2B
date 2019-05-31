@@ -403,6 +403,8 @@
     <Content Include="Views\Auction\View.cshtml" />
     <Content Include="Views\Auction\Index.cshtml" />
     <Content Include="Views\Contact\Contact.cshtml" />
+    <Content Include="Views\Profile\itemsIwon.cshtml" />
+    <Content Include="Views\Home\WhyUs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

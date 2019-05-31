@@ -69,5 +69,12 @@ namespace TeamTwoBe.Controllers
             }
             return View(vm);
         }
+
+        public ActionResult WhyUs()
+        {
+
+            return View();
+
+        }
     }
 }

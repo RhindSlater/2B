@@ -12,6 +12,13 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <body>
+    @if (Session["umm"] != null)
+    {
+        <script>
+            alert(Session["success"]);
+        </script>
+        Session["umm"] = null;
+    }
     <div id="base">
         <h2 style="text-align: center">Shopping Cart</h2>
 

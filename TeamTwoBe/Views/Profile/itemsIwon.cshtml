@@ -1,0 +1,113 @@
+﻿@model TeamTwoBe.ViewModels.ListCardListSale
+
+@{
+    ViewBag.Title = "itemsIwon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>itemsIwon</h2>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+
+    <div id="base">
+        @if (Model.Sales.Count > 0)
+        {
+            if (Model.Sales[0].Buyer.ID.ToString() == Session["UserID"].ToString())
+            {
+                if (Model.Sales[0].IsSold == true)
+                {
+                    <div style="display:flex">
+                        <h3 id="sales" style="text-align:center;">@Model.Sales[0].Seller.Username's purchased cards</h3>
+                    </div>
+                }
+                <div id="AllCards" class="container">
+                    <div class="row">
+                        @foreach (var item in Model.Sales)
+                        {
+                            <div class=" lozad" id="CardGrid">
+                                <div id="Card">
+                                    <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
+                                        <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
+                                    </div>
+                                    <div id="DetailGrid">
+                                        <div id="Detail">
+                                            <a><p id="CardName">@item.Card.name @item.Card.print_tag</p></a>
+                                            <div>
+                                                <a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
+                                                <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="@item.ID" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div id="modal-header1">
+                                                <h4 style="text-align:center;" class="modal-title">@item.Card.name</h4>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div style="display:flex;">
+                                                <div id="modalDetails1">
+                                                    <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
+                                                </div>
+                                                <div id="modalDetails">
+                                                    <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                                                    <p><b>Card Set:</b> @item.Card.print_tag</p>
+                                                    <p><b>Rarity:</b> @item.Card.rarity</p>
+                                                    <h4>Price Info (USD based):</h4>
+                                                    <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                                                    <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                                                    <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                                                    <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                                                    <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                                                    <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                                    @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                                                    {
+                                                        <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                        <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                        <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div style="margin:auto">
+                <div style="display:flex; margin:auto; max-width:1380px;">
+                    <h3 style="padding-left:15px;">My Listings</h3>
+                    <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("Search Cards", "Index", "Sales", new { }, new { @id = "addlisting" })</a>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</body>

@@ -202,31 +202,8 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
-
-            if (sale.IsVerified == true)
-            {
-                return RedirectToAction("purchaseVerifiedCard");
-            }
-
-            return View();
-        }
-
-        //This method initially charges the seller 10% the price of the card they are selling to be verified by us for the buyer.
-        [HttpPost]
-        public ActionResult purchaseVerifiedCard()
-        {
-            StripeConfiguration.SetApiKey("sk_test_P6m1FrtIXMp4Eb8vxViEhofQ00VVKk9gpa");
-
-            //Doing this code below does not give us access to the Sale's Seller!!!
-            //Sale sale = db.Sales.Find(Session["saleID"]);
-
-            //Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
-
-            int id = Convert.ToInt32(Session["saleID"].ToString());
-
-            Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
+            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
             Money moni = new Money()
@@ -234,6 +211,65 @@ namespace TeamTwoBe.Controllers
                 MySale = sale,
                 MyMoney = Convert.ToInt32(sale.Price * 100)
             };
+            
+            if (moni.MyMoney < 500)
+            {
+                moni.MyMoney = 500;
+            }
+
+            if (moni.MySale.IsSold == true)
+            {
+                moni.MySale.IsSold = true;
+                moni.MySale.Buyer = user;
+
+                foreach (var i in sale.Shopper)
+                {
+                    i.ShoppingCart.Remove(sale);
+
+                }
+
+                foreach (var i in sale.Watcher)
+                {
+                    i.Watchlist.Remove(sale);
+
+                }
+
+                return View();
+            }
+
+                if (sale.IsVerified == true)
+            {
+                return RedirectToAction("purchaseVerifiedCard");
+            }
+
+            return View();
+        }
+
+
+
+        //This method initially charges the seller 10% the price of the card they are selling to be verified by us for the buyer.
+        [HttpPost]
+        public ActionResult purchaseVerifiedCard()
+        {
+            StripeConfiguration.SetApiKey("sk_test_P6m1FrtIXMp4Eb8vxViEhofQ00VVKk9gpa");
+
+            int id = Convert.ToInt32(Session["saleID"].ToString());
+
+            //This is the current sale, where id is at this point, meaning the sale ID.
+            Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
+
+            //At this point we've now changed id to be meaning the User ID.
+            id = Convert.ToInt32(Session["UserID"].ToString());
+
+            //This is the buyer with this buyer's shopping cart
+            User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
+
+            Money moni = new Money()
+            {
+                MySale = sale,
+                MyMoney = Convert.ToInt32(sale.Price * 100)
+            };
+
             if(moni.MyMoney < 500)
             {
                 moni.MyMoney = 500;
@@ -245,6 +281,7 @@ namespace TeamTwoBe.Controllers
                 Currency = "nzd",
                 Description = $"Charge for {@sale.Seller.Username}",
                 SourceId = "tok_visa", // obtained with Stripe.js, this is the payment method needed to be attached!
+
             };
             var service2 = new ChargeService();
             Charge charge = service2.Create(options2);
@@ -253,7 +290,7 @@ namespace TeamTwoBe.Controllers
             {
                 moni.MySale.IsSold = true;
                 moni.MySale.Buyer = user;
-
+                moni.MySale.IsVerified = true;
 
                 foreach (var i in sale.Shopper)
                 {
@@ -266,8 +303,9 @@ namespace TeamTwoBe.Controllers
                     i.Watchlist.Remove(sale);
 
                 }
-                ViewData["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
+                Session["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
                 db.SaveChanges();
+                Session["umm"] = "go";
                 Session["ShoppingCart"] = user.ShoppingCart.Count();
                 return RedirectToAction("Shoppingcart");
             }
@@ -280,7 +318,6 @@ namespace TeamTwoBe.Controllers
         //This int id is the sale id. This one is for the view to enter info first...
         public ActionResult purchaseVerifiedCard(int id)
         {
-            //var viewModel = ReturnCard();
 
             if (Session["UserID"] == null)
             {
@@ -313,6 +350,43 @@ namespace TeamTwoBe.Controllers
 
             return View(moni);
         }
+
+        //This is a list of all the items a user has bought. Checks database for every Sale == IsSold and BuyerID against the current logged in User.
+        public ActionResult itemsIwon(int id)
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            Sale sale = db.Sales.Include("Card").Include("Seller").Include("buyer").Where(x => x.ID == id).FirstOrDefault();
+
+            Session["saleID"] = sale.ID;
+
+            id = Convert.ToInt32(Session["UserID"].ToString());
+
+
+            List<Sale> li = new List<Sale>();
+            ListCardListSale vm = new ListCardListSale()
+            {
+                Sales = li,
+                Users = new List<User>(),
+            };
+
+            if (sale.Buyer.ID.ToString() == Session["UserID"].ToString())
+            {
+
+
+                return View();
+            }
+
+            return View();
+        }
+
 
         public ActionResult addToWatchlist(int id)
         {
