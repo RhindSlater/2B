@@ -233,47 +233,33 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
+            Sale sale = db.Sales.Include("Seller").Include("Shopper").Include("Watcher").Include("Card").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
-            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
-            Money moni = new Money()
+            sale.IsSold = true;
+            sale.Buyer = user;
+
+            foreach (var i in sale.Shopper)
             {
-                MySale = sale,
-                MyMoney = Convert.ToInt32(sale.Price * 100)
+                i.ShoppingCart.Remove(sale);
+
+            }
+            foreach (var i in sale.Watcher)
+            {
+                i.Watchlist.Remove(sale);
+            }
+            Notification notify = new Notification()
+            {
+                Date= DateTime.Now,
+                Title = "Card Sold",
+                Message = $"{user.Username} has purchased your {sale.Card.name} for ${sale.Price}.",
+                Seen = false,
+                NotifyUser = user,
             };
-            
-            if (moni.MyMoney < 500)
-            {
-                moni.MyMoney = 500;
-            }
-
-            if (moni.MySale.IsSold == true)
-            {
-                moni.MySale.IsSold = true;
-                moni.MySale.Buyer = user;
-
-                foreach (var i in sale.Shopper)
-                {
-                    i.ShoppingCart.Remove(sale);
-
-                }
-
-                foreach (var i in sale.Watcher)
-                {
-                    i.Watchlist.Remove(sale);
-
-                }
-
-                return View();
-            }
-
-                if (sale.IsVerified == true)
-            {
-                return RedirectToAction("purchaseVerifiedCard");
-            }
-
-            return View();
+            db.Notifications.Add(notify);
+            db.SaveChanges();
+            return RedirectToAction("Won");
         }
 
 
@@ -302,7 +288,7 @@ namespace TeamTwoBe.Controllers
                 MyMoney = Convert.ToInt32(sale.Price * 100)
             };
 
-            if(moni.MyMoney < 500)
+            if (moni.MyMoney < 500)
             {
                 moni.MyMoney = 500;
             }
@@ -318,7 +304,7 @@ namespace TeamTwoBe.Controllers
             var service2 = new ChargeService();
             Charge charge = service2.Create(options2);
 
-            if(options2 != null)
+            if (options2 != null)
             {
                 moni.MySale.IsSold = true;
                 moni.MySale.Buyer = user;
@@ -327,7 +313,7 @@ namespace TeamTwoBe.Controllers
                 foreach (var i in sale.Shopper)
                 {
                     i.ShoppingCart.Remove(sale);
-                    
+
                 }
 
                 foreach (var i in sale.Watcher)
@@ -460,7 +446,7 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
             User user = db.Users.Include("Wishlist.CardType").Where(x => x.ID == id).FirstOrDefault();
-            if(user.ID.ToString() == Session["UserID"].ToString())
+            if (user.ID.ToString() == Session["UserID"].ToString())
             {
                 if (user.Wishlist.Count == 0)
                 {

@@ -42,7 +42,6 @@ function checkNotifications() {
                 //set the image url
                 img.setAttribute("src","/Properties/" + data[i].NotifyUser.DisplayPicture);
 
-
                 // build notification message
                 //give the notification a title
                 para.append(data[i].Title);
@@ -90,11 +89,11 @@ function removeSeen(id){
     $.ajax({
         url: '/Users/ChangeNotification/' + id,
         success: function(data) {
-            if(data == false){
-                console.log("Failed");
+            if(data == "true"){
+                console.log("Notification changed successfully");
             }
             else{
-                console.log("Notification changed successfully");
+                console.log("Failed");
             }
         }
     });

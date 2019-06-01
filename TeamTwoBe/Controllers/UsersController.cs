@@ -37,14 +37,15 @@ namespace TeamTwoBe.Controllers
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
             return Json(li, JsonRequestBehavior.AllowGet);
         }
-        public bool ChangeNotification(int i)
-        {
-            int id = Convert.ToInt32(Session["UserID"].ToString());
-            List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
-            li[i].Seen = true;
-            //db.SaveChanges();
 
-            return true;
+        public ActionResult ChangeNotification(int id)
+        {
+            int id1 = Convert.ToInt32(Session["UserID"].ToString());
+            List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id1).ToList();
+            li[id].Seen = true;
+            db.SaveChanges();
+
+            return Json("true",JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Subscription(string test)
