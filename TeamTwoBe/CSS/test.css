@@ -92,13 +92,23 @@ a, .btn{
 #notification-div{
     width: 480px;
     max-height: 640px; 
+	padding-top: 0px;
 }
 #notification-title{
     background-color: #4c4c4c;
+	margin-left: 0px;
+	margin-bottom: 0px;
 }
 #notify-title{
     margin-left: 16px;
     font-size:16px;
+}
+#notification{
+	display:flex;
+}
+#notify-pic{
+	height: 48px;
+	width: 48px;
 }
 
 /* Body */
