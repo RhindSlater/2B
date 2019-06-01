@@ -38,8 +38,6 @@ namespace TeamTwoBe.Controllers
             return Json(li, JsonRequestBehavior.AllowGet);
         }
 
-
-
         public ActionResult Subscription(string test)
         {
             checkCookie();
@@ -97,7 +95,7 @@ namespace TeamTwoBe.Controllers
             var i = checkCookie();
             if (i)
             {
-                return RedirectToAction("Index","Sales");
+                return RedirectToAction("Index", "Sales");
             }
             if (Session["UserID"] != null)
             {
@@ -127,8 +125,8 @@ namespace TeamTwoBe.Controllers
                         Session["UserPic"] = user.DisplayPicture;
                         Session["ShoppingCart"] = user.ShoppingCart.Count();
                         Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                        return true;
                     }
-                    return true;
                 }
             }
             return false;
@@ -253,7 +251,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult Edit()
         {
             checkCookie();
-            if(Session["UserID"] == null)
+            if (Session["UserID"] == null)
             {
                 return RedirectToAction("Login");
             }
@@ -405,22 +403,26 @@ namespace TeamTwoBe.Controllers
         public ActionResult Follow(int id)
         {
             checkCookie();
-
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user2 = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
-            Notification notify = new Notification()
+
+            if (user2.Follower.Contains(user) == false)
             {
-                Date = DateTime.Now,
-                Title = "New Follower",
-                Message = user2 + " has started following you.",
-                Seen = false,
-                NotifyUser = user,
-            };
-            user2.Follower.Add(user);
-            db.Notifications.Add(notify);
-            db.SaveChanges();
-            return RedirectToAction("Profile",Session["UserID"]);
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "New Follower",
+                    Message = user2.Username + " has started following you.",
+                    Seen = false,
+                    NotifyUser = user,
+                };
+                user2.Follower.Add(user);
+                db.Notifications.Add(notify);
+                db.SaveChanges();
+                return Json("You have successfully followed " + user.Username, JsonRequestBehavior.AllowGet);
+            }
+            return Json("You already follow " + user.Username, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult requestTrade(int id)
@@ -428,7 +430,7 @@ namespace TeamTwoBe.Controllers
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Find(id);
-            if(sale != null)
+            if (sale != null)
             {
                 Notification notify = new Notification()
                 {
@@ -439,7 +441,7 @@ namespace TeamTwoBe.Controllers
                     NotifyUser = sale.Seller,
                 };
             }
-            return RedirectToAction("Index","Sales");
+            return RedirectToAction("Index", "Sales");
         }
 
     }

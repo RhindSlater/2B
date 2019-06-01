@@ -3,23 +3,23 @@
     ViewBag.Title = " Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js"></script>
-    </head>
+<head>
+    <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js"></script>
+</head>
 <body>
     <div style="text-align:center;">
         @if (Model.MyUser.ID.ToString() == Session["UserID"].ToString())
         {
-        <a href="/users/edit/@Session["UserID"]"><h2 id="ProfileUsername"><i class="fas fa-edit"></i> @Model.MyUser.Username's profile</h2></a>
+            <h2 id="ProfileUsername"><a id="ProfileUsername1" href="/users/edit/@Session["UserID"]"><i class="fas fa-edit"></i> @Model.MyUser.Username's profile</a></h2>
         }
         else
         {
-            <a href="/Users/Follow/@Model.MyUser.ID"><h2 id="ProfileUsername"><i class="fas fa-user-plus"></i> Follow @Model.MyUser.Username</h2></a>
+            <h2 id="ProfileUsername"><a id="ProfileUsername1" onclick="FollowUser(@Model.MyUser.ID)"><i class="fas fa-user-plus"></i> Follow @Model.MyUser.Username</a></h2>
         }
 
         <div style="display:inline-block;">
