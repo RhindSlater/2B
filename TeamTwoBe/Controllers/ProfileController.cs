@@ -233,8 +233,9 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            Sale sale = db.Sales.Include("Seller").Include("Shopper").Include("Watcher").Include("Card").Where(x => x.ID == id).FirstOrDefault();
+            Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
+
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
             sale.IsSold = true;
@@ -281,6 +282,7 @@ namespace TeamTwoBe.Controllers
 
             //This is the buyer with this buyer's shopping cart
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
+            
 
             Money moni = new Money()
             {
@@ -321,15 +323,27 @@ namespace TeamTwoBe.Controllers
                     i.Watchlist.Remove(sale);
 
                 }
-                Session["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
+
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Card Sold",
+                    Message = $"{user.Username} has purchased your {sale.Card.name} for ${sale.Price}.",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+                db.Notifications.Add(notify);
+                //return Json("You have successfully followed " + user.Username, JsonRequestBehavior.AllowGet);
+
+
                 db.SaveChanges();
-                Session["umm"] = "go";
                 Session["ShoppingCart"] = user.ShoppingCart.Count();
                 return RedirectToAction("Won");
+
             }
             else
             {
-                return View(moni);
+                return View();
             }
         }
 
