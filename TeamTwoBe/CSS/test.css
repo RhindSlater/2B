@@ -89,7 +89,17 @@ a, .btn{
 #settings{
     cursor: pointer;
 }
-
+#notification-div{
+    width: 480px;
+    max-height: 640px; 
+}
+#notification-title{
+    background-color: #4c4c4c;
+}
+#notify-title{
+    margin-left: 16px;
+    font-size:16px;
+}
 
 /* Body */
 

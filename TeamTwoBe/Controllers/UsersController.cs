@@ -31,11 +31,11 @@ namespace TeamTwoBe.Controllers
             }
             return RedirectToAction("Index", "Sales");
         }
-        public List<Notification> CheckNotifications()
+        public ActionResult CheckNotifications()
         {
             int id = Convert.ToInt32(Session["UserID"].ToString());
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
-            return li;
+            return Json(li, JsonRequestBehavior.AllowGet);
         }
 
 

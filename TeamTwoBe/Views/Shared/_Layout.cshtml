@@ -114,8 +114,14 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" onclick="checkNotifications()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
-                                    <div id="notification-div" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                        @*insert stuff here*@
+                                    <div id="notification-div" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; right: 0px; transform: translate3d(0px, 43px, 0px);">
+                                        <div id="notification-title">
+                                            <h2 id="notify-title">Notifications</h2>
+                                        </div>
+                                        <div>
+                                            <img src="~/Properties/@Session["UserPic"]"/>
+                                            <p>Title asdasd<br />Message asdkjbwakjhbkajbwdkjabwd</p>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -135,7 +141,7 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session["Username"]</a>
-                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 43px, 0px);">
                                         <a class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
                                         <a class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
                                         <a class="dropdown-item" href="/Profile/Won">Won</a>
