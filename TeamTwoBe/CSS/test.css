@@ -100,7 +100,10 @@ a, .btn{
 	margin-bottom: 0px;
 }
 #notify-title{
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin-left: 16px;
+    margin-bottom: 0px;
     font-size:16px;
 }
 #notification{
@@ -108,26 +111,32 @@ a, .btn{
 }
 #notify-pic{
 	height: 48px;
-	width: 48px;
+    width: 48px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 #anchor-notification{
-    padding-left:0px;
+    padding:0px;
 }
-#notification > #para-notification:first-child{
-    white-space:nowrap;
-    -webkit-order:1;
-    -webkit-flex: 0 1 auto; /*important*/
-    text-overflow: ellipsis;
-    overflow:hidden;
-    min-width:0; /* new algorithm overrides the width calculation */
+#para-notification{
+    cursor: default;
 }
-#notification > #para-notification:last-child {
-    -webkit-flex: 1;
-    -webkit-order:2;
-    -webkit-flex:1 0 auto; /*important*/
+.dropdown-item{
+    white-space: unset;
 }
-#notification > #para-notification:first-child:hover{
-    white-space:normal;
+#profile-pill-div{
+    width: 220px;
+}
+.dropdown-item:hover, .nav-pills:hover, .show>.nav-link{
+    background-color: #3a3a3a !important;
+}
+.seen{
+    background-color: #3a3a3a;
+}
+.seen:hover{
+    background-color: #5e5e5e !important;
 }
 
 
@@ -202,7 +211,7 @@ ul{
 /* Modal */
 
 .modal-dialog {
-    max-width: 690px;
+    max-width: 718px;
     padding-top: 9%;
 	margin:auto;
 }

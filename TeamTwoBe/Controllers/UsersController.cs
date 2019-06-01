@@ -37,6 +37,15 @@ namespace TeamTwoBe.Controllers
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
             return Json(li, JsonRequestBehavior.AllowGet);
         }
+        public bool ChangeNotification(int i)
+        {
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
+            li[i].Seen = true;
+            //db.SaveChanges();
+
+            return true;
+        }
 
         public ActionResult Subscription(string test)
         {
@@ -300,7 +309,7 @@ namespace TeamTwoBe.Controllers
             };
             List<Sale> li = new List<Sale>();
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID & x.IsSold == false))
             {
                 li.Add(i);
             }

@@ -405,6 +405,7 @@
     <Content Include="Views\Contact\Contact.cshtml" />
     <Content Include="Views\Profile\Won.cshtml" />
     <Content Include="Views\Home\WhyUs.cshtml" />
+    <Content Include="Views\Profile\Sold.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

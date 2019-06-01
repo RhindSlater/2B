@@ -8,6 +8,7 @@
 body{
 	background-color:#121212;
 	height:100%;
+	position: relative;
 }
 h1{
 	color:#262626;
@@ -147,4 +148,23 @@ label{
 }
 #link{
 	color:#003569;
+}
+
+#loader-wrapper{
+	position: fixed; 
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0; 
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 2;
+}
+#loader{
+	width: 171px;
+	margin-top: 300px;
+	margin-right: auto;
+	margin-left: auto;
 }

@@ -25,7 +25,7 @@ function checkNotifications() {
              for(i = 0; i < data.length; i++){
                 //only show 10 notifications
                 if(i == 10){   
-                    //send user to view all notifications                
+                    //send user to view all notifications
                     break;
                 }
 
@@ -65,28 +65,37 @@ function checkNotifications() {
 
                 //attach div to anchor
                 a.append(div);
-                //make anchor a dropdown item
-                a.setAttribute("class","dropdown-item");
+                //check if notification has been seen
+                if(data[i].Seen == false){
+                    a.setAttribute("class","seen dropdown-item");
+                }
+                else{ //make anchor a dropdown item
+                    a.setAttribute("class","dropdown-item");
+                }
+                //test
+                a.setAttribute("onclick","removeSeen(" + i + ")");
                 //give a id so we can edit the css
-                a.setAttribute("id","anchor-notification")
+                a.setAttribute("id","anchor-notification");
                 //add everything into our document
                 document.getElementById("notification-here").appendChild(a);
 
              }
-             var test = data;
         }
     });
 }
 
-var nav = $("#notification-here");
-nav.find("li").each(function() {
-    if ($(this).find("ul").length > 0) {
-
-        $("<#notification-div").appendTo($(this).children(":first"));
-
-        //show subnav on hover
-        $(this).click(function() {
-            $(this).find("ul").stop(true, true).slideToggle();
-        });
-    }
-});
+function removeSeen(id){
+    var li = $("#notification-here > #anchor-notification");
+    li[id].setAttribute("class","dropdown-item");
+    $.ajax({
+        url: '/Users/ChangeNotification/' + id,
+        success: function(data) {
+            if(data == false){
+                console.log("Failed");
+            }
+            else{
+                console.log("Notification changed successfully");
+            }
+        }
+    });
+}

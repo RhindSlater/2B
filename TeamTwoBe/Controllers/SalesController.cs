@@ -287,6 +287,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult Search(string search)
         {
             checkCookie();
+
             if (search == null)
             {
                 return RedirectToAction("Index");

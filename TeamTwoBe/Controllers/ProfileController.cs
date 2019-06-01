@@ -401,6 +401,23 @@ namespace TeamTwoBe.Controllers
 
             return View(li.ToList());
         }
+        public ActionResult Sold()
+        {
+            checkCookie();
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Seller.ID == id);
+
+            return View(li.ToList());
+        }
 
 
         public ActionResult addToWatchlist(int id)

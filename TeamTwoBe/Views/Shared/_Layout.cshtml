@@ -7,6 +7,8 @@
     <link href="~/CSS/animation.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -23,7 +25,7 @@
             });
         });
 
-        /**/</script>
+     </script>
 
 
 </head>
@@ -31,7 +33,7 @@
     <div id="loader-wrapper">
         <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["UserID"]" />
         <div id="loader">
-            <div class="pixels animated infinite flash slow delay-1s"></div>
+            <div class="pixels animated infinite flash slow"></div>
         </div>
     </div>
     <nav class="navbar navbar-light navbar-expand-lg bg-faded justify-content-center" id="nav">
@@ -40,16 +42,16 @@
             {
                 if (Session["AccountLevel"].ToString() != "2")
                 {
-                    <a href="/Sales/Index"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
                 }
                 else
                 {
-                    <a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
                 }
             }
             else
             {
-                <a href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
             }
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -68,7 +70,7 @@
                     <div id="form-div">
                         <form id="searchform" action="/Sales/Search/" method="post">
                             <input name="search" style="width:500px;" type="text" class="form-control" id="searchbar" placeholder="Search">
-                            <button type="submit" id="search-button" class="btn letsdothis">Search</button>
+                            <button onclick="loading()" type="submit" id="search-button" class="btn letsdothis">Search</button>
                         </form>
                     </div>
                 </li>
@@ -78,12 +80,12 @@
                 {
                     <li class="nav-item">
                         <div id="signup">
-                            <a href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
+                            <a onclick="loading()" href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
                         </div>
                     </li>
                     <li class="nav-item">
                         <div id="login">
-                            <a href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                            <a onclick="loading()" href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Login</a>
                         </div>
                     </li>
                 }
@@ -91,12 +93,12 @@
                 {
                     <li class="nav-item">
                         <div id="signup">
-                            <a href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
+                            <a onclick="loading()" href="/Users/Register"><i class="fas fa-user"></i> Sign Up</a>
                         </div>
                     </li>
                     <li class="nav-item">
                         <div id="login">
-                            <a href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Sign in</a>
+                            <a onclick="loading()" href="/Users/Login"><i class="fas fa-sign-in-alt"></i> Sign in</a>
                         </div>
                     </li>
                 }
@@ -104,7 +106,7 @@
                 {
                     <li class="nav-item">
                         <div id="logout">
-                            <a href="/Users/LogOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+                            <a onclick="loading()" href="/Users/LogOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
                         </div>
                     </li>
 
@@ -120,30 +122,6 @@
                                                 <h2 id="notify-title">Notifications</h2>
                                             </div>
                                             <div id="notification-here">
-                                                <a>
-                                                    <div id="notification">
-                                                        <img id="notify-pic" src="~/Properties/@Session["UserPic"]" />
-                                                        <p>Title asdasd<br />Message asdkjbwakjhbkajbwdkjabwd</p>
-                                                    </div>
-                                                </a>
-                                                <a>
-                                                    <div id="notification">
-                                                        <img id="notify-pic" src="~/Properties/@Session["UserPic"]" />
-                                                        <p>Title asdasd<br />Message asdkjbwakjhbkajbwdkjabwd</p>
-                                                    </div>
-                                                </a>
-                                                <a>
-                                                    <div id="notification">
-                                                        <img id="notify-pic" src="~/Properties/@Session["UserPic"]" />
-                                                        <p>Title asdasd<br />Message asdkjbwakjhbkajbwdkjabwd</p>
-                                                    </div>
-                                                </a>
-                                                <a>
-                                                    <div id="notification">
-                                                        <img id="notify-pic" src="~/Properties/@Session["UserPic"]" />
-                                                        <p>Title asdasd<br />Message asdkjbwakjhbkajbwdkjabwd</p>
-                                                    </div>
-                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -151,10 +129,6 @@
                             </ul>
                         </div>
                     </li>
-
-
-
-
                     <li class="nav-item">
                         <div id="profile">
                             <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
@@ -165,16 +139,16 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session["Username"]</a>
-                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 43px, 0px);">
-                                        <a class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
-                                        <a class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
-                                        <a class="dropdown-item" href="/Profile/Won">Won</a>
+                                    <div id="profile-pill-div" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 43px, 0px);">
+                                        <a onclick="loading()" class="dropdown-item" href="/Users/Profile/@Session["UserID"]">Profile</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Profile/Watchlist/@Session["UserID"]">Watchlist</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Profile/Won">Won</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/Sales/MyListings/@Session["UserID"]">My listings</a>
-                                        <a class="dropdown-item" href="/Profile/Collection/@Session["UserID"]">My collection</a>
-                                        <a class="dropdown-item" href="#">Sold</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Sales/MyListings/@Session["UserID"]">My listings</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Profile/Collection/@Session["UserID"]">My collection</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Profile/Sold">Sold</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/Users/Premium/">Premium</a>
+                                        <a onclick="loading()" class="dropdown-item" href="/Users/Premium/">Premium</a>
                                         <a class="dropdown-item" id="settings">Settings</a>
                                     </div>
                                 </li>
@@ -184,7 +158,7 @@
                 }
                 <li class="nav-item">
                     <div id="shoppingcart">
-                        <a href="/Profile/ShoppingCart">
+                        <a onclick="loading()" href="/Profile/ShoppingCart">
                             <i class="fas fa-shopping-cart"></i>
                             @if (Session["ShoppingCart"] != null)
                             {
@@ -217,20 +191,6 @@
             </div>
         </div>
     </div>
-    <script>
-        window.onscroll = function () { myFunction() };
-
-        var navbar = document.getElementById("nav");
-        var sticky = navbar.offsetTop;
-
-        function myFunction() {
-            if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
-            } else {
-                navbar.classList.remove("sticky");
-            }
-        }
-    </script>
     <div class="container body-content">
         @RenderBody()
     </div>
@@ -240,29 +200,29 @@
                 <div class="col-lg-4">
                     <ul id="footer-ul">
                         <li><h4>Get to know us</h4></li>
-                        <li><a href="/contact/contact">Contact us</a></li>
-                        <li><a href="">About us</a></li>
-                        <li><a href="/Home/WhyUs">Why shop with 2B</a></li>
+                        <li><a onclick="loading()" href="/contact/contact">Contact us</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a onclick="loading()" href="/Home/WhyUs">Why shop with 2B</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
                     <ul id="footer-ul">
                         <li><h4>Profile</h4></li>
-                        <li><a href="/Sales/MyListings/@Session["UserID"]">My Sales</a></li>
-                        <li><a href="/Profile/Watchlist/@Session["UserID"]">My Watchlist</a></li>
-                        <li><a href="/Profile/Wishlist/@Session["UserID"]">My Wishlist</a></li>
-                        <li><a href="/Profile/Collection/@Session["UserID"]">My Collection</a></li>
-                        <li><a href="/Profile/Won">Items Won</a></li>
-                        <li><a href="/Users/Premium/">Premium</a></li>
+                        <li><a onclick="loading()" href="/Sales/MyListings/@Session["UserID"]">My Sales</a></li>
+                        <li><a onclick="loading()" href="/Profile/Watchlist/@Session["UserID"]">My Watchlist</a></li>
+                        <li><a onclick="loading()" href="/Profile/Wishlist/@Session["UserID"]">My Wishlist</a></li>
+                        <li><a onclick="loading()" href="/Profile/Collection/@Session["UserID"]">My Collection</a></li>
+                        <li><a onclick="loading()" href="/Profile/Won">Items Won</a></li>
+                        <li><a onclick="loading()" href="/Users/Premium/">Premium</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
                     <ul id="footer-ul">
                         <li><h4>Social Media</h4></li>
-                        <li><a href=""><i class="fab fa-facebook-square"></i> Facebook</a></li>
-                        <li><a href=""><i class="fab fa-twitter-square"></i> Twitter</a></li>
-                        <li><a href=""><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href=""><i class="fab fa-youtube"></i> Youtube</a></li>
+                        <li><a href="#"><i class="fab fa-facebook-square"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter-square"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> Youtube</a></li>
                     </ul>
                 </div>
             </div>

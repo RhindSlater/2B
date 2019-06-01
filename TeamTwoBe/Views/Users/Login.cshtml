@@ -2,11 +2,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2B - Login</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/CSS/StyleSheet.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="~/CSS/animation.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/js-test.js"></script>
 </head>
 <body>
+    <div id="loader-wrapper">
+        <div id="loader">
+            <div class="pixels animated infinite flash slow"></div>
+        </div>
+    </div>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 
 
@@ -35,7 +43,7 @@
         function statusChangeCallback(response) {
             if (response.status === 'connected') {
                 console.log('Success!');
-                
+
             } else {
                 console.log('Fail!');
             }
@@ -70,7 +78,7 @@
                                 <label><input name="SaveData" type="checkbox" id="SaveData" />Save login info</label>
                             </div>
                             <div id="ButtonDiv">
-                                <button id="Button" type="submit" class="btn btn-secondary btn-block">
+                                <button onclick="loading()" id="Button" type="submit" class="btn btn-secondary btn-block">
                                     <div>Log in</div>
                                 </button>
                             </div>
@@ -80,9 +88,6 @@
                                 <div class="divide"><hr></div>
                             </div>
                             <div id="hide2">
-                                @*<Button id="hide" type="button">
-                                        <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
-                                    </Button>*@
                                 <fb:login-button style="margin-left:25%;" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true" data-size="medium" scope="public_profile,email"
                                                  onlogin="checkLoginState();">
                                 </fb:login-button>
