@@ -233,8 +233,9 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
+            Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
-            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
 
             Money moni = new Money()
@@ -248,24 +249,41 @@ namespace TeamTwoBe.Controllers
                 moni.MyMoney = 500;
             }
 
+            moni.MySale.IsSold = true;
+
             if (moni.MySale.IsSold == true)
             {
-                moni.MySale.IsSold = true;
                 moni.MySale.Buyer = user;
 
-                foreach (var i in sale.Shopper)
+                foreach (var i in moni.MySale.Shopper)
                 {
                     i.ShoppingCart.Remove(sale);
 
                 }
 
-                foreach (var i in sale.Watcher)
+                foreach (var i in moni.MySale.Watcher)
                 {
                     i.Watchlist.Remove(sale);
 
                 }
 
-                return View();
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Card Sold",
+                    Message = $"{user.Username} has purchased your {moni.MySale.Card.name} for ${sale.Price}.",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+                db.Notifications.Add(notify);
+                //return Json("You have successfully followed " + user.Username, JsonRequestBehavior.AllowGet);
+
+
+                db.SaveChanges();
+                Session["ShoppingCart"] = user.ShoppingCart.Count();
+
+                return RedirectToAction("Won");
+                ;
             }
 
                 if (sale.IsVerified == true)
@@ -295,6 +313,7 @@ namespace TeamTwoBe.Controllers
 
             //This is the buyer with this buyer's shopping cart
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
+            
 
             Money moni = new Money()
             {
@@ -318,7 +337,7 @@ namespace TeamTwoBe.Controllers
             var service2 = new ChargeService();
             Charge charge = service2.Create(options2);
 
-            if(options2 != null)
+            if (options2 != null)
             {
                 moni.MySale.IsSold = true;
                 moni.MySale.Buyer = user;
@@ -335,15 +354,27 @@ namespace TeamTwoBe.Controllers
                     i.Watchlist.Remove(sale);
 
                 }
-                Session["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
+
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Card Sold",
+                    Message = $"{user.Username} has purchased your {sale.Card.name} for ${sale.Price}.",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+                db.Notifications.Add(notify);
+                //return Json("You have successfully followed " + user.Username, JsonRequestBehavior.AllowGet);
+
+
                 db.SaveChanges();
-                Session["umm"] = "go";
                 Session["ShoppingCart"] = user.ShoppingCart.Count();
                 return RedirectToAction("Won");
+
             }
             else
             {
-                return View(moni);
+                return View();
             }
         }
 

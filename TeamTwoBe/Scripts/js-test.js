@@ -11,6 +11,15 @@ function FollowUser(id){
     });
 }
 
+function BoughtCard(id){
+    $.ajax({
+        url: '/Profile/purchaseCard/',
+        success: function(data) {
+            alert(data);
+        }
+    });
+}
+
 function checkNotifications() {
     var i;
     $.ajax({
