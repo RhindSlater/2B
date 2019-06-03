@@ -76,5 +76,12 @@ namespace TeamTwoBe.Controllers
             return View();
 
         }
+
+        public ActionResult FAQ()
+        {
+
+            return View();
+
+        }
     }
 }

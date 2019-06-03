@@ -62,6 +62,7 @@
                                                     <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
                                                     <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                                                     <p><b>Bought from: </b> @Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                                    <a>@Html.ActionLink("Review Sale", "ReviewSale", "sales", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                                                     <a>@Html.ActionLink("Add to collection", "addCardToCollection", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary" })</a>
                                                     <button class="btn btn-default" type="submit" id="modalDetails1">List for sale</button>
                                                 </div>
