@@ -11,14 +11,20 @@ function FollowUser(id){
     });
 }
 
-function BoughtCard(id){
+function RequestCard(id){
     $.ajax({
-        url: '/Profile/purchaseCard/',
+        url: '/Users/requestTrade/' + id,
         success: function(data) {
             alert(data);
         }
     });
 }
+
+var intervalID = window.setInterval(checkNotifications, 20000);
+
+$(document).ready(function(){
+    checkNotifications();
+});
 
 function checkNotifications() {
     var i;
@@ -30,12 +36,11 @@ function checkNotifications() {
                 //removes all notifications from element
                 myNode.removeChild(myNode.firstChild);
             }
-
+            var count = 0;
              for(i = 0; i < data.length; i++){
                 //only show 10 notifications
-                if(i == 10){   
-                    //send user to view all notifications
-                    break;
+                if(data[i].Seen == false){   
+                    count ++;
                 }
 
                 // declare all the elements needed
@@ -88,11 +93,16 @@ function checkNotifications() {
                 document.getElementById("notification-here").appendChild(a);
 
              }
+             var i = $('.badge');
+             i.text(count);
         }
     });
 }
 
 function removeSeen(id){
+    var count;
+    count = $('.badge');
+    count = count[0].textContent;
     var li = $("#notification-here > #anchor-notification");
     li[id].setAttribute("class","dropdown-item");
     $.ajax({
@@ -100,10 +110,102 @@ function removeSeen(id){
         success: function(data) {
             if(data == "true"){
                 console.log("Notification changed successfully");
+                var i = $('.badge');
+                i.text(count - 1);
             }
             else{
                 console.log("Failed");
             }
         }
     });
+}
+
+function SearchCard(){
+    var name = $('#dropbox').val();
+    var i;
+    $.ajax({
+        method: 'POST',
+        url: '/sales/apiPrice/',
+        data: { 
+            'dropboxvalue': name
+        },
+        success: function(data) {
+            console.log(data.length);
+            for(i = 0; i < data.length; i++){
+                var op = document.createElement('option');
+                op.setAttribute("value", name + " " + data[i].print_tag + " " + data[i].rarity );
+                document.getElementById("CardList").appendChild(op);
+                document.getElementById("CardList2").appendChild(op);
+                console.log(name + " " + data[i].print_tag + " " + data[i].rarity);
+            }
+            if(data.length == 0){
+                console.log("No data returned");
+            }
+        }
+    });
+}
+
+$(function() {
+    $('.dropdown-menu').on({
+        "click": function(event) {
+          if ($(event.target).closest('.dropdown-toggle').length) {
+            $(this).data('closable', true);
+          } else {
+            $(this).data('closable', false);
+          }
+        },
+        "hide.bs.dropdown": function(event) {
+          hide = $(this).data('closable');
+          $(this).data('closable', true);
+          return hide;
+        }
+    });
+});
+
+function checkOffset() {
+    if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
+        $('#fixed-div').css('width', '100%');
+        $('#fixed-div').css('position', 'absolute');
+        $('#fixed-title').css('position', 'absolute');
+        $('#fixed-div').css('left', '25%');
+
+    if($(document).scrollTop() + window.innerHeight < $('#footer').offset().top){
+        $('#fixed-div').css('position', 'fixed'); // restore when you scroll up
+        $('#fixed-title').css('position', 'fixed'); 
+        $('#fixed-div').css('width', '40%');
+        $('#fixed-div').css('left', '');
+    }
+    else{
+        $('#fixed-div').css('width', '100%');
+        $('#fixed-div').css('left', '');
+    }
+
+}
+
+$(document).scroll(function() {
+    checkOffset();
+});
+
+function sendbid(){
+    var bid;
+    bid = $('#bid').val();
+    if(bid == ""){
+        alert("Insert a bid")
+    }
+    var a = Number(bid);
+    if(a != NaN){
+        $.ajax({
+            method: 'POST',
+            url: '/home/placebid/',
+            data: { 
+                'id': bid
+            },
+            success: function(data) {
+               alert(data);
+            },
+        });
+    }
+    else{
+        alert("Insert a number");
+    }
 }

@@ -57,8 +57,8 @@
                                                 <p><b>High:</b> @item.Card.high.ToString("c2") </p>
                                                 <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
                                                 <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                                                <p><b>Sold to: </b> @Html.ActionLink(item.Buyer.Username, "Profile", "Users", new { id = item.Buyer.ID }, new { @class = "Active" })</p>
-                                                <a>@Html.ActionLink("Add to wishlist", "addCardToWishlist", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary" })</a>
+                                                <p><b>Sold to: </b> @Html.ActionLink(item.Buyer.Username, "Profile", "Users", new { id = item.Buyer.ID }, new { @class = "Active", @onclick="loading()" })</p>
+                                                <a>@Html.ActionLink("Add to wishlist", "addCardToWishlist", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
                                             </div>
                                         </div>
                                     </div>

@@ -74,8 +74,8 @@
 
         </dl>
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-            @Html.ActionLink("Back to List", "Index", new { id = Model.ID })
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @onclick="loading()" }) |
+            @Html.ActionLink("Back to List", "Index", new { id = Model.ID }, new { @onclick="loading()" })
         </p>
 
     </div>

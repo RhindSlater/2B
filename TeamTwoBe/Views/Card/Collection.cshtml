@@ -60,7 +60,7 @@
                                 <p><b>Set:</b> @item.print_tag</p>
                                 <p><b>Rarity:</b> @item.rarity</p>
                                 <p><b>Average Price:</b> @item.average.ToString("c2")</p>
-                                @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })
                             </td>
                         </tr>
                     }

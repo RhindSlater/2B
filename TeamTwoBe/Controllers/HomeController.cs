@@ -36,7 +36,42 @@ namespace TeamTwoBe.Controllers
             }
             return false;
         }
-        public ActionResult Index(int? id)
+
+        [HttpPost]
+        public ActionResult placebid(float id)
+        {
+            if(Session["UserID"] != null)
+            {
+                int id1 = Convert.ToInt32(Session["UserID"].ToString());
+                User user = db.Users.Where(x => x.ID == id1).FirstOrDefault();
+                if(user != null)
+                {
+                    Bid bid = new Bid()
+                    {
+                        TimeStamps = DateTime.Now,
+                        BidAmount = id,
+                        Bidder = user,
+                        Item = db.Sales.Where(x => x.IsSold == false & x.ForAuction == true).FirstOrDefault(),
+                    };
+                    db.Bids.Add(bid);
+                    db.SaveChanges();
+                    return Json("Your bid has been placed", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Please login", JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json("test", JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+        public ActionResult Index()
         {
             checkCookie();
             HomeViewModel vm = new HomeViewModel()
@@ -44,29 +79,45 @@ namespace TeamTwoBe.Controllers
                 Followers = new List<Models.Sale>(),
                 Trending = new List<Models.Sale>(),
                 Recommended = new List<Models.Sale>(),
+                CurrentAuction = new Sale(),
             };
-            if(id != null)
+            if (Session["UserID"] != null)
             {
-                User user = db.Users.Include("Following").Where(x => x.ID == id).FirstOrDefault();
-                if(user.Following != null)
+                if (Session["UserID"].ToString() != 0.ToString())
                 {
-                    foreach (var i in user.Following)
+                    int id = Convert.ToInt32(Session["UserID"].ToString());
+                    User user = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
+                    if (user.Follower.Count != 0)
                     {
-                        foreach (var y in db.Sales.Where(x => x.Seller.ID == i.ID))
+                        foreach (var i in user.Follower)
                         {
-                            vm.Followers.Add(y);
+                            foreach (var y in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID))
+                            {
+                                if (vm.Followers.Count == 6)
+                                {
+                                    break;
+                                }
+                                vm.Followers.Add(y);
+                            }
                         }
                     }
                 }
-                foreach(var i in db.Sales)
-                {
-                    vm.Trending.Add(i);
-                }
-                foreach (var i in db.Sales.Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3))
-                {
-                    vm.Recommended.Add(i);
-                }
             }
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel"))
+            {
+                vm.Trending.Add(i);
+            }
+            vm.Trending.Reverse();
+            vm.Trending.RemoveRange(6, vm.Trending.Count - 6);
+
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3))
+            {
+                vm.Recommended.Add(i);
+            }
+            vm.Recommended.RemoveRange(6, vm.Recommended.Count - 6);
+
+            vm.CurrentAuction = db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
+
             return View(vm);
         }
 
