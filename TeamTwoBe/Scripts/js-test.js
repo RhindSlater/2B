@@ -11,6 +11,21 @@ function FollowUser(id){
     });
 }
 
+function RequestCard(id){
+    $.ajax({
+        url: '/Users/requestTrade/' + id,
+        success: function(data) {
+            alert(data);
+        }
+    });
+}
+
+var intervalID = window.setInterval(checkNotifications, 20000);
+
+$(document).ready(function(){
+    checkNotifications();
+});
+
 function checkNotifications() {
     var i;
     $.ajax({
@@ -21,12 +36,11 @@ function checkNotifications() {
                 //removes all notifications from element
                 myNode.removeChild(myNode.firstChild);
             }
-
+            var count = 0;
              for(i = 0; i < data.length; i++){
                 //only show 10 notifications
-                if(i == 10){   
-                    //send user to view all notifications
-                    break;
+                if(data[i].Seen == false){   
+                    count ++;
                 }
 
                 // declare all the elements needed
@@ -79,11 +93,16 @@ function checkNotifications() {
                 document.getElementById("notification-here").appendChild(a);
 
              }
+             var i = $('.badge');
+             i.text(count);
         }
     });
 }
 
 function removeSeen(id){
+    var count;
+    count = $('.badge');
+    count = count[0].textContent;
     var li = $("#notification-here > #anchor-notification");
     li[id].setAttribute("class","dropdown-item");
     $.ajax({
@@ -91,6 +110,8 @@ function removeSeen(id){
         success: function(data) {
             if(data == "true"){
                 console.log("Notification changed successfully");
+                var i = $('.badge');
+                i.text(count - 1);
             }
             else{
                 console.log("Failed");
@@ -98,3 +119,32 @@ function removeSeen(id){
         }
     });
 }
+
+function SearchCard(){
+    var name = $('#dropbox').val();
+    var i;
+    $.ajax({
+        method: 'POST',
+        url: '/sales/apiPrice/',
+        data: { 
+            'dropboxvalue': name
+        },
+        success: function(data) {
+            console.log(data.length);
+            for(i = 0; i < data.length; i++){
+                var op = document.createElement('option');
+                op.setAttribute("value", name + " " + data[i].print_tag + " " + data[i].rarity );
+                document.getElementById("CardList").appendChild(op);
+                document.getElementById("CardList2").appendChild(op);
+                console.log(name + " " + data[i].print_tag + " " + data[i].rarity);
+            }
+            if(data.length == 0){
+                console.log("No data returned");
+            }
+        }
+    });
+}
+
+$('#notification-div').click(function(e) {
+    e.stopPropagation();
+});

@@ -100,9 +100,10 @@
                         <div>
                             <ul class="nav nav-pills">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" onclick="checkNotifications()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
+                                    <a class="nav-link dropdown-toggle notification" onclick="checkNotifications()" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
+                                    <span class="badge"></span>
                                     <div id="notification-div" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; right: 0px; transform: translate3d(-442px, 43px, 0px);">
-                                        <div>
+                                        <div id="notification-there">
                                             <div id="notification-title">
                                                 <h2 id="notify-title">Notifications</h2>
                                             </div>

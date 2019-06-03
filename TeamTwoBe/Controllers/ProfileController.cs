@@ -255,6 +255,15 @@ namespace TeamTwoBe.Controllers
                 Title = "Card Sold",
                 Message = $"{user.Username} has purchased your {sale.Card.name} for ${sale.Price}.",
                 Seen = false,
+                NotifyUser = sale.Seller,
+            };
+            db.Notifications.Add(notify);
+            notify = new Notification()
+            {
+                Date = DateTime.Now,
+                Title = "Card bought",
+                Message = $"You have successfully purchased {sale.Card.name} from {sale.Seller.Username}. You will receive an email on how to pay for your card.",
+                Seen = false,
                 NotifyUser = user,
             };
             db.Notifications.Add(notify);
@@ -313,24 +322,38 @@ namespace TeamTwoBe.Controllers
                 foreach (var i in sale.Shopper)
                 {
                     i.ShoppingCart.Remove(sale);
-
                 }
 
                 foreach (var i in sale.Watcher)
                 {
                     i.Watchlist.Remove(sale);
-
                 }
-                Session["success"] = $"Successfully purchased {sale.Card.name} for {options2.Amount}!";
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Card Sold",
+                    Message = $"{user.Username} has purchased your {sale.Card.name} with verification for ${sale.Price}. Please send the card to 2B to be verified",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+
+                db.Notifications.Add(notify);
+
+                notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Card bought",
+                    Message = $"You have successfully purchased {sale.Card.name} with verification. You will be notified when your card has been verified by 2B and has been shipped.",
+                    Seen = false,
+                    NotifyUser = user,
+                };
+                db.Notifications.Add(notify);
                 db.SaveChanges();
-                Session["umm"] = "go";
-                Session["ShoppingCart"] = user.ShoppingCart.Count();
+                
                 return RedirectToAction("Won");
             }
-            else
-            {
-                return View(moni);
-            }
+            return View(moni);
+
         }
 
         //This int id is the sale id. This one is for the view to enter info first...

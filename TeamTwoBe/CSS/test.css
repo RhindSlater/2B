@@ -42,13 +42,13 @@
 #nav{
     padding-bottom: 8px;
     padding-top: 8px;
-    min-width: 910px;
+    min-width: 1080px;
 }
 #navbar-right-side{
     min-width: 405px;
 }
 #collapsingNavbar3{
-    min-width: 930px;
+    min-width: 1080px;
 }
 #signup, #login, #logout{
     padding: 5px;
@@ -91,7 +91,7 @@ a, .btn{
 }
 #notification-div{
     width: 480px;
-    max-height: 640px; 
+    max-height: 300px; 
 	padding-top: 0px;
 }
 #notification-title{
@@ -120,6 +120,10 @@ a, .btn{
 #anchor-notification{
     padding:0px;
 }
+#notification-there{
+    overflow: auto;
+    max-height: 300px;
+}
 #para-notification{
     cursor: default;
 }
@@ -138,6 +142,20 @@ a, .btn{
 .seen:hover{
     background-color: #5e5e5e !important;
 }
+.notification {
+    position: relative;
+    display: inline-block;
+  }
+.badge {
+    position: absolute;
+    cursor: pointer;
+    font-size: 70%;
+    top: -5px;
+    right: -1px;
+    padding: 5px 10px;
+    border-radius: 80%;
+    background-color: rgba(71, 71, 71, 0);
+  }
 
 
 /* Body */
@@ -182,6 +200,30 @@ ul{
 }
 
 
+/* Scroll bar */
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: none; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+
 /* Sales Index */
 
 
@@ -194,7 +236,9 @@ ul{
     max-width: 1350px;
 }
 #CardGrid{
-    max-width: 230px;
+    flex: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 #Card{
     min-width: 217px;
@@ -252,7 +296,7 @@ ul{
     padding-right: 30px;
 }
 #ProfileUsername{
-    margin-top: 4%;
+    margin-top: 2em;
 }
 #ProfileUsername1{
     cursor: pointer;
