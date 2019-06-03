@@ -12,7 +12,7 @@
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <script src="~/Scripts/js-test.js"></script> 
+    <script src="~/Scripts/js-test.js"></script>
 </head>
 <body style="position:relative">
     <div id="loader-wrapper">
@@ -27,16 +27,16 @@
             {
                 if (Session["AccountLevel"].ToString() != "2")
                 {
-                    <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Home/"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
                 }
                 else
                 {
-                    <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Home/"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
                 }
             }
             else
             {
-                <a onclick="loading()" href="/Sales/Index"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                <a onclick="loading()" href="/Home/"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
             }
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -91,7 +91,7 @@
                 {
                     <li class="nav-item">
                         <div id="logout">
-                            <a onclick="loading()" href="/Users/LogOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+                            <a data-toggle="modal" data-target="#logoutModal" href="#"><i class="fas fa-sign-out-alt"></i> Sign out</a>
                         </div>
                     </li>
 
@@ -117,7 +117,7 @@
                     </li>
                     <li class="nav-item">
                         <div id="profile">
-                            <img id="DisplayPicture" data-toggle="modal" data-target="#myModal" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+                            <img id="DisplayPicture" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
                         </div>
                     </li>
                     <li class="nav-item">
@@ -136,6 +136,7 @@
                                         <div class="dropdown-divider"></div>
                                         <a onclick="loading()" class="dropdown-item" href="/Users/Premium/">Premium</a>
                                         <a class="dropdown-item" id="settings">Settings</a>
+                                        <a data-toggle="modal" data-target="#logoutModal" href="#" class="dropdown-item">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -160,19 +161,21 @@
             </ul>
         </div>
     </nav>
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div id="logoutModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div id="modal-header1">
-                        <h4 style="text-align:center;" class="modal-title">Display Picture</h4>
-                    </div>
+                    <h4>Log Out</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <p>Are you sure you want to log-off? <br /></p>
+                    <div class="actionsBtns">
+                        <form action="/Users/LogOut/" method="post">
+                            <button onclick="loading()" type="submit" id="search-button" class="btn btn-primary">Sign out</button>
+                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,7 +183,7 @@
     <div class="container body-content">
         @RenderBody()
     </div>
-    <footer class="footer">
+    <footer id="footer" class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">

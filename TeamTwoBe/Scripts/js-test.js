@@ -145,6 +145,67 @@ function SearchCard(){
     });
 }
 
-$('#notification-div').click(function(e) {
-    e.stopPropagation();
+$(function() {
+    $('.dropdown-menu').on({
+        "click": function(event) {
+          if ($(event.target).closest('.dropdown-toggle').length) {
+            $(this).data('closable', true);
+          } else {
+            $(this).data('closable', false);
+          }
+        },
+        "hide.bs.dropdown": function(event) {
+          hide = $(this).data('closable');
+          $(this).data('closable', true);
+          return hide;
+        }
+    });
 });
+
+function checkOffset() {
+    if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
+        $('#fixed-div').css('width', '100%');
+        $('#fixed-div').css('position', 'absolute');
+        $('#fixed-title').css('position', 'absolute');
+        $('#fixed-div').css('left', '25%');
+
+    if($(document).scrollTop() + window.innerHeight < $('#footer').offset().top){
+        $('#fixed-div').css('position', 'fixed'); // restore when you scroll up
+        $('#fixed-title').css('position', 'fixed'); 
+        $('#fixed-div').css('width', '40%');
+        $('#fixed-div').css('left', '');
+    }
+    else{
+        $('#fixed-div').css('width', '100%');
+        $('#fixed-div').css('left', '');
+    }
+
+}
+
+$(document).scroll(function() {
+    checkOffset();
+});
+
+function sendbid(){
+    var bid;
+    bid = $('#bid').val();
+    if(bid == ""){
+        alert("Insert a bid")
+    }
+    var a = Number(bid);
+    if(a != NaN){
+        $.ajax({
+            method: 'POST',
+            url: '/home/placebid/',
+            data: { 
+                'id': bid
+            },
+            success: function(data) {
+               alert(data);
+            },
+        });
+    }
+    else{
+        alert("Insert a number");
+    }
+}

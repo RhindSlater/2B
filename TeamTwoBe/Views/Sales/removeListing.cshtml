@@ -51,7 +51,7 @@
 
                     <div class="form-actions no-color">
                         <input type="submit" value="Unlist" class="btn btn-default" />
-                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default", @onclick="loading()" })
                     </div>
                 }
             </div>

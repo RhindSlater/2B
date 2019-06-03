@@ -33,7 +33,7 @@
                                         <div id="Detail">
                                             <a><p id="CardName">@item.Card.name</p></a>
                                             <div>
-                                                <a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
+                                                <a id="seller" onclick="loading()" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
                                                 <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>
                                             </div>
                                         </div>
@@ -63,24 +63,24 @@
                                                     <p><b>High:</b> @item.Card.high.ToString("c2") </p>
                                                     <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
                                                     <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                                                    <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                                    <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
                                                     @if (Session["UserID"] != null)
                                                     {
                                                         if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                                                         {
-                                                            <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                            <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                            <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                            <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                         }
                                                         else
                                                         {
-                                                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                            <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                            <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                            <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                        <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                        <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                     }
                                                 </div>
                                             </div>
@@ -140,7 +140,7 @@
                                                     <p><b>Low:</b> @item.low.ToString("c2") </p>
                                                     <p><b>Average:</b> @item.average.ToString("c2") </p>
                                                     <p><b>High:</b> @item.high.ToString("c2") </p>
-                                                    @Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary" })
+                                                    @Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })
 
                                                 </div>
                                             </div>
@@ -167,11 +167,11 @@
                             <div class=" lozad" id="CardGrid">
                                 <div id="Card">
                                     <div id="CardImage">
-                                        <a><div style="display:inline-block;"><img oncontextmenu="rightclick()" height="215" width="215" class="lozad" src="~/Properties/@item.DisplayPicture" /></div></a>
+                                        <a href="/Users/Profile/@item.ID"><div style="display:inline-block;"><img oncontextmenu="rightclick()" height="215" width="215" class="lozad" src="~/Properties/@item.DisplayPicture" /></div></a>
                                     </div>
                                     <div id="DetailGrid">
                                         <div id="Detail">
-                                            <a href="/Users/Profile/@item.ID"><p id="CardName">@item.Username</p></a>
+                                            <a onclick="loading()" href="/Users/Profile/@item.ID"><p id="CardName">@item.Username</p></a>
                                             <div>
                                             </div>
                                         </div>
@@ -209,9 +209,6 @@
     <script>
         window.oncontextmenu = function () {
             return false;
-        }
-        function rightclick() {
-            alert("Right click");
         }
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>

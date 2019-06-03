@@ -16,15 +16,15 @@
         {
             <div style="margin:auto">
                 <div style="position:relative; display:flex; margin:auto; max-width:1380px;">
-                    <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s wishlist", "Profile", "Users", new { id = Model.ID }, null)</h3>
-                    <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("Add card to wishlist", "Wishlist", "Card", new { }, new { @id = "addlisting" })</a>
+                    <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s wishlist", "Profile", "Users", new { id = Model.ID }, new {@onclick="loading()" })</h3>
+                    <a style="height:20%; color:#3ea6ff;">@Html.ActionLink("Add card to wishlist", "Wishlist", "Card", new { }, new { @id = "addlisting" , @onclick="loading()" })</a>
                 </div>
             </div>
         }
         else
         {
             <div style="display:flex">
-                <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, null)</h3>
+                <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, new { @onclick="loading()"})</h3>
             </div>
         }
 
@@ -76,11 +76,11 @@
                                             <p><b>Average Price:</b> @item.average.ToString("c2")</p>
                                             @if (Model.ID.ToString() == Session["UserID"].ToString())
                                             {
-                                                <a>@Html.ActionLink("Remove from wishlist", "removeWishlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                <a>@Html.ActionLink("Remove from wishlist", "removeWishlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
                                             }
                                             else
                                             {
-                                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                             }
                                         </div>
                                     </div>

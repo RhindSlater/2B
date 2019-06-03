@@ -39,11 +39,11 @@
                             <p><b>Rarity:</b> @item.Card.rarity</p>
                             <p><b>Price:</b> @item.Price.ToString("c2")</p>
                             <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                            <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                            <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
                             <p><b>Current watchers:</b> @item.Watcher.Count</p>
                             <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                            <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                            <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                         </div>
                     </td>
                 </tr>

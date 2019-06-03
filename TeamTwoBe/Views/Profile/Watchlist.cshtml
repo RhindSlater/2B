@@ -33,7 +33,7 @@
                                     <div id="Detail">
                                         <a><p id="CardName">@item.Card.name @item.Card.print_tag</p></a>
                                         <div>
-                                            <a id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
+                                            <a onclick="loading()" id="seller" href="/Users/Profile/@item.Seller.ID">@item.Seller.Username</a>
                                             <p id="watchcount">@item.Watcher.Count watchers - @item.UploadDate.ToString("dd/MM/yyyy")</p>
                                         </div>
                                     </div>
@@ -63,16 +63,16 @@
                                                 <p><b>High:</b> @item.Card.high.ToString("c2") </p>
                                                 <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
                                                 <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                                                <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
+                                                <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
                                                 @if (item.Seller.ID.ToString() == Session["UserID"].ToString())
                                                 {
-                                                    <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                    <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <a>@Html.ActionLink("Edit Listing", "editListing", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                    <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
                                                 }
                                                 else
                                                 {
-                                                    <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                    <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                 }
                                             </div>
                                         </div>

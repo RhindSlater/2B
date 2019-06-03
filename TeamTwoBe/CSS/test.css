@@ -151,9 +151,8 @@ a, .btn{
     cursor: pointer;
     font-size: 70%;
     top: -5px;
-    right: -1px;
-    padding: 5px 10px;
-    border-radius: 80%;
+    right: 7px;
+    padding: 0px;
     background-color: rgba(71, 71, 71, 0);
   }
 
@@ -197,6 +196,10 @@ ul{
     background-color: #63666f;
     border: 0px;
     color: white;
+}
+.btn-primary:hover{
+    background-color: #414349;
+
 }
 
 
@@ -272,7 +275,9 @@ ul{
 	margin: auto;
 	width:90%;
 }
-
+.modal-sm{
+    max-width: 350px;
+}
 
 /* Profile */
 
@@ -300,6 +305,11 @@ ul{
 }
 #ProfileUsername1{
     cursor: pointer;
+    color: #9c9c9c;
+}
+#ProfileUsername1:hover{
+    cursor: pointer;
+    color: white;
 }
 
 
@@ -388,7 +398,7 @@ li{
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 2;
+    z-index: 200000000;
 }
 #loader{
     width: 171px;

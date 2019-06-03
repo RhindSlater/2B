@@ -69,13 +69,13 @@
                                                 <p><b>Average Price:</b> @item.average.ToString("c2")</p>
                                                 @if (Model.ID.ToString() == Session["UserID"].ToString())
                                                 {
-                                                    <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                                                    <a>@Html.ActionLink("Remove from collection", "removeCollection", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
                                                     <button class="btn btn-default" type="submit" id="modalDetails1">List for sale</button>
                                                 }
                                                 else
                                                 {
                                                     <button onclick="RequestCard(@item.ID)" class="btn btn-primary">Request trade</button>
-                                                    <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default" })</a>
+                                                    <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                 }
                                             </div>
                                         </div>

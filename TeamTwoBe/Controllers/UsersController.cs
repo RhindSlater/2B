@@ -43,7 +43,8 @@ namespace TeamTwoBe.Controllers
         {
             int id1 = Convert.ToInt32(Session["UserID"].ToString());
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id1).ToList();
-            if(li[id].Seen == true)
+            li.Reverse();
+            if (li[id].Seen == true)
             {
                 return Json("false", JsonRequestBehavior.AllowGet);
             }
@@ -299,11 +300,19 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
-            if (id == null)
+            checkCookie();
+            if (id == null & Session["UserID"] == null)
             {
                 return RedirectToAction("Index", "Sales");
             }
-            checkCookie();
+            else if(id == null)
+            {
+                if(Convert.ToInt32(Session["UserID"].ToString()) == 0)
+                {
+                    return RedirectToAction("Index", "Sales");
+                }
+                id = Convert.ToInt32(Session["UserID"].ToString());
+            }
             User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()
             {
@@ -357,6 +366,7 @@ namespace TeamTwoBe.Controllers
             return View(vm);
         }
 
+        [HttpPost]
         public ActionResult LogOut() // logged out
         {
             Session["UserID"] = null;
