@@ -58,9 +58,13 @@
                     <div id="changeMe" class="invalid-feedback">Please select a card from the list!</div>
                 </div>
             }
-            <script>
+
+            if (Model.MyDatum != null)
+            {
+                <script>
                 $(document).ready(function () {
                     $("#dropbox2").change(function () {
+                        var model = @Html.Raw(Json.Encode(Model));
                         var li = $("datalist > option");
                         var name = $("#dropbox2");
                         var i;
@@ -69,19 +73,38 @@
                                 $("#dropbox2").attr("class", "form-control is-valid");
                                 $("#changeMe").attr("class", "valid-feedback");
                                 $("#changeMe").html("Success!");
+                                var myNode = document.getElementById("price-info");
+                                while (myNode.firstChild) {
+                                    myNode.removeChild(myNode.firstChild);
+                                }
+                                var heading = document.createElement('h4');
+                                var plow = document.createElement('p');
+                                var paverage = document.createElement('p');
+                                var phigh = document.createElement('p');
+                                heading.append("Price info ($USD)");
+                                plow.append("Low: $" + model.MyDatum[i].price_data.data.prices.low);
+                                paverage.append("Average: $" + model.MyDatum[i].price_data.data.prices.average);
+                                phigh.append("High: $" + model.MyDatum[i].price_data.data.prices.high);
+                                myNode.append(heading);
+                                myNode.append(plow);
+                                myNode.append(paverage);
+                                myNode.append(phigh);
                                 break;
                             }
                             else {
                                 $("#dropbox2").attr("class", "form-control is-invalid");
                                 $("#changeMe").attr("class", "invalid-feedback");
                                 $("#changeMe").html("Please select a card from the list!");
+                                var myNode = document.getElementById("price-info");
+                                while (myNode.firstChild) {
+                                    myNode.removeChild(myNode.firstChild);
+                                }
                             }
                         }
-
                     });
                 });
-
-/**/</script>
+            /**/</script>
+            }
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -105,14 +128,12 @@
                 </div>
             </div>
             <div style="display:flex">
-                <div style="width:55%">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-12" })
-                        <div class="col-md-12">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.ForAuction)
-                                @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
-                            </div>
+                <div style="width:55%; margin-top:20px">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="checkbox col-mid-2">
+                            @Html.EditorFor(model => model.ForAuction)
+                            @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -121,11 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div  style="width:45%" id="price-info">
-                    <h4>Price Info (USD based):</h4>
-                    <p><b>Low:</b> $0.85</p>
-                    <p><b>Average:</b> $1.49 </p>
-                    <p><b>High:</b> $2.98</p>
+                <div style="width:45%" id="price-info">
                 </div>
             </div>
         }
