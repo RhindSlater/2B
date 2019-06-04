@@ -91,7 +91,7 @@ namespace TeamTwoBe.Controllers
                     {
                         foreach (var i in user.Follower)
                         {
-                            foreach (var y in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID))
+                            foreach (var y in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID & x.ForAuction == false & x.IsSold == false))
                             {
                                 if (vm.Followers.Count == 6)
                                 {
@@ -107,14 +107,14 @@ namespace TeamTwoBe.Controllers
                     }
                 }
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel"))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.IsSold == false & x.ForAuction == false))
             {
                 vm.Trending.Add(i);
             }
             vm.Trending.Reverse();
             vm.Trending.RemoveRange(6, vm.Trending.Count - 6);
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false & x.ForAuction == false))
             {
                 vm.Recommended.Add(i);
             }

@@ -56,15 +56,15 @@ namespace TeamTwoBe.Controllers
             checkCookie();
             UsersController uc = new UsersController();
             List<Sale> li = new List<Sale>();
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
             }
@@ -92,7 +92,7 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index");
             }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
                 vm.Users.Add(i.Seller);
@@ -298,7 +298,7 @@ namespace TeamTwoBe.Controllers
                 Users = new List<User>(),
             };
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Watcher").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) | x.Card.print_tag.Contains(search) | x.Card.Cardtype.Name == search | x.Seller.Username == search | x.CardGrade.Grading == search | x.Card.rarity.Contains(search)))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardGrade").Include("CardCondition").Include("Watcher").Include("Seller.UserLevel").Where(x => x.Card.name.Contains(search) & x.ForAuction == false | x.Card.print_tag.Contains(search) & x.ForAuction == false | x.Card.Cardtype.Name == search & x.ForAuction == false | x.Seller.Username == search & x.ForAuction == false | x.CardGrade.Grading == search & x.ForAuction == false | x.Card.rarity.Contains(search) & x.ForAuction == false))
             {
                 if (i.ID != 1 & i.IsSold == false)
                 {
@@ -537,10 +537,8 @@ namespace TeamTwoBe.Controllers
             }
             else
             {
-                return View();
+                return View("Won","Profile");
             }
-
-
         }
 
         protected override void Dispose(bool disposing)

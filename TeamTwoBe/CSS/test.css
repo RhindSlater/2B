@@ -247,6 +247,8 @@ ul{
     min-width: 217px;
     max-width: 217px;
     margin-right: 10px;
+    border: #121212 1px solid;
+    
 }
 #seller, #watchcount{
     color: #aaaaaa;
@@ -466,4 +468,18 @@ li{
     margin-top: 105px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.notreviewed{
+    height: 435px;
+    border: #121212 1px solid;
+    background-color: #121212;
+    -webkit-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    
+    transition-timing-function: ease-in;
+}
+.notreviewed:hover{
+    background-color: #202020;
+    border: #272727 1px solid;
 }

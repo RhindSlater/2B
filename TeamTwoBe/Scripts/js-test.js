@@ -20,11 +20,31 @@ function RequestCard(id){
     });
 }
 
-var intervalID = window.setInterval(checkNotifications, 20000);
+var intervalID = window.setInterval(checkNotifications, 5000);
 
 $(document).ready(function(){
     checkNotifications();
 });
+
+function checkReviewed(id){
+    var i;
+    $.ajax({
+        url: '/Profile/checkReviewed/' + id,
+        success: function(data) {
+            for(i = 0; i < data.length; i ++ ){
+                if(data[i] == "true"){
+                    console.log(data[i]);
+                    var num = Number(data[i + 1]);
+                    $('.' + num).addClass("notreviewed");
+                    console.log(num);
+                }
+            }
+        }
+    });
+}
+
+
+
 
 function checkNotifications() {
     var i;
@@ -181,10 +201,6 @@ function checkOffset() {
     }
 
 }
-
-$(document).scroll(function() {
-    checkOffset();
-});
 
 function sendbid(){
     var bid;

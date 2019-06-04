@@ -82,9 +82,9 @@ namespace TeamTwoBe.Controllers
             User user = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
             List<User> lis = user.Follower;
             List<Sale> li = new List<Sale>();
-            foreach( var i in lis)
+            foreach (var i in lis)
             {
-                var a = db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID).ToList();
+                var a = db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID & x.IsSold == false & x.ForAuction == false).ToList();
                 li.AddRange(a);
             }
 
@@ -123,9 +123,6 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("login", "users");
             }
-
-
-
             return View();
 
         }
@@ -294,7 +291,7 @@ namespace TeamTwoBe.Controllers
             }
             Notification notify = new Notification()
             {
-                Date= DateTime.Now,
+                Date = DateTime.Now,
                 Title = "Card Sold",
                 Message = $"{user.Username} has purchased your {sale.Card.name} for ${sale.Price}.",
                 Seen = false,
@@ -392,7 +389,7 @@ namespace TeamTwoBe.Controllers
                 };
                 db.Notifications.Add(notify);
                 db.SaveChanges();
-                
+
                 return RedirectToAction("Won");
 
             }
@@ -543,6 +540,32 @@ namespace TeamTwoBe.Controllers
                 }
             }
             return View(user);
+        }
+        public ActionResult checkReviewed(int id)
+        {
+            List<Sale> li = db.Sales.Include("Buyer").Where(x => x.Buyer.ID == id).ToList();
+            if (li.Count < 1)
+            {
+                return Json("User has no cards purchased", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<string> lis = new List<string>();
+                foreach(var i in li)
+                {
+                    if(db.UserReviews.Include("CardReviewed").Include("Reviewer").Where(x => x.Reviewer.ID == i.Buyer.ID & x.CardReviewed.ID == i.ID).FirstOrDefault() == null)
+                    {
+                        lis.Add("true");
+                        lis.Add(i.ID.ToString());
+                    }
+                    else
+                    {
+                        lis.Add("false");
+                        lis.Add("0");
+                    }
+                }
+                return Json(lis, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

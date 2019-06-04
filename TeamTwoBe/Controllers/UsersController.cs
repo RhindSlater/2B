@@ -324,7 +324,7 @@ namespace TeamTwoBe.Controllers
             };
             List<Sale> li = new List<Sale>();
 
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID & x.IsSold == false))
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
             }
