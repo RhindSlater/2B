@@ -66,6 +66,29 @@ namespace TeamTwoBe.Controllers
             User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.Watcher").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
 
             return View(user);
+        }
+        public ActionResult Following()
+        {
+            checkCookie();
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
+            List<User> lis = user.Follower;
+            List<Sale> li = new List<Sale>();
+            foreach( var i in lis)
+            {
+                var a = db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID).ToList();
+                li.AddRange(a);
+            }
+
+            return View(li);
 
         }
 

@@ -74,7 +74,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <button onclick="RequestCard(@item.ID)" class="btn btn-primary">Request trade</button>
+                                                    <button type="button" onclick="RequestCard(@item.ID)" class="btn btn-primary">Request trade</button>
                                                     <a>@Html.ActionLink("Add to Wishlist", "addCardToWishlist", "Card", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
                                                 }
                                             </div>
