@@ -4,13 +4,13 @@
     ViewBag.Title = "New Sale";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-    </head>
+<head>
+    <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
 <body>
     <div id="create-container" class="form-horizontal">
         <h2 id="create-title" class="text-center">New sale</h2>
@@ -80,7 +80,8 @@
 
                     });
                 });
-            </script>
+
+/**/</script>
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -103,18 +104,28 @@
                     @Html.DropDownList("Grades", null, "Choose Grade", new { @id = "pricetb" })
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-12" })
-                <div class="col-md-12">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.ForAuction)
-                        @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
+            <div style="display:flex">
+                <div style="width:55%">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.ForAuction)
+                                @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input style="width:80%; margin:0 auto" id="submit-btn" onclick="loading()" type="submit" value="Create" class="btn btn-lg btn-default" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input id="submit-btn" onclick="loading()" type="submit" value="Create" class="btn btn-lg btn-default" />
+                <div  style="width:45%" id="price-info">
+                    <h4>Price Info (USD based):</h4>
+                    <p><b>Low:</b> $0.85</p>
+                    <p><b>Average:</b> $1.49 </p>
+                    <p><b>High:</b> $2.98</p>
                 </div>
             </div>
         }

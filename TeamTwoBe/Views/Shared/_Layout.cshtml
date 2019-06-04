@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <link href="~/CSS/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -27,16 +27,16 @@
             {
                 if (Session["AccountLevel"].ToString() != "2")
                 {
-                    <a onclick="loading()" href="/Home/"><img src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Home/"><img loading="auto" alt="2B Premium Logo" src="~/Properties/2B5.png" id="image" width="41" height="24" /></a>
                 }
                 else
                 {
-                    <a onclick="loading()" href="/Home/"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                    <a onclick="loading()" href="/Home/"><img loading="auto" alt="2B Logo" src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
                 }
             }
             else
             {
-                <a onclick="loading()" href="/Home/"><img src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
+                <a onclick="loading()" href="/Home/"><img loading="auto" alt="2B Logo" src="~/Properties/2B4.png" id="image" width="41" height="24" /></a>
             }
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -117,7 +117,7 @@
                     </li>
                     <li class="nav-item">
                         <div id="profile">
-                            <img id="DisplayPicture" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
+                            <img loading="auto" id="DisplayPicture" alt="Profile display icon" src="~/Properties/@Session["UserPic"]" width="33" height="33" />
                         </div>
                     </li>
                     <li class="nav-item">
@@ -165,7 +165,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4>Log Out</h4>
+                    <l>Log Out</l>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
