@@ -470,12 +470,20 @@ namespace TeamTwoBe.Controllers
         }
 
         //Check if this id being parsed in from the Won view, is == to the ID in the Sale Table!
-        public ActionResult ReviewSale(int id)
+        public ActionResult ReviewSale(int? id)
         {
             checkCookie();
+
+            if(id == null)
+            {
+                return RedirectToAction("MyReviews");
+            }
+
             Sale sale = db.Sales.Include("Buyer").Include("Seller").Include("Card").Where(x => x.ID == id).FirstOrDefault();
 
             User user = db.Users.Find(Session["UserID"]);
+
+
 
             UserReview userReview = new UserReview()
             {
@@ -490,27 +498,40 @@ namespace TeamTwoBe.Controllers
 
         }
         [HttpPost]
-        public ActionResult ReviewSale()
+        public ActionResult ReviewSale(int id)
         {
             checkCookie();
-
-            int id = Convert.ToInt32(Session["saleID"].ToString());
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
 
             Sale sale = db.Sales.Include("Buyer").Include("Seller").Include("Card").Where(x => x.ID == id).FirstOrDefault();
 
-            User user = db.Users.Find(Session["UserID"]);
-
             UserReview userReview = new UserReview()
             {
-                ID = sale.ID,
                 Reviewer = sale.Buyer,
                 Reviewee = sale.Seller,
+                //This sets the sale ID as well.
                 CardReviewed = sale,
             };
 
             if (userReview != null)
             {
                 db.UserReviews.Add(userReview);
+                Notification notify = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Message = $"{sale.Buyer.Username} has reviewed your {sale.Card.name}!",
+                    Title = "Sale Reviewed",
+                    NotifyUser = sale.Seller,
+                    Seen = false,
+                };
+                db.Notifications.Add(notify);
                 db.SaveChanges();
                 return RedirectToAction("MyReviews");
             }
