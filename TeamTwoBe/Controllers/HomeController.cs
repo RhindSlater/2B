@@ -100,6 +100,10 @@ namespace TeamTwoBe.Controllers
                                 vm.Followers.Add(y);
                             }
                         }
+                        while(vm.Followers.Count < 6)
+                        {
+                            vm.Followers.Add(db.Sales.Find(1));
+                        }
                     }
                 }
             }

@@ -51,7 +51,7 @@ namespace TeamTwoBe.Controllers
             li[id].Seen = true;
             db.SaveChanges();
 
-            return Json("true",JsonRequestBehavior.AllowGet);
+            return Json("true", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Subscription(string test)
@@ -305,9 +305,9 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("Index", "Sales");
             }
-            else if(id == null)
+            else if (id == null)
             {
-                if(Convert.ToInt32(Session["UserID"].ToString()) == 0)
+                if (Convert.ToInt32(Session["UserID"].ToString()) == 0)
                 {
                     return RedirectToAction("Index", "Sales");
                 }
@@ -431,7 +431,7 @@ namespace TeamTwoBe.Controllers
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user2 = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
-            if(user2 == null)
+            if (user2 == null)
             {
                 return Json("Log in to follow a user.", JsonRequestBehavior.AllowGet);
             }
@@ -455,21 +455,27 @@ namespace TeamTwoBe.Controllers
 
         public ActionResult requestTrade(int id)
         {
-            Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
+            Card card = db.Cards.Include("CollectionOwners").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
-            if (sale != null)
+            if (card != null)
             {
-                Notification notify = new Notification()
+                foreach (var i in card.CollectionOwners)
                 {
-                    Date = DateTime.Now,
-                    Title = "Trade request",
-                    Message = user.Username + " has requested to trade for the " + sale.Card.name + " in your collection.",
-                    Seen = false,
-                    NotifyUser = sale.Seller,
-                };
+                    Notification notify = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "Trade request",
+                        Message = user.Username + " has requested to trade for the " + card.name + " in your collection.",
+                        Seen = false,
+                        NotifyUser = i,
+                    };
+                    db.Notifications.Add(notify);
+                }
+                db.SaveChanges();
+                return Json("Your request has been sent.", JsonRequestBehavior.AllowGet);
             }
-            return Json("Your request has been sent.", JsonRequestBehavior.AllowGet);
+            return Json("No users currently have selected card in their collection", JsonRequestBehavior.AllowGet);
         }
 
     }
