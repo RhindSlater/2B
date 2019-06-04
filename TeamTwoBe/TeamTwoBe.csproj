@@ -334,6 +334,10 @@
     <Compile Include="Migrations\201905310453240_AddingDateToNotifications.Designer.cs">
       <DependentUpon>201905310453240_AddingDateToNotifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906032141023_Added_UserReview_CardReviewed_Required.cs" />
+    <Compile Include="Migrations\201906032141023_Added_UserReview_CardReviewed_Required.Designer.cs">
+      <DependentUpon>201906032141023_Added_UserReview_CardReviewed_Required.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -407,6 +411,9 @@
     <Content Include="Views\Home\WhyUs.cshtml" />
     <Content Include="Views\Profile\Sold.cshtml" />
     <Content Include="Views\Profile\Following.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Sales\ReviewSale.cshtml" />
+    <Content Include="Views\Profile\MyReviews.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -547,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905310453240_AddingDateToNotifications.resx">
       <DependentUpon>201905310453240_AddingDateToNotifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906032141023_Added_UserReview_CardReviewed_Required.resx">
+      <DependentUpon>201906032141023_Added_UserReview_CardReviewed_Required.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

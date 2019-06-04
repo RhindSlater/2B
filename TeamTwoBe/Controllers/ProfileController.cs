@@ -111,6 +111,25 @@ namespace TeamTwoBe.Controllers
 
         }
 
+        //Will show all the Reviews this user has given and been given.
+        public ActionResult MyReviews()
+        {
+            checkCookie();
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
+
+
+
+            return View();
+
+        }
+
         public ActionResult removeWishlist(int id)
         {
             checkCookie();
@@ -304,6 +323,7 @@ namespace TeamTwoBe.Controllers
             checkCookie();
             StripeConfiguration.SetApiKey("sk_test_P6m1FrtIXMp4Eb8vxViEhofQ00VVKk9gpa");
 
+            //id is first set to mean the saleID.
             int id = Convert.ToInt32(Session["saleID"].ToString());
 
             //This is the current sale, where id is at this point, meaning the sale ID.
@@ -312,9 +332,8 @@ namespace TeamTwoBe.Controllers
             //At this point we've now changed id to be meaning the User ID.
             id = Convert.ToInt32(Session["UserID"].ToString());
 
-            //This is the buyer with this buyer's shopping cart
+            //This is the buyer with this buyer's shopping cart matching our id right above.
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
-            
 
             Money moni = new Money()
             {
@@ -361,7 +380,6 @@ namespace TeamTwoBe.Controllers
                     Seen = false,
                     NotifyUser = sale.Seller,
                 };
-
                 db.Notifications.Add(notify);
 
                 notify = new Notification()

@@ -62,6 +62,7 @@
                                                     <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                                                     <p><b>Bought from: </b> @Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
                                                     <a>@Html.ActionLink("Add to collection", "addCardToCollection", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                    <a>@Html.ActionLink("Review Sale", "ReviewSale", "sales", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
                                                     <button class="btn btn-default" onclick="loading()" type="submit" id="modalDetails1">List for sale</button>
                                                 </div>
                                             </div>

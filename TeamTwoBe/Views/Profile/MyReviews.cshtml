@@ -1,0 +1,43 @@
+﻿@model TeamTwoBe.Models.UserReview
+
+@{
+    ViewBag.Title = "MyReviews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+</head>
+<div id="base">
+    <h2>My Reviews</h2>
+
+    <div>
+        <h4>User Review</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ReviewGiven)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReviewGiven)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StarRating)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StarRating)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+</div>
