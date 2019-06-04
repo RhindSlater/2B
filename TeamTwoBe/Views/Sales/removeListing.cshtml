@@ -12,7 +12,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <div id="base">
-
+    <input name="id" style="display:none" value="@Model.ID" />
     <div style="margin-top:8%;" id="remove-div">
 
         <h3 style="text-align:center;" id="sales">Are you sure you want to remove this listing?</h3>
@@ -50,8 +50,8 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-actions no-color">
-                        <input type="submit" value="Unlist" class="btn btn-default" />
-                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default", @onclick="loading()" })
+                        <input onclick="loading()" type="submit" value="Unlist" class="btn btn-default" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default", @onclick = "loading()" })
                     </div>
                 }
             </div>

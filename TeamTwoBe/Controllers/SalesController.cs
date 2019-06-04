@@ -443,6 +443,7 @@ namespace TeamTwoBe.Controllers
                     Message = "A card in your shoppingcart has been unlisted.",
                     NotifyUser = i,
                     Seen = false,
+                    Date = DateTime.Now
                 };
                 db.Notifications.Add(notify);
                 i.ShoppingCart.Remove(sale);
@@ -456,6 +457,7 @@ namespace TeamTwoBe.Controllers
                     Message = "A card on your watchlist has been unlisted.",
                     NotifyUser = i,
                     Seen = false,
+                    Date = DateTime.Now
                 };
                 db.Notifications.Add(notify);
                 i.Watchlist.Remove(sale);
