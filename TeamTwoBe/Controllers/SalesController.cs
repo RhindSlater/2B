@@ -197,10 +197,6 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
-            Session["View"] = "SaleCreate";
-
-
-
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
             if (id != null)
             {
@@ -242,6 +238,14 @@ namespace TeamTwoBe.Controllers
             if (ModelState.IsValid)
             {
                 Card card = db.Cards.Where(x => x.apiID == dropboxvalue).FirstOrDefault();
+                if(Grades == "")
+                {
+                    Grades = "1";
+                }
+                if (Conditions == "")
+                {
+                    Conditions = "5";
+                }
                 Grade grade = db.Grades.Find(Convert.ToInt32(Grades));
                 Condition condition = db.Conditions.Find(Convert.ToInt32(Conditions));
                 User user = db.Users.Find(Session["UserID"]);
@@ -381,6 +385,14 @@ namespace TeamTwoBe.Controllers
         public ActionResult editListing(int? id)
         {
             checkCookie();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
             ViewBag.Conditions = new SelectList(db.Conditions, "ID", "CardCondition");
             ViewBag.Grades = new SelectList(db.Grades, "ID", "Grading");
 
@@ -395,7 +407,7 @@ namespace TeamTwoBe.Controllers
                 return HttpNotFound();
             }
 
-            //stops others from removing your sales
+            //stops others from editing your sales
             if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
             {
                 Session["View"] = "SaleEdit";
@@ -407,6 +419,14 @@ namespace TeamTwoBe.Controllers
         public ActionResult removeListing(int? id)
         {
             checkCookie();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("login", "users");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

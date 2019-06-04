@@ -12,7 +12,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <div id="base">
-    <div style="margin-top:9%;" id="Collection">
+    <div style="margin:9% auto 0;max-width:45%" id="Collection">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -32,16 +32,16 @@
                 @Html.HiddenFor(model => model.ID)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
                         @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ForAuction, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ForAuction, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
                         <div class="checkbox">
                             @Html.EditorFor(model => model.ForAuction)
                             @Html.ValidationMessageFor(model => model.ForAuction, "", new { @class = "text-danger" })

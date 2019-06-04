@@ -24,7 +24,7 @@
         else
         {
             <div style="display:flex">
-                <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, new { @onclick="loading()"})</h3>
+                <h3 style="margin:0 auto 10px">@Html.ActionLink(Model.Username + "'s wishlist", "Profile", "Users", new { id = Model.ID }, new { @onclick="loading()"})</h3>
             </div>
         }
 

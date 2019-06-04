@@ -23,8 +23,8 @@
         }
         else
         {
-            <div style="display:flex">
-                <h3 style="padding-left:15px;">@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, new { @onclick = "loading()" })</h3>
+            <div style="text-align:center">
+                <h3 style="margin:0 auto 10px">@Html.ActionLink(Model.Username + "'s Collection", "Profile", "Users", new { id = Model.ID }, new { @onclick = "loading()" })</h3>
             </div>
         }
 
@@ -35,8 +35,7 @@
                     <div class=" lozad" id="CardGrid">
                         <div id="Card">
                             <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
-                                <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><
-                                    height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
+                                <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
                             </div>
                             <div id="DetailGrid">
                                 <div id="Detail">

@@ -18,11 +18,11 @@
         <div class="form-group">
             @if (Model.fix == false)
             {
-                <label class="control-label col-md-12">Card name</label>
+                <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to to find your cards set." title="Find and search card to find your cards set." class="control-label col-md-12">Card name</label>
                 <div class="col-md-12">
                     @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id = "card-search" }))
                     {
-                        <input value="@Model.MyCard" id="dropbox" list="CardList" type="text" name="dropboxvalue" />
+                        <input value="@Model.MyCard" id="dropbox" list="CardList" type="text" placeholder="Find and search card to to find your cards set." name="dropboxvalue" />
                         <input type="submit" value="Search">
                     }
                 </div>
@@ -51,7 +51,7 @@
             if (Model.fix == true)
             {
                 <div class="form-group has-danger">
-                    <label class="control-label col-md-12">Card name</label>
+                    <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to find the sets of that card." title="Find and search card to find the sets of that card." class="control-label col-md-12">Card name</label>
                     <div class="col-md-12">
                         <input class="form-control is-invalid" value="@Model.MyCard1" id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
                     </div>
@@ -109,7 +109,7 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.MySale.Price, htmlAttributes: new { @class = "control-label col-md-12" })
+                <label class="control-label col-md-12">Price</label>
                 <div class="col-md-12">
                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "pricetb" } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
