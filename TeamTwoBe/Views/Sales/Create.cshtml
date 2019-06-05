@@ -155,7 +155,7 @@
             {
                 if (Model.MyCards != null)
                 {
-                    <div  data-tilt data-tilt-glare="true" ><img class="lozad" style="margin:227px auto" height="485" data-src="@Model.MyCards[0].image_url" src="~/Properties/blank.jpg"/></div>
+                    <a><div style="margin:227px auto; width:330px" data-tilt data-tilt-glare="true"><img loading="auto" height="485" class="lozad" src="~/Properties/blank.jpg" data-src="@Model.MyCards[0].image_url" /></div></a>
                 }
             }
             else
@@ -164,8 +164,9 @@
             }
         </div>
     </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
+    <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </body>
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

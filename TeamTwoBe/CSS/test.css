@@ -151,9 +151,10 @@ a, .btn{
     cursor: pointer;
     font-size: 70%;
     top: -5px;
-    right: 7px;
-    padding: 0px;
-    background-color: rgba(71, 71, 71, 0);
+    right: 28px;
+    padding: 4px;
+    border-radius: 222px;
+    background-color: rgb(170, 46, 46);
   }
 
 

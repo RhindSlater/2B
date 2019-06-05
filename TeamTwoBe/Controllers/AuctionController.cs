@@ -65,6 +65,7 @@ namespace TeamTwoBe.Controllers
             return Json("Please login", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult AuctionEnd()
         {
             Sale sale = db.Sales.Include("Card").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();

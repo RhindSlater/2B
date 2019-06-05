@@ -222,9 +222,10 @@ function AuctionTimer(){
     if(auctionTimer == 0){
         $.ajax({
             url: '/Auction/AuctionEnd/',
+            method: 'POST',
             success: function(data){
                 alert(data);
-                
+
             },
         })
     }
