@@ -165,23 +165,6 @@ function SearchCard(){
     });
 }
 
-$(function() {
-    $('.dropdown-menu').on({
-        "click": function(event) {
-          if ($(event.target).closest('.dropdown-toggle').length) {
-            $(this).data('closable', true);
-          } else {
-            $(this).data('closable', false);
-          }
-        },
-        "hide.bs.dropdown": function(event) {
-          hide = $(this).data('closable');
-          $(this).data('closable', true);
-          return hide;
-        }
-    });
-});
-
 function checkOffset() {
     if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
         $('#fixed-div').css('width', '100%');
@@ -212,16 +195,37 @@ function sendbid(){
     if(a != NaN){
         $.ajax({
             method: 'POST',
-            url: '/home/placebid/',
+            url: '/Auction/placebid/',
             data: { 
                 'id': bid
             },
             success: function(data) {
                alert(data);
             },
+            fail: function(data){
+                alert("Only numbers valid");
+            },
         });
     }
     else{
         alert("Insert a number");
+    }
+}
+
+var auctionTimer = 60;
+function AuctionTimer(){
+    auctionTimer -= 1;
+    var progress = $('#pgbar');
+    var w = progress[0].attributes[4].value;
+    $('#pgbar').attr('aria-valuetext', w - 3.81);
+    $('#pgbar').css('width', w - 3.81 );
+    if(auctionTimer == 0){
+        $.ajax({
+            url: '/Auction/AuctionEnd/',
+            success: function(data){
+                alert(data);
+                
+            },
+        })
     }
 }

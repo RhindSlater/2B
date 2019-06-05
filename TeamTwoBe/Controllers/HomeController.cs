@@ -37,40 +37,6 @@ namespace TeamTwoBe.Controllers
             return false;
         }
 
-        [HttpPost]
-        public ActionResult placebid(float id)
-        {
-            if(Session["UserID"] != null)
-            {
-                int id1 = Convert.ToInt32(Session["UserID"].ToString());
-                User user = db.Users.Where(x => x.ID == id1).FirstOrDefault();
-                if(user != null)
-                {
-                    Bid bid = new Bid()
-                    {
-                        TimeStamps = DateTime.Now,
-                        BidAmount = id,
-                        Bidder = user,
-                        Item = db.Sales.Where(x => x.IsSold == false & x.ForAuction == true).FirstOrDefault(),
-                    };
-                    db.Bids.Add(bid);
-                    db.SaveChanges();
-                    return Json("Your bid has been placed", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("Please login", JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            return Json("test", JsonRequestBehavior.AllowGet);
-        }
-
-
-
-
-
-
         public ActionResult Index()
         {
             checkCookie();

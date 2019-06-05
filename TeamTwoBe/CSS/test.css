@@ -449,7 +449,41 @@ li{
 
 /* Create sale */
 
-
+#create-title{
+    margin-bottom: 20%;
+    margin-top: 12%;
+}
+#create-container{
+    max-width: 554px;
+    width: 554px;
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 18%;
+    font-size: 1.3em;
+}
+#dropbox{
+    width: 83%;
+}
+#dropbox2{
+    width: 99%;
+}
+.col-md-2{
+    padding-left: 15px;
+    padding-right: 0px;
+}
+#card-search{
+    width: 100%;
+}
+#pricetb{
+    width: 99%;
+    color: black;
+    background-color: white;
+}
+#submit-btn{
+    width: 20%;
+    text-align: center;
+    margin: auto;
+}
 .invalid-feedback {
     display: block;
     width: 100%;
@@ -479,7 +513,16 @@ li{
     
     transition-timing-function: ease-in;
 }
+
+
+/* Won */
+
+
 .notreviewed:hover{
     background-color: #202020;
     border: #272727 1px solid;
 }
+
+
+/* Home Page */
+

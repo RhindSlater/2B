@@ -5,63 +5,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
-    <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <body>
-    <div id="create-container" class="form-horizontal">
-        <h2 id="create-title" class="text-center">New sale</h2>
+    <div style="display:flex; width:80%">
+        <div id="create-container" class="form-horizontal">
+            <h2 id="create-title" style="text-align:right; margin:160px auto 30px"><b>NEW SALE</b></h2>
 
-        <div class="form-group">
-            @if (Model.fix == false)
-            {
-                <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to to find your cards set." title="Find and search card to find your cards set." class="control-label col-md-12">Card name</label>
-                <div class="col-md-12">
-                    @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id = "card-search" }))
-                    {
-                        <input value="@Model.MyCard" id="dropbox" list="CardList" type="text" placeholder="Find and search card to to find your cards set." name="dropboxvalue" />
-                        <input type="submit" value="Search">
-                    }
-                </div>
-            }
-            @if (Model.MyCards != null)
-            {
-                <datalist id="CardList">
-                    @foreach (var i in Model.MyCards)
-                    {
-                        <option value="@i.name"></option>
-                    }
-                </datalist>
-            }
-            @if (Model.MyDatum != null)
-            {
-                <datalist id="CardList">
-                    @foreach (var i in Model.MyDatum)
-                    {
-                        <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
-                    }
-                </datalist>
-            }
-        </div>
-        @using (Html.BeginForm("Create", "Sales", FormMethod.Post, new { @id = "card-search" }))
-        {
-            if (Model.fix == true)
-            {
-                <div class="form-group has-danger">
-                    <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to find the sets of that card." title="Find and search card to find the sets of that card." class="control-label col-md-12">Card name</label>
+            <div class="form-group">
+                @if (Model.fix == false)
+                {
+                    <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to find your cards set." title="Find and search card sdfsdfsto find your cards set." class="control-label col-md-12">Card name</label>
                     <div class="col-md-12">
-                        <input class="form-control is-invalid" value="@Model.MyCard1" id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
+                        @using (Html.BeginForm("apiPrice", "Sales", FormMethod.Post, new { @id = "card-search" }))
+                        {
+                            <input value="@Model.MyCard" id="dropbox" list="CardList" type="text" placeholder="Search card to find set." name="dropboxvalue" />
+                            <input type="submit" value="Search">
+                        }
                     </div>
-                    <div id="changeMe" class="invalid-feedback">Please select a card from the list!</div>
-                </div>
-            }
-
-            if (Model.MyDatum != null)
+                }
+                @if (Model.MyDatum != null)
+                {
+                    <datalist id="CardList">
+                        @foreach (var i in Model.MyDatum)
+                        {
+                            <option value="@Model.MyCard @i.print_tag @i.rarity"></option>
+                        }
+                    </datalist>
+                }
+                else
+                {
+                    if (Model.MyCards != null)
+                    {
+                        <datalist id="CardList">
+                            @foreach (var i in Model.MyCards)
+                            {
+                                <option value="@i.name"></option>
+                            }
+                        </datalist>
+                    }
+                }
+            </div>
+            @using (Html.BeginForm("Create", "Sales", FormMethod.Post, new { @id = "card-search" }))
             {
-                <script>
+                if (Model.fix == true)
+                {
+                    <div class="form-group has-danger">
+                        <label data-toggle="tooltip" data-placement="right" data-title="Find and search card to find your cards set." title="Find and search card to find your cards set." class="control-label col-md-12">Card name</label>
+                        <div class="col-md-12">
+                            <input class="form-control is-invalid" value="@Model.MyCard1" id="dropbox2" list="CardList" type="text" name="dropboxvalue" />
+                        </div>
+                        <div id="changeMe" class="invalid-feedback">Please select a card from the list!</div>
+                    </div>
+                }
+
+                if (Model.MyDatum != null)
+                {
+                    <script>
                 $(document).ready(function () {
                     $("#dropbox2").change(function () {
                         var model = @Html.Raw(Json.Encode(Model));
@@ -104,48 +107,62 @@
                     });
                 });
             /**/</script>
-            }
+                }
 
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <label class="control-label col-md-12">Price</label>
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "pricetb" } })
-                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.MySale.CardCondition, htmlAttributes: new { @class = "control-label col-md-12" })
-                <div class="col-md-12">
-                    @Html.DropDownList("Conditions", null, "Choose Condition", new { @id = "pricetb" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.MySale.CardGrade, htmlAttributes: new { @class = "control-label col-md-12" })
-                <div class="col-md-12">
-                    @Html.DropDownList("Grades", null, "Choose Grade", new { @id = "pricetb" })
-                </div>
-            </div>
-            <div style="display:flex">
-                <div style="width:55%; margin-top:20px">
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="checkbox col-mid-2">
-                            @Html.EditorFor(model => model.ForAuction)
-                            @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input style="width:80%; margin:0 auto" id="submit-btn" onclick="loading()" type="submit" value="Create" class="btn btn-lg btn-default" />
-                        </div>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="control-label col-md-12">Price</label>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "pricetb" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger", @name = "Price" })
                     </div>
                 </div>
-                <div style="width:45%" id="price-info">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MySale.CardCondition, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("Conditions", null, "Choose Condition", new { @id = "pricetb" })
+                    </div>
                 </div>
-            </div>
-        }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MySale.CardGrade, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("Grades", null, "Choose Grade", new { @id = "pricetb" })
+                    </div>
+                </div>
+                <div style="display:flex">
+                    <div style="width:55%; margin-top:20px">
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.MySale.ForAuction, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="checkbox col-mid-2">
+                                @Html.EditorFor(model => model.ForAuction)
+                                @Html.ValidationMessageFor(model => model.MySale.ForAuction, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input style="width:80%; margin:0 auto" id="submit-btn" onclick="loading()" type="submit" value="Create" class="btn btn-lg btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:45%" id="price-info">
+                    </div>
+                </div>
+            }
+        </div>
+        <div style="width:30%">
+            @if (Model.MyDatum != null)
+            {
+                if (Model.MyCards != null)
+                {
+                    <div  data-tilt data-tilt-glare="true" ><img class="lozad" style="margin:227px auto" height="485" data-src="@Model.MyCards[0].image_url" src="~/Properties/blank.jpg"/></div>
+                }
+            }
+            else
+            {
+                <div style="display:inline-block;"><img style="margin:227px auto" height="485" src="~/Properties/blank.jpg" /></div>
+            }
+        </div>
     </div>
 </body>
 

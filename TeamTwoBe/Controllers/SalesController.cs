@@ -129,6 +129,7 @@ namespace TeamTwoBe.Controllers
                     MyCard = dropboxvalue,
                     MyDatum = new List<Datum>(),
                     MyCard1 = "",
+                    MyCards = new List<Card>(),
                 };
 
                 foreach (var i in li.data)
@@ -152,6 +153,7 @@ namespace TeamTwoBe.Controllers
                             db.Cards.Add(card);
                         }
                         salevm.MyDatum.Add(i);
+                        salevm.MyCards.Add(card);
                     }
                 }
                 db.SaveChanges();

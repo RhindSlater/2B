@@ -404,8 +404,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Users\Premium.cshtml" />
     <Content Include="Views\Profile\purchaseVerifiedCard.cshtml" />
-    <Content Include="Views\Auction\View.cshtml" />
-    <Content Include="Views\Auction\Index.cshtml" />
     <Content Include="Views\Contact\Contact.cshtml" />
     <Content Include="Views\Profile\Won.cshtml" />
     <Content Include="Views\Home\WhyUs.cshtml" />

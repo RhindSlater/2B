@@ -3,90 +3,118 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamTwoBe.Models;
 using TeamTwoBe.ViewModels;
 
 namespace TeamTwoBe.Controllers
 {
     public class AuctionController : Controller
     {
-        // GET: Auction
-        public ActionResult Index()
-        {
-            SaleUserCardVM auctionVM = new SaleUserCardVM { };
+        Context db = new Context();
 
-            return View();
+        public bool checkCookie() //check if same ipaddress
+        {
+            string userid = string.Empty;
+            if (Request != null)
+            {
+                if (Request.Cookies["userid"] != null)
+                {
+                    var address = Request.UserHostAddress;
+                    userid = Request.Cookies["userid"].Value;
+                    User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    if (user != null)
+                    {
+                        Session["UserID"] = user.ID;
+                        Session["Username"] = user.Username;
+                        Session["UserPic"] = user.DisplayPicture;
+                        Session["ShoppingCart"] = user.ShoppingCart.Count();
+                        Session["AccountLevel"] = user.UserLevel.ID.ToString();
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
 
-        // GET: Auction/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Auction/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Auction/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult placebid(float id)
         {
-            try
+            checkCookie();
+            if (Session["UserID"] != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                int id1 = Convert.ToInt32(Session["UserID"].ToString());
+                User user = db.Users.Where(x => x.ID == id1).FirstOrDefault();
+                if (user != null)
+                {
+                    Bid bid = new Bid()
+                    {
+                        TimeStamps = DateTime.Now,
+                        BidAmount = id,
+                        Bidder = user,
+                        Item = db.Sales.Where(x => x.IsSold == false & x.ForAuction == true).FirstOrDefault(),
+                    };
+                    db.Bids.Add(bid);
+                    db.SaveChanges();
+                    return Json("Your bid has been placed", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Please login", JsonRequestBehavior.AllowGet);
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return Json("Please login", JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Auction/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult AuctionEnd()
         {
-            return View();
-        }
+            Sale sale = db.Sales.Include("Card").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
+            sale.IsSold = true;
 
-        // POST: Auction/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            List<Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderBy(x => x.BidAmount).ToList();
+
+            Notification notify = new Notification()
             {
-                // TODO: Add update logic here
+                Date = DateTime.Now,
+                Title = "Auction won",
+                Message = $"You have won the auction for {sale.Card.name} with the bid of ${bid[0].BidAmount}.",
+                Seen = false,
+                NotifyUser = bid[0].Bidder,
+            };
+            sale.Buyer = bid[0].Bidder;
+            db.Notifications.Add(notify);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            for (int i = 0; i < bid.Count; i++)
             {
-                return View();
+                if (i != 0)
+                {
+                    if (bid[0].BidAmount == bid[i].BidAmount)
+                    {
+                        Notification notify2 = new Notification()
+                        {
+                            Date = DateTime.Now,
+                            Title = "Auction lost",
+                            Message = $"{bid[0].Bidder} won the {sale.Card.name} for ${bid[0].BidAmount} beating you by {bid[0].TimeStamps - bid[i].TimeStamps}",
+                            Seen = false,
+                            NotifyUser = bid[i].Bidder,
+                        };
+                        db.Notifications.Add(notify2);
+                    }
+                    else
+                    {
+                        Notification notify2 = new Notification()
+                        {
+                            Date = DateTime.Now,
+                            Title = "Auction lost",
+                            Message = $"{bid[0].Bidder} won the {sale.Card.name} for ${bid[0].BidAmount}.",
+                            Seen = false,
+                            NotifyUser = bid[i].Bidder,
+                        };
+                        db.Notifications.Add(notify2);
+                    }
+                }
             }
-        }
 
-        // GET: Auction/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Auction/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json("Auction ended", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -13,6 +13,9 @@
             checkOffset();
         });
 
+                //start auction
+                //var intervalID = window.setInterval(AuctionTimer, 1000);
+
 /**/</script>
 </head>
 <div id="base" class="row">
@@ -305,7 +308,7 @@
         </div>
     </div>
     <div style="width:50%; position: relative;">
-        <h3 id="fixed-title" style="text-align:center; width:40%; position: fixed; top:126px;">Current Auction</h3>
+        <h3 id="fixed-title" style="text-align:center; width:40%; position: fixed; top:126px;">Auction starts at 9PM NZST</h3>
         <div id="fixed-div" style="height:700px; position: fixed; bottom:0.5%; width:40%; margin-left:auto; margin-right:auto;">
             <div>
                 <div style="margin:auto; width:381px;">
@@ -313,10 +316,10 @@
                         <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="556" class="lozad" src="~/Properties/blank.jpg" data-src="@Model.CurrentAuction.Card.image_url" /></div></a>
                     </div>
                     <div style="margin-top:15px" class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div id="pgbar" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuetext="381" aria-valuenow="98" aria-valuemin=0 aria-valuemax=100></div>
                     </div>
                     <input name="bid" id="bid" type="text" style="width:65%" placeholder="Custom bid" />
-                    <input value="Place bid" type="submit" onclick="sendbid()" style="width:30%; margin-left:3px;" class="btn btn-default" />
+                    <input value="Place bid" type="submit" disabled onclick="sendbid()" style="width:30%; margin-left:3px;" class="btn btn-default" />
                 </div>
             </div>
         </div>
@@ -343,7 +346,6 @@
                             <p><b>Low:</b> @Model.CurrentAuction.Card.low.ToString("c2") </p>
                             <p><b>Average:</b> @Model.CurrentAuction.Card.average.ToString("c2") </p>
                             <p><b>High:</b> @Model.CurrentAuction.Card.high.ToString("c2") </p>
-                            <p><b>This Sale Price (NZD):</b> @Model.CurrentAuction.Price.ToString("c2") </p>
                             <p><b>Grade:</b> @Model.CurrentAuction.CardGrade.Grading <b>Condition:</b> @Model.CurrentAuction.CardCondition.CardCondition</p>
                             <p><b>Username: </b>@Html.ActionLink(Model.CurrentAuction.Seller.Username, "Profile", "Users", new { id = Model.CurrentAuction.Seller.ID }, new { @class = "Active" })</p>
                             @if (Session["UserID"] != null)
