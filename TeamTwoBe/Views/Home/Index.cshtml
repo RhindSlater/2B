@@ -13,8 +13,8 @@
             checkOffset();
         });
 
-                //start auction
-                //var intervalID = window.setInterval(AuctionTimer, 1000);
+                    //start auction
+                    //var intervalID = window.setInterval(AuctionTimer, 1000);
 
 /**/</script>
 </head>
@@ -313,7 +313,11 @@
             <div>
                 <div style="margin:auto; width:381px;">
                     <div data-toggle="modal" data-target="#CurrentAuction" id="CardImage">
-                        <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="556" class="lozad" src="~/Properties/blank.jpg" data-src="@Model.CurrentAuction.Card.image_url" /></div></a>
+                        <a>
+                            <div data-tilt data-tilt-glare="true" style="display:inline-block;">
+                                <img id="Auction-Image" loading="auto" height="556" class="lozad" src="~/Properties/blank.jpg" data-src="@Model.CurrentAuction.Card.image_url" />
+                            </div>
+                        </a>
                     </div>
                     <div style="margin-top:15px" class="progress">
                         <div id="pgbar" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuetext="381" aria-valuenow="98" aria-valuemin=0 aria-valuemax=100></div>
@@ -336,7 +340,11 @@
                 <div class="modal-body">
                     <div style="display:flex;">
                         <div id="modalDetails1">
-                            <a><div data-tilt data-tilt-glare="true" data-tilt-scale="1.03" style="display:inline-block;"><img loading="auto" height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@Model.CurrentAuction.Card.image_url" /></div></a>
+                            <a>
+                                <div data-tilt data-tilt-glare="true" data-tilt-scale="1.03" style="display:inline-block;">
+                                    <img id="Auction-Image2" height="415" width="275" src="@Model.CurrentAuction.Card.image_url"/>
+                                </div>
+                            </a>
                         </div>
                         <div id="modalDetails">
                             <p><b>Card Type:</b> @Model.CurrentAuction.Card.Cardtype.Name</p>

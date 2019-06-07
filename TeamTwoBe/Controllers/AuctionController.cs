@@ -69,9 +69,9 @@ namespace TeamTwoBe.Controllers
         public ActionResult AuctionEnd()
         {
             Sale sale = db.Sales.Include("Card").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
-            sale.IsSold = true;
+            //sale.IsSold = true;
 
-            List<Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderBy(x => x.BidAmount).ToList();
+            List<Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderByDescending(x => x.BidAmount).ToList();
 
             Notification notify = new Notification()
             {
@@ -94,7 +94,7 @@ namespace TeamTwoBe.Controllers
                         {
                             Date = DateTime.Now,
                             Title = "Auction lost",
-                            Message = $"{bid[0].Bidder} won the {sale.Card.name} for ${bid[0].BidAmount} beating you by {bid[0].TimeStamps - bid[i].TimeStamps}",
+                            Message = $"{bid[0].Bidder.Username} won {sale.Card.name} for ${bid[0].BidAmount} beating you by {bid[0].TimeStamps - bid[i].TimeStamps}",
                             Seen = false,
                             NotifyUser = bid[i].Bidder,
                         };
@@ -106,7 +106,7 @@ namespace TeamTwoBe.Controllers
                         {
                             Date = DateTime.Now,
                             Title = "Auction lost",
-                            Message = $"{bid[0].Bidder} won the {sale.Card.name} for ${bid[0].BidAmount}.",
+                            Message = $"{bid[0].Bidder.Username} won {sale.Card.name} for ${bid[0].BidAmount}.",
                             Seen = false,
                             NotifyUser = bid[i].Bidder,
                         };
@@ -114,8 +114,17 @@ namespace TeamTwoBe.Controllers
                     }
                 }
             }
+            db.SaveChanges();
 
             return Json("Auction ended", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AuctionNew()
+        {
+            Sale sale = db.Sales.Include("Card").Where(x => x.IsSold == false & x.ForAuction == true).FirstOrDefault();
+
+            return Json(sale, JsonRequestBehavior.AllowGet);
         }
     }
 }

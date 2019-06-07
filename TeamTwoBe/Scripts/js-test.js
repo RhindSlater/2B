@@ -225,8 +225,24 @@ function AuctionTimer(){
             method: 'POST',
             success: function(data){
                 alert(data);
-
-            },
+                if(data == "Auction ended"){
+                    StartNewAuction();
+                }
+            }
         })
     }
+}
+
+function StartNewAuction(){
+    auctionTimer = 60;
+    $('#pgbar').attr('aria-valuetext', 381);
+    $('#pgbar').css('width', 381 );
+    $.ajax({
+        url: '/Auction/AuctionNew',
+        method: 'POST',
+        success: function(data){
+            $('#Auction-Image').attr("src",data.Card.image_url);
+            $('#Auction-Image2').attr("src",data.Card.image_url);
+        }
+    })
 }

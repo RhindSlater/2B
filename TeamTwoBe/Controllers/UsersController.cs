@@ -54,6 +54,7 @@ namespace TeamTwoBe.Controllers
             return Json("true", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult Subscription(string test)
         {
             checkCookie();
