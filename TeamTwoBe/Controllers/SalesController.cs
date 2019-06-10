@@ -483,8 +483,6 @@ namespace TeamTwoBe.Controllers
 
             User user = db.Users.Find(Session["UserID"]);
 
-
-
             UserReview userReview = new UserReview()
             {
                 ID = sale.ID,
@@ -498,7 +496,7 @@ namespace TeamTwoBe.Controllers
 
         }
         [HttpPost]
-        public ActionResult ReviewSale(int id)
+        public ActionResult ReviewSale(int id, int ratingval, string ReviewGiven1)
         {
             checkCookie();
             if (Session["userID"] == null)
@@ -516,7 +514,8 @@ namespace TeamTwoBe.Controllers
             {
                 Reviewer = sale.Buyer,
                 Reviewee = sale.Seller,
-                //This sets the sale ID as well.
+                StarRating = ratingval,
+                ReviewGiven = ReviewGiven1,
                 CardReviewed = sale,
             };
 
@@ -533,7 +532,7 @@ namespace TeamTwoBe.Controllers
                 };
                 db.Notifications.Add(notify);
                 db.SaveChanges();
-                return RedirectToAction("MyReviews");
+                return RedirectToAction("MyReviews","Profile");
             }
             else
             {

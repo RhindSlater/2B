@@ -467,3 +467,45 @@ li{
     margin-left: auto;
     margin-right: auto;
 }
+
+
+/*Reviews*/
+
+
+.commentBox {
+    /*background-color: #efefef;*/
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 500px;
+    height: 60px;
+}
+
+.starFade {
+    background-image: url('/Properties/StarFade.gif');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.starFadeN {
+    background-image: url('/Properties/StarFade.gif');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+}
+
+.starGlow {
+    background-image: url('/Properties/StarGlow.gif');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.starGlowN {
+    background-image: url('~/Properties/StarGlow.gif');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+}

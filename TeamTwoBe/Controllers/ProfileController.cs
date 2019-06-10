@@ -111,7 +111,7 @@ namespace TeamTwoBe.Controllers
 
         }
 
-        //Will show all the Reviews this user has given and been given.
+        //TODO: Show all the Reviews this user has given and been given, maybe in separate tables?
         public ActionResult MyReviews()
         {
             checkCookie();
@@ -124,9 +124,21 @@ namespace TeamTwoBe.Controllers
                 return RedirectToAction("login", "users");
             }
 
+            int id = Convert.ToInt32(Session["UserID"].ToString());
 
+            List<UserReview> li = new List<UserReview>();
 
-            return View();
+            //Check every Review in the DB to see if any ReviewerID matches the current user's ID.
+            foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewer.ID == id))
+            {
+                li.Add(i);
+            }
+            foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewee.ID == id))
+            {
+                li.Add(i);
+            }
+
+            return View(li);
 
         }
 
