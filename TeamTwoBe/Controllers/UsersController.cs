@@ -423,6 +423,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult UserReview()
         {
             checkCookie();
+
             return View();
         }
 

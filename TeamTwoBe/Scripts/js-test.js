@@ -217,8 +217,8 @@ function AuctionTimer(){
     auctionTimer -= 1;
     var progress = $('#pgbar');
     var w = progress[0].attributes[4].value;
-    $('#pgbar').attr('aria-valuetext', w - 3.81);
-    $('#pgbar').css('width', w - 3.81 );
+    $('#pgbar').attr('aria-valuetext', w - 6.35);
+    $('#pgbar').css('width', w - 6.35 );
     if(auctionTimer == 0){
         $.ajax({
             url: '/Auction/AuctionEnd/',
@@ -245,4 +245,48 @@ function StartNewAuction(){
             $('#Auction-Image2').attr("src",data.Card.image_url);
         }
     })
+
+var rated;
+function CRate(r) {
+    $("#Rating").val(r);
+    for (var i = 1; i <= r; i++) {
+        $("#Rate" + i).attr('class', 'starGlow');
+        rated = r;
+        $("#rating-value").val(r);
+    }
+    // unselect remaining
+    for (var i = r + 1; i <= 5; i++) {
+        $("#Rate" + i).attr('class', 'starFade');
+    }
+}
+function SubmitComment() {
+    if ($("#Rating").val() == "0") {
+        alert("Please rate this service provider.");
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function CRateOver(r) {
+    for (var i = 1; i <= r; i++) {
+        $("#Rate" + i).attr('class', 'starGlow');
+    }
+}
+
+function CRateOut(r) {
+
+    for (var i = 1; i <= r; i++) {
+        if(i > rated){
+            $("#Rate" + i).attr('class', 'starFade');
+        }
+    }
+}
+
+function CRateSelected() {
+    var setRating = $("#Rating").val();
+    for (var i = 1; i <= setRating; i++) {
+        $("#Rate" + i).attr('class', 'starGlow');
+    }
 }

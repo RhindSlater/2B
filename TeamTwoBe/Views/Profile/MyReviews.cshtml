@@ -1,4 +1,4 @@
-﻿@model TeamTwoBe.Models.UserReview
+﻿@model List<TeamTwoBe.Models.UserReview>
 
 @{
     ViewBag.Title = "MyReviews";
@@ -10,34 +10,32 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </head>
-<div id="base">
-    <h2>My Reviews</h2>
+<div id="base" class="text-center">
+    <h2>Reviews Received</h2>
 
-    <div>
-        <h4>User Review</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ReviewGiven)
-            </dt>
+    @foreach (var i in Model)
+    {
+        if (i.Reviewer.ID.ToString() == Session["UserID"].ToString())
+        {
+            <ul>
+                <li><p>Review For: @i.CardReviewed.Seller.Username</p></li>
+                <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
+                <li><p>Star Rating: @i.StarRating</p></li>
+                <li><p>Review Received: @i.ReviewGiven</p></li>
+                <br />
+            </ul>
+        }
+        else
+        {
+            <h2>Reviews Given</h2>
+            <ul>
+                <li><p>My Review For: @i.CardReviewed.Buyer.Username</p></li>
+                <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
+                <li><p>Star Rating: @i.StarRating</p></li>
+                <li><p>Review: @i.ReviewGiven</p></li>
+                <br />
+            </ul>
+        }
 
-            <dd>
-                @Html.DisplayFor(model => model.ReviewGiven)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.StarRating)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.StarRating)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-
+    }
 </div>
