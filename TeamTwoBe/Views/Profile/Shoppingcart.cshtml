@@ -15,6 +15,10 @@
             border: 0px solid #444;
             border-top: 1px solid #444;
         }
+
+        th {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -40,15 +44,11 @@
                         </div>
 
                     </td>
-                    <td>
-                        <div id="marginAuto">
-                            <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                        </div>
+                    <td style="margin:auto;">
+                        <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
                     </td>
-                    <td>
-                        <div id="marginAuto">
-                            <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                        </div>
+                    <td style="margin:auto;">
+                        <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
                     </td>
                     <td style="display:flex">
 

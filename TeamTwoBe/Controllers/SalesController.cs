@@ -56,22 +56,9 @@ namespace TeamTwoBe.Controllers
             checkCookie();
             UsersController uc = new UsersController();
             List<Sale> li = new List<Sale>();
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 1 & x.IsSold == false & x.ForAuction == false))
-            {
-                li.Add(i);
-            }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false & x.ForAuction == false))
-            {
-                li.Add(i);
-            }
-            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 2 & x.IsSold == false & x.ForAuction == false))
-            {
-                li.Add(i);
-            }
-            if (Session["UserID"] == null)
-            {
-                Session["UserID"] = 0;
-            }
+            li.AddRange(db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").
+                Where(x => x.IsSold == false & x.ForAuction == false).OrderByDescending(y => y.Seller.UserLevel.ID).ToList());
+
             return View(li);
         }
 

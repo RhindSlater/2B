@@ -55,7 +55,7 @@ namespace TeamTwoBe.Controllers
         }
 
         [HttpPost]
-        public ActionResult Subscription(string test)
+        public ActionResult Subscription()
         {
             checkCookie();
             int id = Convert.ToInt32(Session["UserID"].ToString());
