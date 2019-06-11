@@ -69,7 +69,7 @@ namespace TeamTwoBe.Controllers
         public ActionResult AuctionEnd()
         {
             Sale sale = db.Sales.Include("Card").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
-            //sale.IsSold = true;
+            sale.IsSold = true;
 
             List<Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderByDescending(x => x.BidAmount).ToList();
 

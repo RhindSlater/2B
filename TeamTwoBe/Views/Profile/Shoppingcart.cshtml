@@ -10,41 +10,51 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <style>
+        .table-bordered td, .table-bordered th {
+            border: 0px solid #444;
+            border-top: 1px solid #444;
+        }
+    </style>
 </head>
 <body>
-    @if (Session["umm"] != null)
-    {
-        <script>
-            alert(Session["success"]);
-        </script>
-        Session["umm"] = null;
-    }
     <div id="base">
         <h2 style="text-align: center">Shopping Cart</h2>
 
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover table-bordered" style="border-spacing:2px;">
             <tr>
-                <th>Image</th>
+                <th></th>
                 <th>Card Details</th>
+                <th>Buy</th>
+                <th>Buy with verification</th>
+                <th>Price</th>
             </tr>
             @foreach (var item in Model.ShoppingCart)
             {
                 <tr>
-                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="306" width="210" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.Card.image_url" /></div></td>
+                    <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="120" width="80" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.Card.image_url" /></div></td>
                     <td>
                         <div id="loading">
-                            <h4><b>Name:</b> @item.Card.name</h4>
-                            <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                            <p><b>Set:</b> @item.Card.print_tag</p>
-                            <p><b>Rarity:</b> @item.Card.rarity</p>
-                            <p><b>Price:</b> @item.Price.ToString("c2")</p>
-                            <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                            <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
-                            <p><b>Current watchers:</b> @item.Watcher.Count</p>
-                            <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
-                            <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
-                            <a>@Html.ActionLink("Remove from Shopping cart", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default", @onclick="loading()" })</a>
+                            <a href=""><b> @item.Card.apiID @item.CardCondition.CardCondition @item.CardGrade.Grading</b> </a>
+                            <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick = "loading()" })</p>
                         </div>
+
+                    </td>
+                    <td>
+                        <div id="marginAuto">
+                            <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="marginAuto">
+                            <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                        </div>
+                    </td>
+                    <td style="display:flex">
+
+                        <p style="margin-right:20px"><b>Price:</b> @item.Price.ToString("c2")</p>
+                        <a>@Html.ActionLink("X", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
+
                     </td>
                 </tr>
             }

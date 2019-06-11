@@ -1,4 +1,4 @@
-﻿@model List<TeamTwoBe.Models.Sale>
+﻿@model TeamTwoBe.ViewModels.AuctionSaleViewModel
 
 @{
     ViewBag.Title = "Purchases";
@@ -11,15 +11,15 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
-        window.onload = checkReviewed(@Model[0].Buyer.ID);
+        window.onload = checkReviewed(@Model.MySales[0].Buyer.ID);
     </script>
     <div id="base">
-        @if (Model.Count > 0)
+        @if (Model.MySales.Count > 0)
         {
-            <h2 onclick="checkReviewed(@Model[0].Buyer.ID)" id="sales" style="text-align:center;">Cards purchased</h2>
+            <h2 onclick="checkReviewed(@Model.MySales[0].Buyer.ID)" id="sales" style="text-align:center;">Cards purchased</h2>
             <div id="AllCards" class="container">
                 <div class="row">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.MySales)
                     {
                         <div class=" lozad" id="CardGrid">
                             <div id="Card" class="@item.ID">
@@ -56,15 +56,24 @@
                                                     <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
                                                     <p><b>Card Set:</b> @item.Card.print_tag</p>
                                                     <p><b>Rarity:</b> @item.Card.rarity</p>
-                                                    <h4>Price Info (USD based):</h4>
-                                                    <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
-                                                    <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
-                                                    <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                                                    <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                                                    @if (item.ForAuction == true)
+                                                    {
+                                                        foreach (var i in Model.MyBids)
+                                                        {
+                                                            if (i.Item.ID == item.ID)
+                                                            {
+                                                                <p><b>Bid amount (NZD):</b> @i.BidAmount.ToString("c2") </p>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p><b>Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                                                    }
                                                     <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                                                    <p><b>Bought from: </b> @Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick="loading()" })</p>
-                                                    <a>@Html.ActionLink("Add to collection", "addCardToCollection", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
-                                                    <a>@Html.ActionLink("Review Sale", "ReviewSale", "sales", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })</a>
+                                                    <p><b>Bought from: </b> @Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick = "loading()" })</p>
+                                                    <a>@Html.ActionLink("Add to collection", "addCardToCollection", "card", new { id = item.Card.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                                                    <a>@Html.ActionLink("Review Sale", "ReviewSale", "sales", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
                                                     <button class="btn btn-default" onclick="loading()" type="submit" id="modalDetails1">List for sale</button>
                                                 </div>
                                             </div>

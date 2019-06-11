@@ -11,38 +11,36 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </head>
 <div id="base" class="commentBox">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <input name="id" style="display:none" value="@Model.CardReviewed.ID" />
-        <div class="form-horizontal">
-            <h4>@Model.Reviewer.Username's review of @Model.Reviewee.Username for @Model.CardReviewed.Card.name</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.ReviewGiven, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input name="ReviewGiven1" class="form-control" type="text" />
-                    @Html.ValidationMessageFor(model => model.ReviewGiven, "", new { @class = "text-danger" })
-                </div>
+    <div style="width:70%; margin:100px auto">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <input name="id" style="display:none" value="@Model.CardReviewed.ID" />
+            <div class="form-horizontal">
+                <h2 style="padding:15px;">@Model.Reviewer.Username's review of @Model.Reviewee.Username for @Model.CardReviewed.Card.name</h2>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.StarRating, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="commentBox">
-                        <input name="ratingval" id="rating-value" value="1" type="text" style="display:none" />
-                        <div onmouseout="CRateSelected()">
-                            <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span><span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span><span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span><span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span><span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
-                        </div>
+                    @Html.LabelFor(model => model.ReviewGiven, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        <textarea rows="5" name="ReviewGiven1" class="form-control" type="text"></textarea>
+                        @Html.ValidationMessageFor(model => model.ReviewGiven, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-12">
-                            <input type="submit" value="Submit Review" class="btn btn-default" />
+                        <label style="padding:15px 15px 0px;" class="control-label col-md-12">User rating</label>
+                        <div class="commentBox">
+                            <input name="ratingval" id="rating-value" value="1" type="text" style="display:none" />
+                            <div onmouseout="CRateSelected()">
+                                <span class="starFade" id="Rate1" onclick="CRate(1)" onmouseover="CRateOver(1)" onmouseout="CRateOut(1)"></span><span class="starFade" id="Rate2" onclick="CRate(2)" onmouseover="CRateOver(2)" onmouseout="CRateOut(2)"></span><span class="starFade" id="Rate3" onclick="CRate(3)" onmouseover="CRateOver(3)" onmouseout="CRateOut(3)"></span><span class="starFade" id="Rate4" onclick="CRate(4)" onmouseover="CRateOver(4)" onmouseout="CRateOut(4)"></span><span class="starFade" id="Rate5" onclick="CRate(5)" onmouseover="CRateOver(5)" onmouseout="CRateOut(5)"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-12">
+                                <input type="submit" value="Submit Review" class="btn btn-default" />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

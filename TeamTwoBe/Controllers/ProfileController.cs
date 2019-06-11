@@ -459,9 +459,15 @@ namespace TeamTwoBe.Controllers
             }
 
             int id = Convert.ToInt32(Session["UserID"].ToString());
-            var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Buyer.ID == id);
+            var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Buyer.ID == id).ToList();
+            var lis = db.Bids.Include("Item").Where(x => x.Bidder.ID == id).ToList();
+            AuctionSaleViewModel vm = new AuctionSaleViewModel()
+            {
+                MySales = li,
+                MyBids = lis,
+            };
 
-            return View(li.ToList());
+            return View(vm);
         }
         public ActionResult Sold()
         {

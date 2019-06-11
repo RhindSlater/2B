@@ -245,8 +245,9 @@ function StartNewAuction(){
             $('#Auction-Image2').attr("src",data.Card.image_url);
         }
     })
+}
 
-var rated;
+var rated = 0;
 function CRate(r) {
     $("#Rating").val(r);
     for (var i = 1; i <= r; i++) {
