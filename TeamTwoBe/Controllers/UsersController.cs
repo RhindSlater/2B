@@ -54,7 +54,6 @@ namespace TeamTwoBe.Controllers
             return Json("true", JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
         public ActionResult Subscription()
         {
             checkCookie();
@@ -329,7 +328,7 @@ namespace TeamTwoBe.Controllers
             {
                 li.Add(i);
             }
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < 11; i++)
             {
                 if (user.Collection.Count >= i)
                 {

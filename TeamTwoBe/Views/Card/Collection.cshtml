@@ -53,8 +53,7 @@
                     @foreach (var item in Model.MyCards)
                     {
                         <tr>
-                            <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><
-                                loading="auto" height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.image_url" /></div></td>
+                            <td style="text-align: center"><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="422" width="290" class="lozad" src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Blank.gif" data-src="@item.image_url" /></div></td>
                             <td>
                                 <h4><b>Name:</b> @item.name</h4>
                                 <p><b>Card Type:</b> @item.Cardtype.Name</p>

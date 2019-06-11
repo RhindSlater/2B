@@ -15,10 +15,6 @@
             border: 0px solid #444;
             border-top: 1px solid #444;
         }
-
-        th {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -29,9 +25,10 @@
             <tr>
                 <th></th>
                 <th>Card Details</th>
-                <th>Buy</th>
-                <th>Buy with verification</th>
-                <th>Price</th>
+                <th style="text-align: center;">Buy</th>
+                <th style="text-align: center;">Buy with verification</th>
+                <th style="text-align: center;">Price</th>
+                <th></th>
             </tr>
             @foreach (var item in Model.ShoppingCart)
             {
@@ -42,19 +39,18 @@
                             <a href=""><b> @item.Card.apiID @item.CardCondition.CardCondition @item.CardGrade.Grading</b> </a>
                             <p><b>Seller: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick = "loading()" })</p>
                         </div>
-
                     </td>
                     <td style="margin:auto;">
-                        <a>@Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary" })</a>
+                        @Html.ActionLink("Buy", "purchaseCard", new { id = item.ID }, new { @class = "btn btn-primary", @style = "margin:auto; width:100%" })
                     </td>
                     <td style="margin:auto;">
-                        <a>@Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                        @Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()", @style = "margin:auto; width:100%" })
                     </td>
-                    <td style="display:flex">
-
-                        <p style="margin-right:20px"><b>Price:</b> @item.Price.ToString("c2")</p>
-                        <a>@Html.ActionLink("X", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
-
+                    <td style="text-align:center">
+                        <p><b>Price:</b> @item.Price.ToString("c2")</p>
+                    </td>
+                    <td>
+                        @Html.ActionLink("X", "removeFromShoppingCart", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()", @style = "margin:auto;" })
                     </td>
                 </tr>
             }

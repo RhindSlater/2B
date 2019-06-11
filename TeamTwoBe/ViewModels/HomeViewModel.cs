@@ -11,6 +11,7 @@ namespace TeamTwoBe.ViewModels
         public List<Sale> Followers { get; set; }
         public List<Sale> Recommended { get; set; }
         public List<Sale> Trending { get; set; }
+        public List<Sale> UpcomingAuction { get; set; }
         public Sale CurrentAuction { get; set; }
     }
 }

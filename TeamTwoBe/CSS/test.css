@@ -245,15 +245,16 @@ ul{
 }
 #CardGrid{
     flex: auto;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 12px;
+    background-color: #1a1a1a;
+}
+#CardGrid:hover{
+    background-color: #424242;
 }
 #Card{
     min-width: 217px;
     max-width: 217px;
-    margin-right: 10px;
-    border: #121212 1px solid;
-    
+    margin: 13px auto 0;
 }
 #seller, #watchcount{
     color: #aaaaaa;

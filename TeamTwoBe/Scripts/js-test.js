@@ -165,25 +165,24 @@ function SearchCard(){
     });
 }
 
-function checkOffset() {
-    if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
-        $('#fixed-div').css('width', '100%');
-        $('#fixed-div').css('position', 'absolute');
-        $('#fixed-title').css('position', 'absolute');
-        $('#fixed-div').css('left', '25%');
+// function checkOffset() {
+//     if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
+//         $('#fixed-div').css('width', '100%');
+//         $('#fixed-div').css('position', 'absolute');
+//         $('#fixed-title').css('position', 'absolute');
+//         $('#fixed-div').css('left', '25%');
 
-    if($(document).scrollTop() + window.innerHeight < $('#footer').offset().top){
-        $('#fixed-div').css('position', 'fixed'); // restore when you scroll up
-        $('#fixed-title').css('position', 'fixed'); 
-        $('#fixed-div').css('width', '40%');
-        $('#fixed-div').css('left', '');
-    }
-    else{
-        $('#fixed-div').css('width', '100%');
-        $('#fixed-div').css('left', '');
-    }
-
-}
+//     if($(document).scrollTop() + window.innerHeight < $('#footer').offset().top){
+//         $('#fixed-div').css('position', 'fixed'); // restore when you scroll up
+//         $('#fixed-title').css('position', 'fixed'); 
+//         $('#fixed-div').css('width', '40%');
+//         $('#fixed-div').css('left', '');
+//     }
+//     else{
+//         $('#fixed-div').css('width', '100%');
+//         $('#fixed-div').css('left', '');
+//     }
+// }
 
 function sendbid(){
     var bid;
@@ -289,5 +288,55 @@ function CRateSelected() {
     var setRating = $("#Rating").val();
     for (var i = 1; i <= setRating; i++) {
         $("#Rate" + i).attr('class', 'starGlow');
+    }
+}
+
+function displayCorrectCards() {
+    displayProfileCards(1);
+    displayProfileCards(2);
+    displayProfileCards(3);
+    displayProfileCards(4);
+}
+function displayHomeCards() {
+    displayProfileCards(1);
+    displayProfileCards(2);
+    displayProfileCards(3);
+}
+
+function displayProfileCards(id){
+    var width = window.innerWidth;
+    var widthcounter;
+    var li = $(".row" + id + " > #CardGrid");
+    if (width < 1178) {
+        for (widthcounter = 0; widthcounter < 10; widthcounter++) {
+            if (widthcounter > 5) {
+                li[widthcounter].style.display = 'none';
+            }
+            else {
+                li[widthcounter].style.display = 'block';
+            }
+        }
+    }
+    if (width >= 1178) {
+        // show 8
+        for (widthcounter = 0; widthcounter < 10; widthcounter++) {
+            if (widthcounter > 7) {
+                li[widthcounter].style.display = 'none';
+            }
+            else {
+                li[widthcounter].style.display = 'block';
+            }
+        }
+    }
+    if (width > 1477) {
+        // show 10
+        for (widthcounter = 0; widthcounter < 10; widthcounter++) {
+            if (widthcounter > 9) {
+                li[widthcounter].style.display = 'none';
+            }
+            else {
+                li[widthcounter].style.display = 'block';
+            }
+        }
     }
 }

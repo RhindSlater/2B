@@ -45,6 +45,7 @@ namespace TeamTwoBe.Controllers
                 Followers = new List<Models.Sale>(),
                 Trending = new List<Models.Sale>(),
                 Recommended = new List<Models.Sale>(),
+                UpcomingAuction = new List<Models.Sale>(),
                 CurrentAuction = new Sale(),
             };
             if (Session["UserID"] != null)
@@ -59,14 +60,14 @@ namespace TeamTwoBe.Controllers
                         {
                             foreach (var y in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == i.ID & x.ForAuction == false & x.IsSold == false))
                             {
-                                if (vm.Followers.Count == 6)
+                                if (vm.Followers.Count == 10)
                                 {
                                     break;
                                 }
                                 vm.Followers.Add(y);
                             }
                         }
-                        while(vm.Followers.Count < 6)
+                        while (vm.Followers.Count < 10)
                         {
                             vm.Followers.Add(db.Sales.Find(1));
                         }
@@ -78,15 +79,27 @@ namespace TeamTwoBe.Controllers
                 vm.Trending.Add(i);
             }
             vm.Trending.Reverse();
-            vm.Trending.RemoveRange(6, vm.Trending.Count - 6);
+            vm.Trending.RemoveRange(10, vm.Trending.Count - 10);
 
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.UserLevel.ID == 3 & x.IsSold == false & x.ForAuction == false))
             {
                 vm.Recommended.Add(i);
             }
-            vm.Recommended.RemoveRange(6, vm.Recommended.Count - 6);
+            vm.Recommended.RemoveRange(10, vm.Recommended.Count - 10);
 
             vm.CurrentAuction = db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
+
+            foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.IsSold == false & x.ForAuction == true))
+            {
+                vm.UpcomingAuction.Add(i);
+            }
+            while (vm.UpcomingAuction.Count < 11)
+            {
+                vm.UpcomingAuction.Add(db.Sales.Find(1));
+            }
+            vm.UpcomingAuction.Remove(vm.CurrentAuction);
+            vm.UpcomingAuction.RemoveRange(10, vm.UpcomingAuction.Count - 10);
+
 
             return View(vm);
         }
