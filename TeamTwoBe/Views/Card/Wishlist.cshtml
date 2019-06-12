@@ -14,10 +14,10 @@
     </head>
 <body>
     <div id="base">
-        <h2>Wishlist</h2>
 
-        <div>
-            @using (Html.BeginForm("apiPrice", "Card"))
+        <h2 id="sales" style="text-align:center;">Wishlist</h2>
+        <div id="Collection">
+            @using (Html.BeginForm("apiPrice", "Card", FormMethod.Post, new { @id="Collection1" } ))
             {
                 <b>Search:</b>
                 <input id="dropbox" list="CardList" type="text" name="dropboxvalue" />

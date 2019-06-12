@@ -28,7 +28,9 @@
         {
             <h2 id="ProfileUsername"><a id="ProfileUsername1" onclick="FollowUser(@Model.MyUser.ID)"><i class="fas fa-user-plus"></i> Follow @Model.MyUser.Username</a></h2>
         }
-
+        <div>
+            <a> My Reviews and Ratings</a>
+        </div>
         <div style="display:inline-block;">
             <div id="CurrentSales">
                 <div id="seeall-div">
@@ -389,22 +391,22 @@
             </div>
             <hr />
 
-            <div>
-                <a onclick="loader()" href="/users/edit/@Session["UserID"]">Edit Profile</a>
-            </div>
-            <div>
-                <a onclick="loader()" href="/profile/won">Items I've Purchased</a>
-            </div>
-            <div>
-                <a> My Reviews and Ratings</a>
-            </div>
+            @if (Model.MyUser.ID == Convert.ToInt32(Session["UserID"].ToString()))
+            {
+                <div>
+                    <a onclick="loader()" href="/users/edit/@Session["UserID"]">Edit Profile</a>
+                </div>
+                <div>
+                    <a onclick="loader()" href="/profile/won">Items I've Purchased</a>
+                </div>
+            }
         </div>
     </div>
 
     <script>
         $(window).resize(function () {
             displayCorrectCards();
-        });  
+        });
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>

@@ -337,7 +337,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-8" id="AllCards">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-8" id="AllCards" style="overflow:hidden; max-height:850px">
                     <h3 style="text-align:center; margin:">Upcoming Auctions</h3>
                     <div class="row">
                         @foreach (var item in Model.UpcomingAuction)
@@ -458,16 +458,6 @@
                                         <a>@Html.ActionLink("Edit Listing", "editListing", "Sales", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
                                         <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", "Sales", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
                                     }
-                                    else
-                                    {
-                                        <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                                        <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
-                                    }
-                                }
-                                else
-                                {
-                                    <a>@Html.ActionLink("Add to Watchlist", "addToWatchlist", "Profile", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = Model.CurrentAuction.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
                                 }
                             </div>
                         </div>

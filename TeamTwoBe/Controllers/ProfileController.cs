@@ -318,6 +318,7 @@ namespace TeamTwoBe.Controllers
                 Seen = false,
                 NotifyUser = user,
             };
+            Session["ShoppingCart"] = sale.Seller.ShoppingCart.Count();
             db.Notifications.Add(notify);
             db.SaveChanges();
             return RedirectToAction("Won");
@@ -401,9 +402,9 @@ namespace TeamTwoBe.Controllers
                 };
                 db.Notifications.Add(notify);
                 db.SaveChanges();
+                Session["ShoppingCart"] = sale.Seller.ShoppingCart.Count();
 
                 return RedirectToAction("Won");
-
             }
             return View(moni);
 
@@ -441,7 +442,6 @@ namespace TeamTwoBe.Controllers
             };
 
             sale.IsVerified = true;
-
             return View(moni);
         }
 
