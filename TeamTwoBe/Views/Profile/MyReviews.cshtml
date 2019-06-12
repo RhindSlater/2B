@@ -13,50 +13,53 @@
 <div id="base" class="text-center">
     @if (Model.userReview.Count >= 1)
     {
+
+        <h2>@Model.userReview[0].Reviewer.Username's Reviews Received</h2>
+
+        <h5>Total Reviews: @Model.totalReviews.Count()</h5>
+        <h5>Total Average Ratings: @Model.averageRatings.ToString()</h5>
+        <br />
+
+        foreach (var i in Model.userReview)
+        {
+            if (i.Reviewee.ID.ToString() == Session["UserID"].ToString())
+            {
+                <ul>
+                    <li><p>My Review from Buyer: @i.CardReviewed.Buyer.Username</p></li>
+                    <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
+                    <li><p>Star Rating: @i.StarRating</p></li>
+                    <li><p>Review Received: @i.ReviewGiven</p></li>
+                    <br />
+                </ul>
+            }
+        }
+
         <h2>@Model.userReview[0].Reviewer.Username's Reviews Given</h2>
+
+        foreach (var i in Model.userReview)
+        {
+
+            if (i.Reviewer.ID.ToString() == Session["UserID"].ToString())
+            {
+
+                <ul>
+                    <li><p>My Review of Seller: @i.CardReviewed.Seller.Username</p></li>
+                    <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
+                    <li><p>Star Rating: @i.StarRating</p></li>
+                    <li><p>Review Given: @i.ReviewGiven</p></li>
+                    <br />
+                </ul>
+            }
+        }
 
     }
     else
     {
-        <h2>No Reviews Received</h2>
+        <h2>No Reviews Available</h2>
 
     }
 
-    <h5>Total Reviews: @Model.userReview.Count</h5>
-    <h5>Total Average Ratings: @Model.averageRatings.ToString()</h5>
-    <br />
 
-    @foreach (var i in Model.userReview)
-    {
-
-        if (i.Reviewer.ID.ToString() == Session["UserID"].ToString())
-        {
-
-            <ul>
-                <li><p>My Review of Seller: @i.CardReviewed.Seller.Username</p></li>
-                <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
-                <li><p>Star Rating: @i.StarRating</p></li>
-                <li><p>Review Given: @i.ReviewGiven</p></li>
-                <br />
-            </ul>
-        }
-    }
-
-    <h2>@Model.userReview[0].Reviewer.Username's Reviews Received</h2>
-
-    @foreach (var i in Model.userReview)
-    {
-        if (i.Reviewer.ID.ToString() != Session["UserID"].ToString())
-        {
-            <ul>
-                <li><p>My Review For: @i.CardReviewed.Buyer.Username</p></li>
-                <li><p>Card Reviewed: @i.CardReviewed.Card.name @i.CardReviewed.Card.print_tag @i.CardReviewed.Card.rarity</p></li>
-                <li><p>Star Rating: @i.StarRating</p></li>
-                <li><p>Review Received: @i.ReviewGiven</p></li>
-                <br />
-            </ul>
-        }
-    }
 
 
 </div>
