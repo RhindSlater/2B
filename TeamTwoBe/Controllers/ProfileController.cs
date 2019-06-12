@@ -128,17 +128,24 @@ namespace TeamTwoBe.Controllers
 
             List<UserReview> li = new List<UserReview>();
 
+            double userReviewsAvg = db.UserReviews.Where(x => x.Reviewee.ID == id).Select(u => u.StarRating).Average();
+
             //Check every Review in the DB to see if any ReviewerID matches the current user's ID.
             foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewer.ID == id))
             {
                 li.Add(i);
             }
+
             foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewee.ID == id))
             {
                 li.Add(i);
             }
-
-            return View(li);
+            UserReview_AverageAndTotalRatingsVM vm = new UserReview_AverageAndTotalRatingsVM()
+            {
+                userReview = li,
+                averageRatings = userReviewsAvg
+            };
+            return View(vm);
 
         }
 
