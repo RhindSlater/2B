@@ -13,8 +13,8 @@
             checkOffset();
         });
 
-                                                    //start auction
-                                                    //var intervalID = window.setInterval(AuctionTimer, 1000);
+            //start auction
+            //var intervalID = window.setInterval(AuctionTimer, 1000);
 
 /**/</script>
 </head>
@@ -338,7 +338,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-8" id="AllCards">
-                <h3 style="text-align:center">Upcoming Auctions</h3>
+                    <h3 style="text-align:center; margin:">Upcoming Auctions</h3>
                     <div class="row">
                         @foreach (var item in Model.UpcomingAuction)
                         {
@@ -350,8 +350,8 @@
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
                                         </div>
                                         <div id="DetailGrid">
-                                            <div id="Detail">
-                                                <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
+                                            <div id="Detail" style="text-align:center;">
+                                                <a><p id="CardName">@item.Card.name</p></a>
                                                 <div>
                                                 </div>
                                             </div>
@@ -489,3 +489,4 @@
         <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     </div>
+</div>
