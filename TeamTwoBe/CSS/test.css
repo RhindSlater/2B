@@ -294,7 +294,7 @@ ul{
 
 
 #seeall, #addlisting{
-    color:#3ea6ff;
+    color:#2291d8;
     max-height: 20px;
     position: absolute;
     right: 50px;
@@ -316,7 +316,7 @@ ul{
 }
 #ProfileUsername1{
     cursor: pointer;
-    color: #9c9c9c;
+    color: #2291d8;
 }
 #ProfileUsername1:hover{
     cursor: pointer;

@@ -17,6 +17,46 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
+
+        public ActionResult CheckShoppingCount()
+        {
+            checkCookie();
+
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
+            id = user.ShoppingCart.Count();
+
+            return Json(id, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult PasswordVerify(string Password, int id)
+        {
+            checkCookie();
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("Login");
+            }
+            Sale sale = db.Sales.Where(x => x.ID == id).FirstOrDefault();
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            if (Crypto.VerifyHashedPassword(user.Password, Password))
+            {
+                return RedirectToAction("purchaseCard", "Profile", new { id = sale.ID });
+            }
+            else
+            {
+                return View("ShoppingCart","Profile");
+            }
+
+        }
+
+
         public ActionResult Index(User user)
         {
             if (user.ID != 0)

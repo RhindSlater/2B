@@ -390,16 +390,6 @@
                 </div>
             </div>
             <hr />
-
-            @if (Model.MyUser.ID == Convert.ToInt32(Session["UserID"].ToString()))
-            {
-                <div>
-                    <a onclick="loader()" href="/users/edit/@Session["UserID"]">Edit Profile</a>
-                </div>
-                <div>
-                    <a onclick="loader()" href="/profile/won">Items I've Purchased</a>
-                </div>
-            }
         </div>
     </div>
 

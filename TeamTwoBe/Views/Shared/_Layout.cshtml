@@ -13,6 +13,7 @@
     <link href="~/CSS/test.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <script src="~/Scripts/js-test.js"></script>
+    <link rel="icon" href="~/Properties/2b.png">
 </head>
 <body style="position:relative">
     <div id="loader-wrapper">
@@ -145,16 +146,8 @@
                 }
                 <li class="nav-item">
                     <div id="shoppingcart">
-                        <a onclick="loading()" href="/Profile/ShoppingCart">
-                            <i class="fas fa-shopping-cart"></i>
-                            @if (Session["ShoppingCart"] != null)
-                            {
-                                @Session["ShoppingCart"].ToString()
-                            }
-                            else
-                            {
-                                <a>0</a>
-                            }
+                        <a style="display:flex" onclick="loading()" href="/Profile/ShoppingCart">
+                            <i class="fas fa-shopping-cart"></i><p style="margin:0" id="shoppingcount">0</p>
                         </a>
                     </div>
                 </li>
@@ -221,7 +214,7 @@
     <div class="footer-container">
         <span>&copy; 2B Enterprises. All Rights Reserved</span>
         <div>
-            Designed by <a href="#">2B Enterprises</a>
+            Designed by <a style="color:#2291d8;" href="#">2B Enterprises</a>
         </div>
     </div>
 

@@ -77,7 +77,7 @@ namespace TeamTwoBe.Controllers
             }
             if (id == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login","Users");
             }
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("Watcher").Include("CardCondition").Include("CardGrade").Include("Seller.UserLevel").Where(x => x.Seller.ID == id & x.IsSold == false & x.ForAuction == false))
             {

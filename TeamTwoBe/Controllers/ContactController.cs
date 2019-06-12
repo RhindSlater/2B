@@ -54,16 +54,16 @@ namespace TeamTwoBe.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var senderemail = new MailAddress("teamb7692@gmail.com", "2B");
+                    var senderemail = new MailAddress("contact@2btrading.co.nz", "2B");
                     var receiveremail = new MailAddress(email, "Receiver");
-                    var password = "TeamTwoB";
+                    var password = "@DXjT3n4JtFGA";
                     var sub = subject;
                     var body = message;
 
                     var smtp = new SmtpClient
                     {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
+                        Host = "smtp.2btrading.co.nz",
+                        Port = 25,
                         EnableSsl = true,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
                         UseDefaultCredentials = false,

@@ -21,9 +21,11 @@ function RequestCard(id){
 }
 
 var intervalID = window.setInterval(checkNotifications, 5000);
+var intervalID2 = window.setInterval(Checkshoppingcart, 5000);
 
 $(document).ready(function(){
     checkNotifications();
+    Checkshoppingcart();
 });
 
 function checkReviewed(id){
@@ -43,7 +45,15 @@ function checkReviewed(id){
     });
 }
 
-
+function Checkshoppingcart(){
+    $.ajax({
+        url: '/Users/CheckShoppingCount',
+        success: function(data){
+            $("#shoppingcount").val(data);
+            console.log("success");
+        },
+    });
+}
 
 
 function checkNotifications() {

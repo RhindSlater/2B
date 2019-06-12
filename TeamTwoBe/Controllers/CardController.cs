@@ -133,7 +133,15 @@ namespace TeamTwoBe.Controllers
                             low = i.price_data.data.prices.low,
                         };
                         salevm.MyDatum.Add(i);
-                        salevm.MyCards.Add(card);
+                        if (db.Cards.Where(x => x.apiID == card.apiID) == null)
+                        {
+                            salevm.MyCards.Add(card);
+                        }
+                        else
+                        {
+                            Card colcard = db.Cards.Where(x => x.apiID == card.apiID).FirstOrDefault();
+                            salevm.MyCards.Add(colcard);
+                        }
                         if (db.Cards.Where(x => x.apiID == card.apiID).FirstOrDefault() == null)
                         {
                             db.Cards.Add(card);
