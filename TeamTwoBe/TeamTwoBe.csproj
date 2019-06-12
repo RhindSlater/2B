@@ -365,6 +365,7 @@
     <Compile Include="ViewModels\SaleConditionGradeVM.cs" />
     <Compile Include="ViewModels\UserAndCardWishlistVM.cs" />
     <Compile Include="ViewModels\SaleUserCardVM.cs" />
+    <Compile Include="ViewModels\UserReview_AverageAndTotalRatingsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

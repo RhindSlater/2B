@@ -123,20 +123,35 @@ namespace TeamTwoBe.Controllers
             {
                 return RedirectToAction("login", "users");
             }
+            //Current logged in User.
             int id = Convert.ToInt32(Session["UserID"].ToString());
-
+            //Creating a list to be added to the view in a foreach with data below.
             List<UserReview> li = new List<UserReview>();
 
-            //Check every Review in the DB to see if any ReviewerID matches the current user's ID.
+            //This gets the average of the reviewee's total ratings e.g. two received ratings of 1 and 3 would be avg of 2 etc.
+            double userReviewsAvg = db.UserReviews.Where(x => x.Reviewee.ID == id).Select(u => u.StarRating).Average();
+            //This counts all reviewers that a reviewer has given to the current logged in user.
+            List<UserReview> userReviewsTotalReceived = db.UserReviews.Where(x => x.Reviewer.ID == id).ToList();
+
+            //Check every Review in the DB to see if any ReviewerID matches the current user's ID to access the included values in the view.
             foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewer.ID == id))
             {
                 li.Add(i);
             }
+            //Check every Review in the DB to see if any RevieweeID matches the current user's ID to access the included values in the view.
             foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewee.ID == id))
             {
                 li.Add(i);
             }
-            return View(li);
+            //This view model is needed to count the user's reviews received total and average overall rating.
+            UserReview_AverageAndTotalRatingsVM vm = new UserReview_AverageAndTotalRatingsVM()
+            {
+                userReview = li,
+                averageRatings = userReviewsAvg,
+                totalReviews = userReviewsTotalReceived
+            };
+            return View(vm);
+
         }
 
         public ActionResult removeWishlist(int id)
