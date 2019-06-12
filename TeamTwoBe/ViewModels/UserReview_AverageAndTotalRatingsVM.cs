@@ -8,7 +8,8 @@ namespace TeamTwoBe.ViewModels
 {
     public class UserReview_AverageAndTotalRatingsVM
     {
-        public List<UserReview> userReview { get; set; }
+        public List<UserReview> ReceivedReview { get; set; }
+        public List<UserReview> GivenReview { get; set; }
         public string userName { get; set; }
         public double averageRatings { get; set; }
 
