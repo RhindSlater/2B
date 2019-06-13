@@ -41,7 +41,7 @@
                     <div class="row row1">
                         @foreach (var item in Model.MySales)
                         {
-                            <div class=" lozad" id="CardGrid">
+                            <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Listings_@item.ID">
                                 <div id="Card">
                                     @if (item.ID != 1)
                                     {
@@ -125,96 +125,102 @@
 
             <hr />
 
-            <div id="ProfileWatchlist">
-                <div id="seeall-div">
-                    <h3 id="sales" style="text-align:center;">My Watchlist</h3>
-                    <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "Watchlist", "Profile", new { id = Model.MyUser.ID }, new { @id = "seeall", @onclick = "loading()" })</a>
-                </div>
-                <div id="AllCards">
-                    <div class="row row2">
-                        @foreach (var item in Model.MyWatchList)
-                        {
-                            <div class=" lozad" id="CardGrid">
-                                <div id="Card">
-                                    @if (item.ID != 1)
-                                    {
-                                        <div data-toggle="modal" data-target="#Watchlist_@item.ID" id="CardImage">
-                                            <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
-                                        </div>
-                                        <div id="DetailGrid">
-                                            <div id="Detail">
-                                                <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
-                                                <div>
+            @if (Session["UserID"] != null)
+            {
+                if (Model.MyUser.ID.ToString() == Session["UserID"].ToString())
+                {
+                    <div id="ProfileWatchlist">
+                        <div id="seeall-div">
+                            <h3 id="sales" style="text-align:center;">My Watchlist</h3>
+                            <a id="sales" style="height:20%; color:#3ea6ff; text-align:center; padding-top:10px; margin-left:60%">@Html.ActionLink("SEE ALL", "Watchlist", "Profile", new { id = Model.MyUser.ID }, new { @id = "seeall", @onclick = "loading()" })</a>
+                        </div>
+                        <div id="AllCards">
+                            <div class="row row2">
+                                @foreach (var item in Model.MyWatchList)
+                                {
+                                    <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Watchlist_@item.ID">
+                                        <div id="Card">
+                                            @if (item.ID != 1)
+                                            {
+                                                <div data-toggle="modal" data-target="#Watchlist_@item.ID" id="CardImage">
+                                                    <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div id="CardImage">
-                                            <a><div style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" /></div></a>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                            if (item.ID != 1)
-                            {
-                                <div id="Watchlist_@item.ID" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div id="modal-header1">
-                                                    <h4 style="text-align:center;" class="modal-title">@item.Card.name</h4>
+                                            }
+                                            else
+                                            {
+                                                <div id="CardImage">
+                                                    <a><div style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" /></div></a>
                                                 </div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="display:flex;">
-                                                    <div id="modalDetails1">
-                                                        <a><div data-tilt data-tilt-glare="true" data-tilt-scale="1.03" style="display:inline-block;"><img loading="auto" height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
-                                                    </div>
-                                                    <div id="modalDetails">
-                                                        <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
-                                                        <p><b>Card Set:</b> @item.Card.print_tag</p>
-                                                        <p><b>Rarity:</b> @item.Card.rarity</p>
-                                                        <h4>Price Info (USD based):</h4>
-                                                        <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
-                                                        <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
-                                                        <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                                                        <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
-                                                        <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
-                                                        <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick = "loading()" })</p>
-                                                        @if (Session["UserID"] != null)
-                                                        {
-                                                            if (item.Seller.ID.ToString() == Session["UserID"].ToString())
-                                                            {
-                                                                <a>@Html.ActionLink("Edit Listing", "editListing", "Sales", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                                                                <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                                                                <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
-                                                            <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
-                                                        }
+                                            }
+                                            <div id="DetailGrid">
+                                                <div id="Detail">
+                                                    <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
+                                                    <div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        }
+                                    if (item.ID != 1)
+                                    {
+                                        <div id="Watchlist_@item.ID" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <div id="modal-header1">
+                                                            <h4 style="text-align:center;" class="modal-title">@item.Card.name</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div style="display:flex;">
+                                                            <div id="modalDetails1">
+                                                                <a><div data-tilt data-tilt-glare="true" data-tilt-scale="1.03" style="display:inline-block;"><img loading="auto" height="415" width="275" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
+                                                            </div>
+                                                            <div id="modalDetails">
+                                                                <p><b>Card Type:</b> @item.Card.Cardtype.Name</p>
+                                                                <p><b>Card Set:</b> @item.Card.print_tag</p>
+                                                                <p><b>Rarity:</b> @item.Card.rarity</p>
+                                                                <h4>Price Info (USD based):</h4>
+                                                                <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
+                                                                <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
+                                                                <p><b>High:</b> @item.Card.high.ToString("c2") </p>
+                                                                <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
+                                                                <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
+                                                                <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active", @onclick = "loading()" })</p>
+                                                                @if (Session["UserID"] != null)
+                                                                {
+                                                                    if (item.Seller.ID.ToString() == Session["UserID"].ToString())
+                                                                    {
+                                                                        <a>@Html.ActionLink("Edit Listing", "editListing", "Sales", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                                                                        <a id="modalDetails1">@Html.ActionLink("Remove Listing", "removeListing", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                                                                        <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a>@Html.ActionLink("Remove from watchlist", "removeFromWatchlist", "Profile", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })</a>
+                                                                    <a id="modalDetails1">@Html.ActionLink("Add to Shopping cart", "addShoppingcart", "Profile", new { id = item.ID }, new { @class = "btn btn-default", @onclick = "loading()" })</a>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
+            }
 
             <hr />
 
@@ -227,7 +233,7 @@
                     <div class="row row3">
                         @foreach (var item in Model.MyCollection)
                         {
-                            <div class=" lozad" id="CardGrid">
+                            <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Collection_@item.ID">
                                 <div id="Card">
                                     @if (item.ID != 1)
                                     {
@@ -315,7 +321,7 @@
                     <div class="row row4">
                         @foreach (var item in Model.MyWishList)
                         {
-                            <div class=" lozad" id="CardGrid">
+                            <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Wishlist_@item.ID">
                                 <div id="Card">
                                     @if (item.ID != 1)
                                     {

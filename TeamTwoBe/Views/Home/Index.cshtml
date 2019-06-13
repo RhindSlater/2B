@@ -9,8 +9,8 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
-            //start auction
-            //var intervalID = window.setInterval(AuctionTimer, 1000);
+                            //start auction
+                            //var intervalID = window.setInterval(AuctionTimer, 1000);
 
 /**/</script>
 </head>
@@ -36,7 +36,7 @@
                             <div class="row row1">
                                 @foreach (var item in Model.Recommended)
                                 {
-                                    <div class=" lozad" id="CardGrid">
+                                    <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Listings_@item.ID">
                                         <div id="Card">
                                             @if (item.ID != 1)
                                             {
@@ -53,8 +53,10 @@
                                             <div id="DetailGrid">
                                                 <div id="Detail">
                                                     <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
-                                                    <div>
-                                                    </div>
+                                                    @if (item.ID != 1)
+                                                    {
+                                                        <p>Price: @item.Price.ToString("C2")</p>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -134,19 +136,12 @@
                                     <div class="row row2">
                                         @foreach (var item in Model.Followers)
                                         {
-                                            <div class=" lozad" id="CardGrid">
+                                            <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Followers_@item.ID">
                                                 <div id="Card">
                                                     @if (item.ID != 1)
                                                     {
                                                         <div data-toggle="modal" data-target="#Followers_@item.ID" id="CardImage">
                                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
-                                                        </div>
-                                                        <div id="DetailGrid">
-                                                            <div id="Detail">
-                                                                <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
-                                                                <div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     }
                                                     else
@@ -155,7 +150,15 @@
                                                             <a><div style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" /></div></a>
                                                         </div>
                                                     }
-
+                                                    <div id="DetailGrid">
+                                                        <div id="Detail">
+                                                            <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
+                                                            @if (item.ID != 1)
+                                                            {
+                                                                <p>Price: @item.Price.ToString("C2")</p>
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             if (item.ID != 1)
@@ -231,7 +234,7 @@
                             <div class="row row3">
                                 @foreach (var item in Model.Trending)
                                 {
-                                    <div class=" lozad" id="CardGrid">
+                                    <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Trending_@item.ID">
                                         <div id="Card">
                                             @if (item.ID != 1)
                                             {
@@ -248,8 +251,10 @@
                                             <div id="DetailGrid">
                                                 <div id="Detail">
                                                     <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
-                                                    <div>
-                                                    </div>
+                                                    @if (item.ID != 1)
+                                                    {
+                                                        <p>Price: @item.Price.ToString("C2")</p>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -337,11 +342,11 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-7" id="AllCards" style="overflow:hidden; max-height:850px">
-                    <h3 style="text-align:center; margin:">Upcoming Auctions</h3>
+                    <h3 style="text-align:center;">Upcoming Auctions</h3>
                     <div class="row">
                         @foreach (var item in Model.UpcomingAuction)
                         {
-                            <div class=" lozad" id="CardGrid">
+                            <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Listings_@item.ID">
                                 <div id="Card">
                                     @if (item.ID != 1)
                                     {

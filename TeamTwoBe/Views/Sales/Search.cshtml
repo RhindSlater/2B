@@ -31,7 +31,7 @@
                         {
                             foreach (var item in Model.Sales)
                             {
-                                <div class=" lozad" id="CardGrid">
+                                <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#@item.ID">
                                     <div id="Card">
                                         <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.Card.image_url" /></div></a>
@@ -111,9 +111,9 @@
                         {
                             foreach (var item in Model.Cards)
                             {
-                                <div class=" lozad" id="CardGrid">
+                                <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Cards_@item.ID">
                                     <div id="Card">
-                                        <div data-toggle="modal" data-target="#@item.ID" id="CardImage">
+                                        <div data-toggle="modal" data-target="#Cards_@item.ID" id="CardImage">
                                             <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
                                         </div>
                                         <div id="DetailGrid">
@@ -126,7 +126,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="@item.ID" class="modal fade" role="dialog">
+                                <div id="Cards_@item.ID" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -179,8 +179,6 @@
                                         <div id="DetailGrid">
                                             <div id="Detail">
                                                 <a onclick="loading()" href="/Users/Profile/@item.ID"><p id="CardName">@item.Username</p></a>
-                                                <div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -191,9 +189,7 @@
                     </div>
                 </div>
             }
-
         }
-
         <div class="modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -214,12 +210,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        window.oncontextmenu = function () {
-            return false;
-        }
-    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.babel.min.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading.js"></script>
     <script type="text/javascript" src="~/Scripts/lazyloading2.js"></script>

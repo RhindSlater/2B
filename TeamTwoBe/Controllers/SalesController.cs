@@ -440,8 +440,12 @@ namespace TeamTwoBe.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult removeListing(int id)
         {
-            checkCookie();
             Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Card").Include("Seller.Collection").Where(x => x.ID == id).FirstOrDefault();
+            if(sale.IsSold == true)
+            {
+                return RedirectToAction("Index");
+            }
+            checkCookie();
             User user = db.Users.Find(sale.Seller.ID);
 
             foreach (var i in sale.Shopper)

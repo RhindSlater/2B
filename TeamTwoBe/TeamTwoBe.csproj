@@ -376,11 +376,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Admins\Create.cshtml" />
-    <Content Include="Views\Admins\Delete.cshtml" />
-    <Content Include="Views\Admins\Details.cshtml" />
-    <Content Include="Views\Admins\Edit.cshtml" />
-    <Content Include="Views\Admins\Index.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Locked.cshtml" />
@@ -414,6 +409,7 @@
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Sales\ReviewSale.cshtml" />
     <Content Include="Views\Profile\MyReviews.cshtml" />
+    <Content Include="Views\Admins\CMS.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -25,11 +25,12 @@
     </div>
     <nav class="navbar navbar-light navbar-expand-lg bg-faded justify-content-center" id="nav">
         <div class="navbar-brand d-flex w-50 mr-auto">
+            <img style="cursor:pointer; padding: 0 16px" id="SideNavCollapse" src="~/Properties/Collapse.png" height="24" />
             @if (Session["AccountLevel"] != null)
             {
                 if (Session["AccountLevel"].ToString() != "2")
                 {
-                    <a onclick="loading()" href="/Home/"><img loading="auto" alt="2B Premium Logo" src="~/Properties/2bhome.png" id="image" width="135" height="24" /></a>
+                    <a onclick="loading()" href="/Home/"><img loading="auto" alt="2B Premium Logo" src="~/Properties/2bhome.png" id="image" width="135" height="24"  /></a>
                 }
                 else
                 {

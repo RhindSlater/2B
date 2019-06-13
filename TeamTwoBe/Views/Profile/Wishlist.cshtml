@@ -32,7 +32,7 @@
             <div class="row">
                 @foreach (var item in Model.Wishlist)
                 {
-                    <div class=" lozad" id="CardGrid">
+                    <div class=" lozad" id="CardGrid" data-toggle="modal" data-target="#Wishlist_@item.ID">
                         <div id="Card">
                             <div data-toggle="modal" data-target="#Wishlist_@item.ID" id="CardImage">
                                 <a><div data-tilt data-tilt-glare="true" style="display:inline-block;"><img loading="auto" height="313" width="215" class="lozad" src="~/Properties/blank.jpg" data-src="@item.image_url" /></div></a>
