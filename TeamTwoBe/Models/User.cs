@@ -12,27 +12,30 @@ namespace TeamTwoBe.Models
     {
         public int ID { get; set; }
 
-        [DisplayName("First Name")]
+        [DisplayName("*First Name")]
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
-        [DisplayName("Last Name")]
+        [DisplayName("*Last Name")]
         [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
 
+        [DisplayName("*Username")]
         [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
 
+        [DisplayName("*Password")]
         [Required(ErrorMessage = "Password is required")]
-        //[StringLength(21,ErrorMessage = "Password is two short",MinimumLength = 6)]
-        public string Password { get; set; } //Later needs to be hashed for security.
+        public string Password { get; set; }
 
+        
         public string City { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
+        [DisplayName("*Email")]
         public string Email { get; set; }
 
-        public string Phone { get; set; } //Joe: Either Homephone or Mobile. Must be string datatype to store all numbers properly.
+        public string Phone { get; set; }
 
         public string cookie { get; set; }
 
@@ -40,7 +43,7 @@ namespace TeamTwoBe.Models
 
         public bool IsLocked { get; set; }
 
-        public string DisplayPicture { get; set; } //picture
+        public string DisplayPicture { get; set; }
         public AccountType UserLevel { get; set; }
 
         [InverseProperty("Follower")]
