@@ -17,109 +17,100 @@ namespace TeamTwoBe.Controllers
     {
         private Context db = new Context();
 
-
+        //checks the ammount of sales in your shoppingcart
         public ActionResult CheckShoppingCount()
         {
+            //checks if you have saved your cookies
             checkCookie();
 
+            //finds your user id to and finds your user in the database
             int id = Convert.ToInt32(Session["UserID"].ToString());
+            //includes the shoppingcart table
             User user = db.Users.Include("ShoppingCart").Where(x => x.ID == id).FirstOrDefault();
+            //returns the ammount of cards in your shopping cart
             id = user.ShoppingCart.Count();
-
             return Json(id, JsonRequestBehavior.AllowGet);
         }
 
+        //Checks if a user is logged in or not
+        public void CheckUserID()
+        {
+            if (Session["UserID"] == null)
+            {
+                RedirectToAction("Login");
+                return;
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                RedirectToAction("Login");
+                return;
+            }
+        }
+
+
+        //Used to check if a password entered matches their hashed password in the database
         [HttpPost]
         public ActionResult PasswordVerify(string Password, int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("Login");
-            }
+            CheckUserID();
+
             Sale sale = db.Sales.Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
             if (Crypto.VerifyHashedPassword(user.Password, Password))
             {
+                //if the passwords match then purchase the card
                 return RedirectToAction("purchaseCard", "Profile", new { id = sale.ID });
             }
             else
             {
-                return View("ShoppingCart","Profile");
+                //else return to shoppingcart
+                return View("ShoppingCart", "Profile");
             }
         }
 
-        [HttpPost]
-        public ActionResult PasswordVerifyEdit(string Password, int ID, string FirstName, string LastName, string Username, string City, string Email, string Phone)
-        {
-            checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("Login");
-            }
-            int id = Convert.ToInt32(Session["UserID"].ToString());
-            User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
-            if (Crypto.VerifyHashedPassword(user.Password, Password))
-            {
-                return RedirectToAction("Edit", "Users", new { ID = ID, FirstName = FirstName, LastName = LastName, Username = Username, City = City, Email = Email, Phone= Phone });
-            }
-            else
-            {
-                return View("ShoppingCart","Profile");
-            }
-
-        }
-
-
-        public ActionResult Index(User user)
-        {
-            if (user.ID != 0)
-            {
-                user = db.Users.Find(user.ID);
-                AccountType ACL = db.AccountTypes.Find(1);
-                if (user.UserLevel == ACL)
-                {
-                    Session["View"] = "UserIndex";
-                    return View(db.Users.ToList());
-                }
-            }
-            return RedirectToAction("Index", "Sales");
-        }
+        //Checks the notification table for notifications that are aisigned to your user
         public ActionResult CheckNotifications()
         {
             int id = Convert.ToInt32(Session["UserID"].ToString());
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id).ToList();
             li.Reverse();
+            //returns a list of notifications sorted from most recent to oldest
             return Json(li, JsonRequestBehavior.AllowGet);
         }
 
+        //Changes the notification to seen when you click on it
         public ActionResult ChangeNotification(int id)
         {
+            //finds your user id
             int id1 = Convert.ToInt32(Session["UserID"].ToString());
+            //creates a list of all your notifications
             List<Notification> li = db.Notifications.Include("NotifyUser").Where(x => x.NotifyUser.ID == id1).ToList();
+            //sorts from most recent to old
             li.Reverse();
+
+            //checks if the notification has already been seen
             if (li[id].Seen == true)
             {
+                //if it has return false.(No changes needed)
                 return Json("false", JsonRequestBehavior.AllowGet);
             }
+            //else
+            //looks for the notification using the id passed in from the view
+            //as an index of the list of notifications to change to seen.
             li[id].Seen = true;
+            //save changes
             db.SaveChanges();
-
+            //return true and remove unseen properties
             return Json("true", JsonRequestBehavior.AllowGet);
         }
 
+        
         public ActionResult Subscription()
         {
             checkCookie();
+            CheckUserID();
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
             AccountType acc = db.AccountTypes.Find(3);
@@ -148,18 +139,15 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Premium");
         }
 
+        //Shows the premium view
         public ActionResult Premium()
         {
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("Login");
-            }
+            checkCookie();
+            CheckUserID();
+
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
+            //finds your user and checks if you are a premium member along with dates and payment method
             PremiumBilling bill = db.PremiumBilling.Where(x => x.Member.ID == user.ID).FirstOrDefault();
             PremiumViewModel vm = new PremiumViewModel
             {
@@ -169,34 +157,45 @@ namespace TeamTwoBe.Controllers
             return View(vm);
         }
 
+        //view login page
         public ActionResult Login()
         {
+            //if your login cookies are saved login then redirect home
             var i = checkCookie();
             if (i)
             {
-                return RedirectToAction("Index", "Sales");
+                return RedirectToAction("Index", "Home");
             }
+            //null pointer
             if (Session["UserID"] != null)
             {
+                //if user is logged in return home
                 if (Convert.ToInt32(Session["UserID"].ToString()) >= Convert.ToInt32("1"))
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Home");
                 }
             }
+            //else return to login page
+            //needed to stop the layout from loading on the login page
             Session["View"] = "loginpage";
             return View();
         }
 
-        public bool checkCookie() //check if same ipaddress
+        //Checks if a user has previously saved their cookies
+        public bool checkCookie()
         {
             string userid = string.Empty;
             if (Request != null)
             {
+                //checks the users cookies for userid
                 if (Request.Cookies["userid"] != null)
                 {
-                    var address = Request.UserHostAddress;
+                    //if cookies found bind userid value to variable
                     userid = Request.Cookies["userid"].Value;
+                    //search database for a user with the same cookie saved
                     User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
+                    
+                    //if user exists, log them in and save data in session
                     if (user != null)
                     {
                         Session["UserID"] = user.ID;
@@ -211,16 +210,21 @@ namespace TeamTwoBe.Controllers
             return false;
         }
 
+
+        //login view
         [HttpPost]
         public ActionResult Login(string Username, string Password, dynamic SaveData)
         {
+            //Checks if the user entered a password
             if (Password != "")
             {
+                //look for the user with the entered unsername
                 User user = db.Users.Include("ShoppingCart").Include("UserLevel").SingleOrDefault(x => x.Username == Username);
+                //checks if user exists
                 if (user != null)
                 {
-                    bool test = Crypto.VerifyHashedPassword(user.Password, Password);
-                    if (test)
+                    //verify's if the users password matches the hashed password in our database
+                    if (Crypto.VerifyHashedPassword(user.Password, Password))
                     {
                         Session["UserID"] = user.ID;
                         Session["Username"] = user.Username;
@@ -256,6 +260,7 @@ namespace TeamTwoBe.Controllers
             return View();
         }
 
+        //Register view
         public ActionResult Register()
         {
             if (Session["UserID"] == null)
@@ -275,21 +280,31 @@ namespace TeamTwoBe.Controllers
         }
 
 
+
+        //Creates the user and adds to database
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register([Bind(Include = "ID,FirstName,LastName,Username,Password,City,Email,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
+                //if username is taken
                 if (db.Users.Where(x => x.Username == user.Username).Count() > 0)
                 {
                     throw new Exception("This username is taken. Please select another one");
                 }
+                else if (db.Users.Where(x => x.Email == user.Email).Count() > 0)
+                {
+                    throw new Exception("This email is taken. Please select another one");
+                }
                 else
                 {
+                    //has the entered password and save it in the database
                     user.Password = Crypto.HashPassword(user.Password);
+                    //set user level as a guest user
                     AccountType ACL = db.AccountTypes.Find(2);
                     user.UserLevel = ACL;
+                    //sets the default display picture
                     user.DisplayPicture = "Default.png";
                     user.Follower = new List<User>();
                     user.Following = new List<User>();
@@ -298,7 +313,10 @@ namespace TeamTwoBe.Controllers
                     user.Collection = new List<Card>();
                     user.IsDeleted = false;
                     user.IsLocked = false;
+                    //adds user to database
                     db.Users.Add(user);
+
+                    //creates notification asking you to verify your email
                     Notification notify = new Notification()
                     {
                         Date = DateTime.Now,
@@ -307,14 +325,17 @@ namespace TeamTwoBe.Controllers
                         Seen = false,
                         NotifyUser = user,
                     };
+                    //add notification to database
                     db.Notifications.Add(notify);
+                    //save changes
                     db.SaveChanges();
-                    return RedirectToAction("Login");
+                    return RedirectToAction("Login", new { Username = user.Username });
                 }
             }
             return View(user);
         }
 
+        //show only your user details
         public ActionResult Details()
         {
             checkCookie();
@@ -327,6 +348,7 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
+        //edit user action
         public ActionResult Edit()
         {
             checkCookie();
@@ -340,6 +362,7 @@ namespace TeamTwoBe.Controllers
         }
 
 
+        //edit user action(Save changes)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Username,Password,City,Email,Phone")] User user)
@@ -361,15 +384,20 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
+        //Load profile and current auctions
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
             checkCookie();
+            CheckUserID();
+
+            //if session is null and id
             if (id == null & Session["UserID"] == null)
             {
                 return RedirectToAction("Index", "Sales");
             }
             else if (id == null)
             {
+                //if id == null set id to session 
                 if (Convert.ToInt32(Session["UserID"].ToString()) == 0)
                 {
                     return RedirectToAction("Index", "Sales");
@@ -387,6 +415,7 @@ namespace TeamTwoBe.Controllers
             };
             List<Sale> li = new List<Sale>();
 
+            //adds a list of cards(Max of 10) to the collection, wishlist and trending that meet the criteria
             foreach (var i in db.Sales.Include("Card.Cardtype").Include("CardCondition").Include("CardGrade").Where(x => x.Seller.ID == user.ID & x.IsSold == false & x.ForAuction == false))
             {
                 li.Add(i);
@@ -447,7 +476,7 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Index", "Sales");
         }
 
-        // GET: Users/Delete/5
+        //delete view
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -463,7 +492,7 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+        //Delete a user
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -481,12 +510,6 @@ namespace TeamTwoBe.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        public ActionResult UserReview()
-        {
-            checkCookie();
-
-            return View();
         }
 
         public ActionResult Follow(int id)
@@ -517,13 +540,17 @@ namespace TeamTwoBe.Controllers
             return Json("You already follow " + user.Username, JsonRequestBehavior.AllowGet);
         }
 
+
+        //Sends a notification to a user that has a card that you want to trade for
         public ActionResult requestTrade(int id)
         {
+
             Card card = db.Cards.Include("CollectionOwners").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
             if (card != null)
             {
+                //send a notification to every user that has the card you want to trade for
                 foreach (var i in card.CollectionOwners)
                 {
                     Notification notify = new Notification()
@@ -536,9 +563,11 @@ namespace TeamTwoBe.Controllers
                     };
                     db.Notifications.Add(notify);
                 }
+                //save changes
                 db.SaveChanges();
                 return Json("Your request has been sent.", JsonRequestBehavior.AllowGet);
             }
+            //if card does not exist or card is not in anyones shoppingcart return this
             return Json("No users currently have selected card in their collection", JsonRequestBehavior.AllowGet);
         }
 
