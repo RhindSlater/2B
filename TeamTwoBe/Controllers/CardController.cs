@@ -13,19 +13,22 @@ namespace TeamTwoBe.Controllers
 {
     public class CardController : Controller
     {
+        //used to query our database
         private Context db = new Context();
 
+        //api used to search for every card
         HttpClient yugiohApi = new HttpClient()
         {
             BaseAddress = new Uri("https://db.ygoprodeck.com/api/")
         };
 
+        //api used to obtain price information based on cards
         HttpClient yugiohPriceApi = new HttpClient()
         {
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
 
-        public bool checkCookie() //check if same ipaddress
+        public bool checkCookie()
         {
             string userid = string.Empty;
             if (Request != null)
@@ -49,16 +52,33 @@ namespace TeamTwoBe.Controllers
             return false;
         }
 
+        private void checkUserID()
+        {
+            if (Session["UserID"] == null)
+            {
+                RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                RedirectToAction("login", "users");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult> apiPrice(string dropboxvalue)
         {
+            //checks if cookies are saved
             checkCookie();
+
+            //calls function from api
             HttpResponseMessage resp = await yugiohPriceApi.GetAsync($"get_card_prices/{dropboxvalue}");
             if (resp.IsSuccessStatusCode)
             {
                 var rsp = await resp.Content.ReadAsStringAsync();
+                //returns a list of data from our api
                 var li = JObject.Parse(rsp).ToObject<RootObject>();
 
+                //viewmodel needed to display all our cards, their pricing data and it's name
                 SaleConditionGradeVM salevm = new SaleConditionGradeVM()
                 {
                     MyCard = dropboxvalue,
@@ -66,10 +86,13 @@ namespace TeamTwoBe.Controllers
                     MyCards = new List<Card>(),
                 };
 
+                //iterates through list of data and creates a new card adding it to the database if it returns success
                 foreach (var i in li.data)
                 {
+                    //success means it successfully finds pricing for the card in your list
                     if (i.price_data.status == "success")
                     {
+                        //creates a new card with all the new properties from the api
                         Card card = new Card()
                         {
                             apiID = $"{dropboxvalue} {i.print_tag} {i.rarity}",
@@ -82,14 +105,20 @@ namespace TeamTwoBe.Controllers
                             high = i.price_data.data.prices.high,
                             low = i.price_data.data.prices.low,
                         };
+
+                        //adds data to a list of data
                         salevm.MyDatum.Add(i);
+                        //adds card to a list of cards
                         salevm.MyCards.Add(card);
+
+                        //makes sure the card is not in the database before adding it the database
                         if (db.Cards.Where(x => x.apiID == card.apiID).FirstOrDefault() == null)
                         {
                             db.Cards.Add(card);
                         }
                     }
                 }
+                //saves the changes
                 db.SaveChanges();
 
 
@@ -133,6 +162,7 @@ namespace TeamTwoBe.Controllers
                             low = i.price_data.data.prices.low,
                         };
                         salevm.MyDatum.Add(i);
+                        //makes sure not to add the card to the database if it already exists
                         if (db.Cards.Where(x => x.apiID == card.apiID).FirstOrDefault() == null)
                         {
                             salevm.MyCards.Add(card);
@@ -140,6 +170,7 @@ namespace TeamTwoBe.Controllers
                         }
                         else
                         {
+                            //if the card exists in the database then use the card from the database instead of adding a new card
                             Card colcard = db.Cards.Where(x => x.apiID == card.apiID).FirstOrDefault();
                             salevm.MyCards.Add(colcard);
                         }
@@ -157,14 +188,7 @@ namespace TeamTwoBe.Controllers
         public async Task<ActionResult> Wishlist()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
 
             HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?");
             if (response.IsSuccessStatusCode)
@@ -172,8 +196,8 @@ namespace TeamTwoBe.Controllers
                 var rsp = await response.Content.ReadAsStringAsync();
 
                 rsp = rsp.Substring(1, rsp.Length - 2);
+                //converts a jarray to list of card
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
-
                 SaleConditionGradeVM uservm = new SaleConditionGradeVM()
                 {
                     MyCards = li,
@@ -184,19 +208,14 @@ namespace TeamTwoBe.Controllers
             vm.MyCards = new List<Card>();
             return View(vm);
         }
+
 
         public async Task<ActionResult> Collection()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
 
+            //This searches for a card containing any part of the word that is being searched for e.g. dark
             HttpResponseMessage response = await yugiohApi.GetAsync($"v4/cardinfo.php?");
             if (response.IsSuccessStatusCode)
             {
@@ -204,11 +223,12 @@ namespace TeamTwoBe.Controllers
 
                 rsp = rsp.Substring(1, rsp.Length - 2);
                 List<Card> li = JArray.Parse(rsp).ToObject<List<Card>>();
-
+                //converts json to list of cards
                 SaleConditionGradeVM uservm = new SaleConditionGradeVM()
                 {
                     MyCards = li,
                 };
+                //returns list of cards to the view
                 return View(uservm);
             }
             SaleConditionGradeVM vm = new SaleConditionGradeVM();
@@ -216,18 +236,11 @@ namespace TeamTwoBe.Controllers
             return View(vm);
         }
 
-        //This searches for a card containing any part of the word that is being searched for e.g. dark
+        //adds a card to your wishlist
         public ActionResult addCardToWishlist(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
             Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("Wishlist").Where(x => x.ID == id).FirstOrDefault();
@@ -240,6 +253,7 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Wishlist", "Profile", new { id = id });
         }
 
+        //adds a card to your collection
         public ActionResult addCardToCollection(int id)
         {
             checkCookie();
