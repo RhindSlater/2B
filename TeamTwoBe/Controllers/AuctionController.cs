@@ -12,7 +12,8 @@ namespace TeamTwoBe.Controllers
     {
         Context db = new Context();
 
-        public bool checkCookie() //check if same ipaddress
+        //Checks if user 
+        public bool checkCookie()
         {
             string userid = string.Empty;
             if (Request != null)
@@ -68,10 +69,35 @@ namespace TeamTwoBe.Controllers
         [HttpPost]
         public ActionResult AuctionEnd()
         {
-            Sale sale = db.Sales.Include("Card").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
-            sale.IsSold = true;
+            Sale sale = db.Sales.Include("Card").Include("Shopper").Include("Watcher").Include("Seller.Collection").Where(x => x.ForAuction == true & x.IsSold == false).FirstOrDefault();
 
-            List<Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderByDescending(x => x.BidAmount).ToList();
+
+            List <Bid> bid = db.Bids.Include("Bidder").Where(x => x.Item.ID == sale.ID).OrderByDescending(x => x.BidAmount).ToList();
+
+            if (bid == null)
+            {
+                Notification notifyUnsold = new Notification()
+                {
+                    Date = DateTime.Now,
+                    Title = "Not sold",
+                    Message = $"Your card did not receive any bids and has been added back to your collection.",
+                    Seen = false,
+                    NotifyUser = sale.Seller,
+                };
+                db.Notifications.Add(notifyUnsold);
+                sale.Seller.Collection.Add(sale.Card);
+                foreach(var i in sale.Watcher)
+                {
+                    i.Watchlist.Remove(sale);
+                }
+                foreach (var i in sale.Shopper)
+                {
+                    i.ShoppingCart.Remove(sale);
+                }
+                db.Sales.Remove(sale);
+                db.SaveChanges();
+                return Json("Auction ended", JsonRequestBehavior.AllowGet);
+            }
 
             Notification notify = new Notification()
             {
@@ -83,6 +109,7 @@ namespace TeamTwoBe.Controllers
             };
             sale.Buyer = bid[0].Bidder;
             db.Notifications.Add(notify);
+            sale.IsSold = true;
 
             for (int i = 0; i < bid.Count; i++)
             {

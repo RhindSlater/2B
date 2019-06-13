@@ -26,6 +26,7 @@ var intervalID2 = window.setInterval(Checkshoppingcart, 5000);
 $(document).ready(function(){
     checkNotifications();
     Checkshoppingcart();
+    displayHomeCards();
 });
 
 function checkReviewed(id){
@@ -175,25 +176,6 @@ function SearchCard(){
     });
 }
 
-// function checkOffset() {
-//     if($('#fixed-div').offset().top + $('#fixed-div').height() >= $('#footer').offset().top)
-//         $('#fixed-div').css('width', '100%');
-//         $('#fixed-div').css('position', 'absolute');
-//         $('#fixed-title').css('position', 'absolute');
-//         $('#fixed-div').css('left', '25%');
-
-//     if($(document).scrollTop() + window.innerHeight < $('#footer').offset().top){
-//         $('#fixed-div').css('position', 'fixed'); // restore when you scroll up
-//         $('#fixed-title').css('position', 'fixed'); 
-//         $('#fixed-div').css('width', '40%');
-//         $('#fixed-div').css('left', '');
-//     }
-//     else{
-//         $('#fixed-div').css('width', '100%');
-//         $('#fixed-div').css('left', '');
-//     }
-// }
-
 function sendbid(){
     var bid;
     bid = $('#bid').val();
@@ -309,8 +291,8 @@ function displayCorrectCards() {
 }
 function displayHomeCards() {
     displayProfileCards(1);
-    displayProfileCards(2);
     displayProfileCards(3);
+    displayProfileCards(2);
 }
 
 function displayProfileCards(id){
