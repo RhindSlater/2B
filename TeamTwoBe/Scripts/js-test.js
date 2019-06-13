@@ -211,6 +211,7 @@ function sendbid(){
 }
 
 
+//rated represents the number of clicked stars
 var rated;
 function CRate(r) {
     $("#Rating").val(r);
@@ -255,3 +256,5 @@ function CRateSelected() {
         $("#Rate" + i).attr('class', 'starGlow');
     }
 }
+
+

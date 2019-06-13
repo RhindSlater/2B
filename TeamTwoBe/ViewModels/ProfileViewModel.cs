@@ -9,6 +9,7 @@ namespace TeamTwoBe.ViewModels
     public class ProfileViewModel
     {
         public User MyUser { get; set; }
+        public User LoggedInUser { get; set; }
         public List<Sale> MySales { get; set; }
         public List<Card> MyCollection { get; set; }
         public List<Sale> MyWatchList { get; set; }

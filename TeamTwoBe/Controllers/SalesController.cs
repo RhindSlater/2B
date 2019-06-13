@@ -199,8 +199,6 @@ namespace TeamTwoBe.Controllers
 
             Session["View"] = "SaleCreate";
 
-
-
             SaleConditionGradeVM salevm = new SaleConditionGradeVM();
             if (id != null)
             {

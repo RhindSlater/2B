@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using TeamTwoBe.Models;
 using System.Web.Helpers;
 using TeamTwoBe.ViewModels;
-using System.Security.Cryptography;
 
 namespace TeamTwoBe.Controllers
 {
@@ -22,7 +21,7 @@ namespace TeamTwoBe.Controllers
             if (user.ID != 0)
             {
                 user = db.Users.Find(user.ID);
-                AccountType ACL = db.AccountTypes.Find(1);
+                Models.AccountType ACL = db.AccountTypes.Find(1);
                 if (user.UserLevel == ACL)
                 {
                     Session["View"] = "UserIndex";
@@ -54,12 +53,43 @@ namespace TeamTwoBe.Controllers
             return Json("true", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Subscription(string test)
+        //// You can find your endpoint's secret in your webhook settings
+        //const string secret = "whsec_BqXcEYaJcs8bsnuz7ANSwJVqABTtIcjW";
+
+        //[HttpPost]
+        //public void GiveMeAccess()
+        //{
+        //    var json = new StreamReader(HttpContext.Request.RawUrl).ReadToEnd();
+
+        //    try
+        //    {
+        //        var stripeEvent = EventUtility.ConstructEvent(json,
+        //            Request.Headers["Stripe-Signature"], secret);
+
+        //        // Handle the checkout.session.completed event
+        //        if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+        //        {
+        //            var session = stripeEvent.Data.Object as CheckoutSession;
+
+        //            // Fulfill the purchase...
+        //            HandleCheckoutSession(session);
+        //        }
+
+        //    }
+        //    catch (StripeException e)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+
+        [ValidateAntiForgeryToken]
+        public ActionResult Subscription()
         {
             checkCookie();
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
-            AccountType acc = db.AccountTypes.Find(3);
+            Models.AccountType acc = db.AccountTypes.Find(3);
             user.UserLevel = acc;
             Session["AccountLevel"] = user.UserLevel.ID.ToString();
             PremiumBilling pb = new PremiumBilling()
@@ -313,7 +343,9 @@ namespace TeamTwoBe.Controllers
                 }
                 id = Convert.ToInt32(Session["UserID"].ToString());
             }
-            User user = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("Collection.Cardtype").Include("Following").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user2 = db.Users.Include("Collection.Cardtype").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             ProfileViewModel vm = new ProfileViewModel()
             {
                 MyCollection = new List<Card>(),
@@ -321,6 +353,7 @@ namespace TeamTwoBe.Controllers
                 MyWishList = new List<Card>(),
                 MySales = new List<Sale>(),
                 MyUser = user,
+                LoggedInUser = user2,
             };
             List<Sale> li = new List<Sale>();
 
@@ -425,19 +458,29 @@ namespace TeamTwoBe.Controllers
 
             return View();
         }
-
+        //This follow another user.
+        //ID = the ID of the user you're going to follow
+        //user = that user
+        //user2 = you
         public ActionResult Follow(int id)
         {
             checkCookie();
+            //User user is the person you want to follow.
             User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            //id is now the current user's ID (you).
             id = Convert.ToInt32(Session["UserID"].ToString());
+            //user2 is you.
             User user2 = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
+            //If user2 is null, you need to login.
             if (user2 == null)
             {
+                //Tells user to log in using AJAX.
                 return Json("Log in to follow a user.", JsonRequestBehavior.AllowGet);
             }
+            //if YOU do not follow the user.
             if (user2.Follower.Contains(user) == false)
             {
+                //Create a new notification telling the user you followed them.
                 Notification notify = new Notification()
                 {
                     Date = DateTime.Now,
@@ -446,12 +489,21 @@ namespace TeamTwoBe.Controllers
                     Seen = false,
                     NotifyUser = user,
                 };
+                //follows the user.
                 user2.Follower.Add(user);
+                //Adds notification to the database.
                 db.Notifications.Add(notify);
+                //Saves the changes in the database.
                 db.SaveChanges();
+                //Uses AJAX to notify you follow that user (including their username).
                 return Json("You have successfully followed " + user.Username, JsonRequestBehavior.AllowGet);
             }
-            return Json("You already follow " + user.Username, JsonRequestBehavior.AllowGet);
+            //Else, this will remove them from your followings.
+            user2.Follower.Remove(user);
+            //Saves the changes to the database.
+            db.SaveChanges();
+            //Else, returns AJAX message to notify you that you unfollowed that user.
+            return Json("You have successfully unfollowed " + user.Username, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult requestTrade(int id)
