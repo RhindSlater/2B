@@ -29,7 +29,6 @@ namespace TeamTwoBe.Controllers
             return Json(id, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public ActionResult PasswordVerify(string Password, int id)
         {
@@ -48,6 +47,30 @@ namespace TeamTwoBe.Controllers
             if (Crypto.VerifyHashedPassword(user.Password, Password))
             {
                 return RedirectToAction("purchaseCard", "Profile", new { id = sale.ID });
+            }
+            else
+            {
+                return View("ShoppingCart","Profile");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PasswordVerifyEdit(string Password, int ID, string FirstName, string LastName, string Username, string City, string Email, string Phone)
+        {
+            checkCookie();
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("Login");
+            }
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            if (Crypto.VerifyHashedPassword(user.Password, Password))
+            {
+                return RedirectToAction("Edit", "Users", new { ID = ID, FirstName = FirstName, LastName = LastName, Username = Username, City = City, Email = Email, Phone= Phone });
             }
             else
             {
