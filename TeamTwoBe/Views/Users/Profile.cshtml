@@ -21,7 +21,16 @@
             }
             else
             {
+                if (Model.MyUser.Following.Contains(Model.LoggedInUser))
+                {
+                    <h2 id="ProfileUsername"><a id="ProfileUsername1" onclick="FollowUser(@Model.MyUser.ID)"><i class="fas fa-user-plus"></i> Unfollow @Model.MyUser.Username</a></h2>
+
+                }
+                else
+                {
                 <h2 id="ProfileUsername"><a id="ProfileUsername1" onclick="FollowUser(@Model.MyUser.ID)"><i class="fas fa-user-plus"></i> Follow @Model.MyUser.Username</a></h2>
+
+                }
             }
         }
         else
