@@ -51,7 +51,6 @@ function Checkshoppingcart(){
         url: '/Users/CheckShoppingCount',
         success: function(data){
             $("#shoppingcount").val(data);
-            console.log("success");
         },
     });
 }

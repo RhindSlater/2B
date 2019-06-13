@@ -5,32 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-    </head>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
 <body>
     <div id="base">
 
 
         <h2 id="sales" style="text-align:center;">Collection</h2>
         <div id="Collection">
-            @using (Html.BeginForm("apiPrice2", "Card", FormMethod.Post, new { @id="Collection1" } ))
+            @using (Html.BeginForm("apiPrice2", "Card", FormMethod.Post, new { @id = "Collection1" }))
             {
                 <b>Search:</b>
                 <input id="CollectionDropBox" list="CardList" type="text" name="dropboxvalue" />
                 <input type="submit" value="Search" />
             }
+
             @if (Model.MyCards != null)
             {
-                <datalist id="CardList">
-                    @foreach (var i in Model.MyCards)
-                    {
-                        <option value="@i.name"></option>
-                    }
-                </datalist>
+                if (Model.MyCards.Count > 0)
+                {
+                    <datalist id="CardList">
+                        @foreach (var i in Model.MyCards)
+                        {
+                            <option value="@i.name"></option>
+                        }
+                    </datalist>
+                }
             }
 
             @if (Model.MyDatum != null)
@@ -60,7 +64,7 @@
                                 <p><b>Set:</b> @item.print_tag</p>
                                 <p><b>Rarity:</b> @item.rarity</p>
                                 <p><b>Average Price:</b> @item.average.ToString("c2")</p>
-                                @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary", @onclick="loading()" })
+                                @Html.ActionLink("Add to Collection", "addCardToCollection", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()" })
                             </td>
                         </tr>
                     }
