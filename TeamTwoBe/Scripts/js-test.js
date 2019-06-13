@@ -29,23 +29,6 @@ $(document).ready(function(){
     displayHomeCards();
 });
 
-function checkReviewed(id){
-    var i;
-    $.ajax({
-        url: '/Profile/checkReviewed/' + id,
-        success: function(data) {
-            for(i = 0; i < data.length; i ++ ){
-                if(data[i] == "true"){
-                    console.log(data[i]);
-                    var num = Number(data[i + 1]);
-                    $('.' + num).addClass("notreviewed");
-                    console.log(num);
-                }
-            }
-        }
-    });
-}
-
 function Checkshoppingcart(){
     $.ajax({
         url: '/Users/CheckShoppingCount',
@@ -126,6 +109,9 @@ function checkNotifications() {
              var i = $('.badge');
              if(count > 0){
                 i.text(count);
+             }
+             else{
+                 
              }
         }
     });

@@ -1,4 +1,4 @@
-﻿
+﻿@model TeamTwoBe.ViewModels.AdminViewModel
 @{
     ViewBag.Title = "CMS";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,12 +7,160 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
 <body>
-
     <div id="base">
-
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#Users">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Sales">Sales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Verified">Verified</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Auction">Auction</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade show active" id="Users">
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                <h5><a href="/users/profile/@item.ID">@item.Username</a></h5>
+                            </td>
+                            <td>
+                                <h5>@item.FirstName</h5>
+                            </td>
+                            <td>
+                                <h5>@item.LastName</h5>
+                            </td>
+                            <td>
+                                <h5>@item.Email</h5>
+                            </td>
+                            <td>
+                                <input type="password" value="@item.Password" />
+                            </td>
+                            <td>
+                                <h5><a href="/admins/edit/@item.ID">Edit</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/admins/Lock/@item.ID">Lock out</a></h5>
+                            </td>
+                            <td>
+                                <button>Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="tab-pane fade " id="Sales">
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Card name</th>
+                        <th>Price</th>
+                        <th>Seller</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Sales)
+                    {
+                        <tr>
+                            <td>
+                                <h5>@item.Card.apiID</h5>
+                            </td>
+                            <td>
+                                <h5>@item.Price</h5>
+                            </td>
+                            <td>
+                                <h5><a href="/users/profile/@item.ID">@item.Seller.Username</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/admins/removeListing/@item.ID">Remove card</a></h5>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="tab-pane fade " id="Verified">
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Card name</th>
+                        <th>Price</th>
+                        <th>Seller</th>
+                        <th>Buyer</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Verified)
+                    {
+                        <tr>
+                            <td>
+                                <h5>@item.Card.apiID</h5>
+                            </td>
+                            <td>
+                                <h5>@item.Price</h5>
+                            </td>
+                            <td>
+                                <h5><a href="/users/profile/@item.ID">@item.Seller.Username</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/users/profile/@item.ID">@item.Buyer.Username</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/admins/removeListing/@item.ID">Remove card</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/admins/notifyVerify/@item.ID">Completed Verification</a></h5>
+                            </td>
+                            <td>
+                                <h5><a href="/admins/notifyShipped/@item.ID">Shipped</a></h5>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="tab-pane fade" id="Auction">
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Bidder</th>
+                        <th>Card</th>
+                        <th>Date</th>
+                        <th>Bid</th>
+                    </tr>
+                    @foreach (var item in Model.Bids)
+                    {
+                        <tr>
+                            <td>
+                                <h5><a href="/users/profile/@item.Bidder.ID">@item.Bidder.Username</h5>
+                            </td>
+                            <td>
+                                <h5>@item.Item.Card.name</h5>
+                            </td>
+                            <td>
+                                <h5>@item.TimeStamps.ToString("dd/MM/yyyy hh:mm:ss tt")</h5>
+                            </td>
+                            <td>
+                                <h5>@item.BidAmount</h5>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
     </div>
-
 </body>
 

@@ -151,6 +151,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
@@ -355,6 +356,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\UserReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
     <Compile Include="ViewModels\AuctionSaleViewModel.cs" />
     <Compile Include="ViewModels\PremiumViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -409,6 +411,8 @@
     <Content Include="Views\Sales\ReviewSale.cshtml" />
     <Content Include="Views\Profile\MyReviews.cshtml" />
     <Content Include="Views\Admins\CMS.cshtml" />
+    <Content Include="Views\Admins\Edit.cshtml" />
+    <Content Include="Views\Admins\removeListing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -418,6 +422,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902202237361_initial.resx">

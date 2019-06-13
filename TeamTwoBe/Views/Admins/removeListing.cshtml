@@ -1,0 +1,63 @@
+﻿@model TeamTwoBe.Models.Sale
+
+@{
+    ViewBag.Title = "removeListing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/CSS/create.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<div id="base">
+    <input name="id" style="display:none" value="@Model.ID" />
+    <div style="margin-top:8%;" id="remove-div">
+
+        <h3 style="text-align:center;" id="sales">Are you sure you want to remove this listing?</h3>
+        <div style="display:flex;">
+            <div id="remove-details">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Card)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Card.name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UploadDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UploadDate)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input onclick="loading()" type="submit" value="Unlist" class="btn btn-default" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default", @onclick = "loading()" })
+                    </div>
+                }
+            </div>
+            <div>
+                <img loading="auto" alt="image of @Model.Card.name" id="removeimage" src="@Model.Card.image_url" />
+            </div>
+        </div>
+    </div>
+</div>
