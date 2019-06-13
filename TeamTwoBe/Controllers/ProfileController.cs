@@ -28,7 +28,8 @@ namespace TeamTwoBe.Controllers
             BaseAddress = new Uri("http://yugiohprices.com/api/")
         };
 
-        public bool checkCookie() //check if same ipaddress
+        //Checks the cookies for a matching userid
+        public bool checkCookie()
         {
             string userid = string.Empty;
             if (Request != null)
@@ -51,33 +52,41 @@ namespace TeamTwoBe.Controllers
             }
             return false;
         }
+
+        //take user to login if they are not logged in
+        public void checkUserID()
+        {
+            if (Session["UserID"] == null)
+            {
+                RedirectToAction("login", "users");
+            }
+            if (Session["UserID"].ToString() == "0")
+            {
+                RedirectToAction("login", "users");
+            }
+        }
+
+
         public ActionResult Shoppingcart()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+            
+            //gets user id
             int id = Convert.ToInt32(Session["UserID"].ToString());
+            //finds the user
             User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.Watcher").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
 
+            //returns the user
             return View(user);
         }
+
+        //Displays every card for sale from someone you follow
         public ActionResult Following()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             int id = Convert.ToInt32(Session["UserID"].ToString());
             User user = db.Users.Include("Follower").Where(x => x.ID == id).FirstOrDefault();
             List<User> lis = user.Follower;
@@ -92,6 +101,7 @@ namespace TeamTwoBe.Controllers
 
         }
 
+        //watchlist view
         public ActionResult Watchlist()
         {
             checkCookie();
@@ -111,18 +121,12 @@ namespace TeamTwoBe.Controllers
 
         }
 
-        //TODO: Show all the Reviews this user has given and been given, maybe in separate tables?
+        
         public ActionResult MyReviews()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             //Current logged in User.
             int id = Convert.ToInt32(Session["UserID"].ToString());
             //Creating a list to be added to the view in a foreach with data below.
@@ -156,17 +160,11 @@ namespace TeamTwoBe.Controllers
 
         }
 
+        //remove card from wishlist
         public ActionResult removeWishlist(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
 
             Models.Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
 
@@ -178,17 +176,11 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Wishlist", new { id = id });
         }
 
+        //remove card from collection
         public ActionResult removeCollection(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
 
             Models.Card card = db.Cards.Where(x => x.ID == id).FirstOrDefault();
 
@@ -204,14 +196,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult removeFromWatchlist(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
             {
@@ -229,14 +215,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult removeFromShoppingCart(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
             {
@@ -255,14 +235,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult addShoppingcart(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
 
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
 
@@ -292,14 +266,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult purchaseCard(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
 
             Sale sale = db.Sales.Include("Shopper").Include("Watcher").Include("Seller.ShoppingCart").Include("Seller.Watchlist").Include("Card").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());
@@ -431,14 +399,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult purchaseVerifiedCard(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
 
             Sale sale = db.Sales.Include("Card").Include("Seller").Where(x => x.ID == id).FirstOrDefault();
 
@@ -466,14 +428,8 @@ namespace TeamTwoBe.Controllers
         public ActionResult Won()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
 
             int id = Convert.ToInt32(Session["UserID"].ToString());
             var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Buyer.ID == id).ToList();
@@ -486,17 +442,12 @@ namespace TeamTwoBe.Controllers
 
             return View(vm);
         }
+
+        //show all the cards you have sold
         public ActionResult Sold()
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
 
             int id = Convert.ToInt32(Session["UserID"].ToString());
             var li = db.Sales.Include("CardGrade").Include("Watcher").Include("CardCondition").Include("Card.Cardtype").Include("Seller").Include("Buyer").Where(x => x.IsSold == true & x.Seller.ID == id);
@@ -504,18 +455,12 @@ namespace TeamTwoBe.Controllers
             return View(li.ToList());
         }
 
-
+        //add a card to watchlist
         public ActionResult addToWatchlist(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
 
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
@@ -533,17 +478,12 @@ namespace TeamTwoBe.Controllers
             return RedirectToAction("Watchlist");
         }
 
+        //Wishlist view
         public ActionResult Wishlist(int id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             User user = db.Users.Include("Wishlist.CardType").Where(x => x.ID == id).FirstOrDefault();
             if (user.ID.ToString() == Session["UserID"].ToString())
             {
@@ -555,17 +495,12 @@ namespace TeamTwoBe.Controllers
             return View(user);
         }
 
+        //Collection view
         public ActionResult Collection(int? id)
         {
             checkCookie();
-            if (Session["UserID"] == null)
-            {
-                return RedirectToAction("login", "users");
-            }
-            if (Session["UserID"].ToString() == "0")
-            {
-                return RedirectToAction("login", "users");
-            }
+            checkUserID();
+
             User user = db.Users.Include("Collection.CardType").Where(x => x.ID == id).FirstOrDefault();
             if (user.ID.ToString() == Session["UserID"].ToString())
             {
@@ -575,32 +510,6 @@ namespace TeamTwoBe.Controllers
                 }
             }
             return View(user);
-        }
-        public ActionResult checkReviewed(int id)
-        {
-            List<Sale> li = db.Sales.Include("Buyer").Where(x => x.Buyer.ID == id).ToList();
-            if (li.Count < 1)
-            {
-                return Json("User has no cards purchased", JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                List<string> lis = new List<string>();
-                foreach(var i in li)
-                {
-                    if(db.UserReviews.Include("CardReviewed").Include("Reviewer").Where(x => x.Reviewer.ID == i.Buyer.ID & x.CardReviewed.ID == i.ID).FirstOrDefault() == null)
-                    {
-                        lis.Add("true");
-                        lis.Add(i.ID.ToString());
-                    }
-                    else
-                    {
-                        lis.Add("false");
-                        lis.Add("0");
-                    }
-                }
-                return Json(lis, JsonRequestBehavior.AllowGet);
-            }
         }
     }
 }

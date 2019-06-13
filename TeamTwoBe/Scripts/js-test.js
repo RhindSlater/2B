@@ -124,7 +124,9 @@ function checkNotifications() {
 
              }
              var i = $('.badge');
-             i.text(count);
+             if(count > 0){
+                i.text(count);
+             }
         }
     });
 }

@@ -151,7 +151,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
