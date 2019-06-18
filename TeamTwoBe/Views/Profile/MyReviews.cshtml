@@ -11,30 +11,38 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </head>
 <div id="base" class="text-center">
+    <h5>Total Received Reviews: @Model.totalReviews.Count()</h5>
+    <h5>Total Average Ratings: @Model.averageRatings.ToString()</h5>
     @if (Model.GivenReview.Count() > 0)
     {
         <h2>@Model.GivenReview[0].Reviewer.Username's Reviews Received</h2>
     }
     else if (Model.ReceivedReview.Count() > 0)
     {
-        <h2>@Model.GivenReview[0].Reviewer.Username's Reviews Received</h2>
+        <h2>@Model.ReceivedReview[0].Reviewer.Username's Reviews Received</h2>
     }
-    <h5>Total Reviews: @Model.totalReviews.Count()</h5>
-    <h5>Total Average Ratings: @Model.averageRatings.ToString()</h5>
+
     <br />
 
-    @foreach (var i in Model.ReceivedReview)
+    @if (Model.ReceivedReview.Count() > 0)
     {
-        if (i.Reviewee.ID.ToString() == Session["UserID"].ToString())
+        foreach (var i in Model.ReceivedReview)
         {
-            <ul>
-                <li><p>My Review from Buyer: @i.CardReviewed.Buyer.Username</p></li>
-                <li><p>Card Reviewed: @i.CardReviewed.Card.apiID</p></li>
-                <li><p>Star Rating: @i.StarRating</p></li>
-                <li><p>Review Received: @i.ReviewGiven</p></li>
-                <br />
-            </ul>
+            if (i.Reviewee.ID.ToString() == Session["UserID"].ToString())
+            {
+                <ul>
+                    <li><p>My Review from Buyer: @i.CardReviewed.Buyer.Username</p></li>
+                    <li><p>Card Reviewed: @i.CardReviewed.Card.apiID</p></li>
+                    <li><p>Star Rating: @i.StarRating</p></li>
+                    <li><p>Review Received: @i.ReviewGiven</p></li>
+                    <br />
+                </ul>
+            }
         }
+    }
+    else
+    {
+        <h3>No reviews received</h3>
     }
 
     @if (Model.GivenReview.Count() > 0)
@@ -43,20 +51,28 @@
     }
     else if (Model.ReceivedReview.Count() > 0)
     {
-        <h2>@Model.GivenReview[0].Reviewer.Username's Reviews Given</h2>
+        <h2>@Model.ReceivedReview[0].Reviewer.Username's Reviews Given</h2>
     }
 
-    @foreach (var i in Model.GivenReview)
+    @if (Model.GivenReview.Count() > 0)
     {
-        if (i.Reviewer.ID.ToString() == Session["UserID"].ToString())
+        foreach (var i in Model.GivenReview)
         {
-            <ul>
-                <li><p>My Review of Seller: @i.CardReviewed.Seller.Username</p></li>
-                <li><p>Card Reviewed: @i.CardReviewed.Card.apiID</p></li>
-                <li><p>Star Rating: @i.StarRating</p></li>
-                <li><p>Review Given: @i.ReviewGiven</p></li>
-                <br />
-            </ul>
+            if (i.Reviewer.ID.ToString() == Session["UserID"].ToString())
+            {
+                <ul>
+                    <li><p>My Review of Seller: @i.CardReviewed.Seller.Username</p></li>
+                    <li><p>Card Reviewed: @i.CardReviewed.Card.apiID</p></li>
+                    <li><p>Star Rating: @i.StarRating</p></li>
+                    <li><p>Review Given: @i.ReviewGiven</p></li>
+                    <br />
+                </ul>
+            }
         }
     }
+    else
+    {
+        <h3>No reviews given</h3>
+    }
+
 </div>

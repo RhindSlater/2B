@@ -48,7 +48,14 @@
                         <button style="margin:auto; width:100%" class="btn btn-primary" data-toggle="modal" data-target="#PurchaseModal_@item.ID">Buy</button>
                     </td>
                     <td style="margin:auto;">
-                        @Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()", @style = "margin:auto; width:100%" })
+                        @if (Model.UserLevel.ID == 3)
+                        {
+                            <button style="margin:auto; width:100%" class="btn btn-primary" data-toggle="modal" data-target="#VerifyModal_@item.ID">Buy with Verification</button>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Buy with Verification", "purchaseVerifiedCard", new { id = item.ID }, new { @class = "btn btn-primary", @onclick = "loading()", @style = "margin:auto; width:100%" })
+                        }
                     </td>
                     <td style="text-align:center">
                         <p><b>Price:</b> @item.Price.ToString("c2")</p>
@@ -100,6 +107,26 @@
                             <div class="modal-body">
                                 <div class="actionsBtns">
                                     <form action="/Users/PasswordVerify" method="post">
+                                        <label>Enter Password to confirm purchase</label>
+                                        <input type="password" placeholder="Password" name="Password" />
+                                        <input style="display:none" type="text" placeholder="Password" name="id" value="@item.ID" />
+                                        <input type="submit" value="Enter" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="VerifyModal_@item.ID" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Purchase confirmation!</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="actionsBtns">
+                                    <form action="/Users/PasswordVerify2" method="post">
                                         <label>Enter Password to confirm purchase</label>
                                         <input type="password" placeholder="Password" name="Password" />
                                         <input style="display:none" type="text" placeholder="Password" name="id" value="@item.ID" />

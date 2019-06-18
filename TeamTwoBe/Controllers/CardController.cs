@@ -57,10 +57,12 @@ namespace TeamTwoBe.Controllers
             if (Session["UserID"] == null)
             {
                 RedirectToAction("login", "users");
+                return;
             }
             if (Session["UserID"].ToString() == "0")
             {
                 RedirectToAction("login", "users");
+                return;
             }
         }
 

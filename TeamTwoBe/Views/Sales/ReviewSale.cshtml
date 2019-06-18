@@ -20,7 +20,7 @@
                 <h2 style="padding:15px;">@Model.Reviewer.Username's review of @Model.Reviewee.Username for @Model.CardReviewed.Card.name</h2>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ReviewGiven, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <label class="control-label col-md-12">Review</label>
                     <div class="col-md-10">
                         <textarea rows="5" name="ReviewGiven1" class="form-control" type="text"></textarea>
                         @Html.ValidationMessageFor(model => model.ReviewGiven, "", new { @class = "text-danger" })

@@ -59,10 +59,12 @@ namespace TeamTwoBe.Controllers
             if (Session["UserID"] == null)
             {
                 RedirectToAction("login", "users");
+                return;
             }
             if (Session["UserID"].ToString() == "0")
             {
                 RedirectToAction("login", "users");
+                return;
             }
         }
 
@@ -75,7 +77,7 @@ namespace TeamTwoBe.Controllers
             //gets user id
             int id = Convert.ToInt32(Session["UserID"].ToString());
             //finds the user
-            User user = db.Users.Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.Watcher").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
+            User user = db.Users.Include("UserLevel").Include("ShoppingCart.Card.CardType").Include("ShoppingCart.Seller").Include("ShoppingCart.CardGrade").Include("ShoppingCart.Watcher").Include("ShoppingCart.CardCondition").Where(x => x.ID == id).FirstOrDefault();
 
             //returns the user
             return View(user);
@@ -124,19 +126,26 @@ namespace TeamTwoBe.Controllers
         
         public ActionResult MyReviews()
         {
+            double userReviewsAvg = 0;
             checkCookie();
             checkUserID();
 
-            //Current logged in User.
-            int id = Convert.ToInt32(Session["UserID"].ToString());
             //Creating a list to be added to the view in a foreach with data below.
             List<UserReview> Given = new List<UserReview>();
             List<UserReview> Received = new List<UserReview>();
 
+            //Current logged in User.
+            int id = Convert.ToInt32(Session["UserID"].ToString());
+            
+
             //This gets the average of the reviewee's total ratings e.g. two received ratings of 1 and 3 would be avg of 2 etc.
-            double userReviewsAvg = db.UserReviews.Where(x => x.Reviewee.ID == id).Select(u => u.StarRating).Average();
+            if(db.UserReviews.Where(x => x.Reviewee.ID == id).FirstOrDefault() != null)
+            {
+                userReviewsAvg = db.UserReviews.Where(x => x.Reviewee.ID == id).Select(u => u.StarRating).Average();
+            }
+
             //This counts all reviewers that a reviewer has given to the current logged in user.
-            List<UserReview> userReviewsTotalReceived = db.UserReviews.Where(x => x.Reviewer.ID == id).ToList();
+            List<UserReview> userReviewsTotalReceived = db.UserReviews.Where(x => x.Reviewee.ID == id).ToList();
 
             //Check every Review in the DB to see if any ReviewerID matches the current user's ID to access the included values in the view.
             foreach (var i in db.UserReviews.Include("Reviewer").Include("Reviewee").Include("CardReviewed.Card").Where(x => x.Reviewer.ID == id))
@@ -366,6 +375,15 @@ namespace TeamTwoBe.Controllers
                 foreach (var i in sale.Watcher)
                 {
                     i.Watchlist.Remove(sale);
+                    Notification notify2 = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "Card Sold",
+                        Message = $"{user.Username} has purchased {sale.Card.name} that was in your watchlist",
+                        Seen = false,
+                        NotifyUser = i,
+                    };
+                    db.Notifications.Add(notify2);
                 }
                 Notification notify = new Notification()
                 {
@@ -387,7 +405,7 @@ namespace TeamTwoBe.Controllers
                 };
                 db.Notifications.Add(notify);
                 db.SaveChanges();
-                Session["ShoppingCart"] = sale.Seller.ShoppingCart.Count();
+                Session["ShoppingCart"] = sale.Buyer.ShoppingCart.Count();
 
                 return RedirectToAction("Won");
             }
@@ -414,6 +432,7 @@ namespace TeamTwoBe.Controllers
 
             id = Convert.ToInt32(Session["UserID"].ToString());
 
+            sale.Price += Convert.ToSingle(Convert.ToDouble(sale.Price) * 0.1);
             Money moni = new Money()
             {
                 MySale = sale,

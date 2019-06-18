@@ -68,6 +68,78 @@ namespace TeamTwoBe.Controllers
                 return View("ShoppingCart", "Profile");
             }
         }
+        //Used to check if a password entered matches their hashed password in the database
+        [HttpPost]
+        public ActionResult PasswordVerify2(string Password, int id)
+        {
+            checkCookie();
+            CheckUserID();
+
+            Sale sale = db.Sales.Include("Shopper").Include("Watcher.Watchlist").Include("Seller").Include("Card").Where(x => x.ID == id).FirstOrDefault();
+            id = Convert.ToInt32(Session["UserID"].ToString());
+            User user = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            if (user != null)
+            {
+                if (Crypto.VerifyHashedPassword(user.Password, Password))
+                {
+                    sale.IsSold = true;
+                    sale.IsVerified = true;
+                    sale.Buyer = user;
+
+                    foreach (var i in sale.Shopper)
+                    {
+                        i.ShoppingCart.Remove(sale);
+                    }
+
+                    foreach (var i in sale.Watcher)
+                    {
+                        i.Watchlist.Remove(sale);
+                        Notification notify2 = new Notification()
+                        {
+                            Date = DateTime.Now,
+                            Title = "Card Sold",
+                            Message = $"{user.Username} has purchased {sale.Card.name} that was in your watchlist",
+                            Seen = false,
+                            NotifyUser = i,
+                        };
+                        db.Notifications.Add(notify2);
+                    }
+                    foreach (var i in sale.Watcher)
+                    {
+                        i.Watchlist.Remove(sale);
+                    }
+
+                    Notification notify = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "Card Sold",
+                        Message = $"{user.Username} has purchased your {sale.Card.name} with verification for ${sale.Price}. Please send the card to 2B to be verified",
+                        Seen = false,
+                        NotifyUser = sale.Seller,
+                    };
+                    db.Notifications.Add(notify);
+
+                    notify = new Notification()
+                    {
+                        Date = DateTime.Now,
+                        Title = "Card bought",
+                        Message = $"You have successfully purchased {sale.Card.name} with verification. You will be notified when your card has been verified by 2B and has been shipped.",
+                        Seen = false,
+                        NotifyUser = user,
+                    };
+                    db.Notifications.Add(notify);
+                    db.SaveChanges();
+                    return RedirectToAction("Won", "Profile");
+                }
+                //else return to shoppingcart
+                return View("ShoppingCart", "Profile");
+            }
+            else
+            {
+                //else return to shoppingcart
+                return View("ShoppingCart", "Profile");
+            }
+        }
 
         //Checks the notification table for notifications that are aisigned to your user
         public ActionResult CheckNotifications()
@@ -105,7 +177,7 @@ namespace TeamTwoBe.Controllers
             return Json("true", JsonRequestBehavior.AllowGet);
         }
 
-        
+
         public ActionResult Subscription()
         {
             checkCookie();
@@ -171,7 +243,7 @@ namespace TeamTwoBe.Controllers
                 //if user is logged in return home
                 if (Convert.ToInt32(Session["UserID"].ToString()) >= Convert.ToInt32("1"))
                 {
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             //else return to login page
@@ -193,7 +265,7 @@ namespace TeamTwoBe.Controllers
                     userid = Request.Cookies["userid"].Value;
                     //search database for a user with the same cookie saved
                     User user = db.Users.Include("UserLevel").Include("ShoppingCart").Where(x => x.cookie == userid).FirstOrDefault();
-                    
+
                     //if user exists, log them in and save data in session
                     if (user != null)
                     {
@@ -387,7 +459,6 @@ namespace TeamTwoBe.Controllers
         public ActionResult Profile(int? id) // Logged in and looking at your home page
         {
             checkCookie();
-            CheckUserID();
 
             //if session is null and id
             if (id == null & Session["UserID"] == null)
@@ -402,6 +473,14 @@ namespace TeamTwoBe.Controllers
                     return RedirectToAction("Index", "Sales");
                 }
                 id = Convert.ToInt32(Session["UserID"].ToString());
+            }
+            else if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else if(Session["UserID"].ToString() == "0")
+            {
+                return RedirectToAction("Login", "Users");
             }
             User user = db.Users.Include("Collection.Cardtype").Include("Following").Include("Wishlist.Cardtype").Include("Watchlist.Seller").Include("Watchlist.CardCondition").Include("Watchlist.CardGrade").Include("Watchlist.Card.Cardtype").Where(x => x.ID == id).FirstOrDefault();
             id = Convert.ToInt32(Session["UserID"].ToString());

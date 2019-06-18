@@ -13,7 +13,6 @@ namespace TeamTwoBe.Models
         public User Reviewer { get; set; }
         //Seller of sale.
         public User Reviewee { get; set; }
-        [Required]
         public Sale CardReviewed { get; set; } //This should be required!
         public string ReviewGiven { get; set; }
 

@@ -159,6 +159,7 @@
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PresentationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -341,6 +342,10 @@
     <Compile Include="Migrations\201906032141023_Added_UserReview_CardReviewed_Required.Designer.cs">
       <DependentUpon>201906032141023_Added_UserReview_CardReviewed_Required.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906180231340_updateUserReview.cs" />
+    <Compile Include="Migrations\201906180231340_updateUserReview.Designer.cs">
+      <DependentUpon>201906180231340_updateUserReview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\Bid.cs" />
@@ -416,6 +421,7 @@
     <Content Include="Views\Admins\CMS.cshtml" />
     <Content Include="Views\Admins\Edit.cshtml" />
     <Content Include="Views\Admins\removeListing.cshtml" />
+    <Content Include="Views\Presentation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -559,6 +565,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906032141023_Added_UserReview_CardReviewed_Required.resx">
       <DependentUpon>201906032141023_Added_UserReview_CardReviewed_Required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906180231340_updateUserReview.resx">
+      <DependentUpon>201906180231340_updateUserReview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

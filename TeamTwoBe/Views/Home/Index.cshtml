@@ -152,9 +152,9 @@
                                                     }
                                                     <div id="DetailGrid">
                                                         <div id="Detail">
+                                                            <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
                                                             @if (item.ID != 1)
                                                             {
-                                                                <a style="text-align:center;"><p id="CardName">@item.Card.name</p></a>
                                                                 <p>Price: @item.Price.ToString("C2")</p>
                                                             }
                                                         </div>
@@ -392,7 +392,6 @@
                                                         <p><b>Low:</b> @item.Card.low.ToString("c2") </p>
                                                         <p><b>Average:</b> @item.Card.average.ToString("c2") </p>
                                                         <p><b>High:</b> @item.Card.high.ToString("c2") </p>
-                                                        <p><b>This Sale Price (NZD):</b> @item.Price.ToString("c2") </p>
                                                         <p><b>Grade:</b> @item.CardGrade.Grading <b>Condition:</b> @item.CardCondition.CardCondition</p>
                                                         <p><b>Username: </b>@Html.ActionLink(item.Seller.Username, "Profile", "Users", new { id = item.Seller.ID }, new { @class = "Active" })</p>
                                                     </div>
