@@ -77,7 +77,7 @@ namespace TeamTwoBe.Controllers
                         //if there's less then 10 cards, add a blank card
                         while (vm.Followers.Count < 10)
                         {
-                            vm.Followers.Add(db.Sales.Find(1));
+                            vm.Followers.Add(db.Sales.Include("Card").Where(x => x.ID == 1).FirstOrDefault());
                         }
                     }
                 }

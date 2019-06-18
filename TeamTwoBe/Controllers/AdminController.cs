@@ -21,7 +21,7 @@ namespace TeamTwoBe.Controllers
             if(Session["UserID"] != null)
             {
                 int id = Convert.ToInt32(Session["UserID"].ToString());
-                User user = db.Users.Find(id);
+                User user = db.Users.Include("UserLevel").Where(x => x.ID == id).FirstOrDefault();
                 if(user.UserLevel.ID == 1)
                 {
                     AdminViewModel vm = new AdminViewModel()
