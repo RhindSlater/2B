@@ -374,7 +374,6 @@ namespace TeamTwoBe.Controllers
 
                 foreach (var i in sale.Watcher)
                 {
-                    i.Watchlist.Remove(sale);
                     Notification notify2 = new Notification()
                     {
                         Date = DateTime.Now,
@@ -384,6 +383,10 @@ namespace TeamTwoBe.Controllers
                         NotifyUser = i,
                     };
                     db.Notifications.Add(notify2);
+                }
+                foreach (var i in sale.Watcher)
+                {
+                    i.Watchlist.Remove(sale);
                 }
                 Notification notify = new Notification()
                 {
@@ -479,7 +482,10 @@ namespace TeamTwoBe.Controllers
         {
             checkCookie();
             checkUserID();
-
+            if(Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "Users");
+            }
 
             Sale sale = db.Sales.Include("Seller").Where(x => x.ID == id).FirstOrDefault();
             if (sale.Seller.ID.ToString() == Session["UserID"].ToString())
